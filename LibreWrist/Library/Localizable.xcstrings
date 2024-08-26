@@ -1,0 +1,72 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%@" : {
+
+    },
+    "%lld" : {
+
+    },
+    "%lld mg/dL" : {
+
+    },
+    "%lld min ago" : {
+
+    },
+    "Connect" : {
+
+    },
+    "Credentials" : {
+
+    },
+    "Donate!" : {
+
+    },
+    "Glucose" : {
+
+    },
+    "LibreWrist" : {
+
+    },
+    "Lower limit" : {
+
+    },
+    "Password" : {
+
+    },
+    "Rect End Height" : {
+
+    },
+    "Rect End Width" : {
+
+    },
+    "Rect Start Height" : {
+
+    },
+    "Rect Start Width" : {
+
+    },
+    "Tab 1" : {
+
+    },
+    "Tab 2" : {
+
+    },
+    "Tab 3" : {
+
+    },
+    "Time" : {
+
+    },
+    "Upper limit" : {
+
+    },
+    "Username" : {
+
+    },
+    "Username (email adress)" : {
+
+    }
+  },
+  "version" : "1.0"
+}

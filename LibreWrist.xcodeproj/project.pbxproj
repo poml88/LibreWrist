@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B01A98E2C700FE200B745BB /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B01A98D2C700FE200B745BB /* UserDefaults.swift */; };
+		7B0635792C6EC46C00150802 /* LibreLinkUpConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0635782C6EC46C00150802 /* LibreLinkUpConnection.swift */; };
+		7B1A7CA42C79E413006D603C /* LibreLinkUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1A7CA32C79E413006D603C /* LibreLinkUp.swift */; };
+		7B1A7CA62C79E8E2006D603C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1A7CA52C79E8E2006D603C /* Settings.swift */; };
+		7B1A7CA82C79EF7C006D603C /* MainDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1A7CA72C79EF7C006D603C /* MainDelegate.swift */; };
+		7B435CCC2C6D46DF006F6E53 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B435CCB2C6D46DF006F6E53 /* Logger.swift */; };
+		7B435CD02C6D5103006F6E53 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B435CCF2C6D5103006F6E53 /* Date.swift */; };
+		7B435CD22C6D51F9006F6E53 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7B435CD12C6D51F9006F6E53 /* Localizable.xcstrings */; };
+		7B435CD42C6D57F5006F6E53 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B435CD32C6D57F5006F6E53 /* String.swift */; };
 		7BA0AE2D2C582F63004226FE /* LibreWristApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0AE2C2C582F63004226FE /* LibreWristApp.swift */; };
 		7BA0AE2F2C582F63004226FE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0AE2E2C582F63004226FE /* ContentView.swift */; };
 		7BA0AE312C582F64004226FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0AE302C582F64004226FE /* Assets.xcassets */; };
@@ -14,6 +23,22 @@
 		7BA0AE3E2C582F64004226FE /* LibreWristTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0AE3D2C582F64004226FE /* LibreWristTests.swift */; };
 		7BA0AE482C582F64004226FE /* LibreWristUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0AE472C582F64004226FE /* LibreWristUITests.swift */; };
 		7BA0AE4A2C582F64004226FE /* LibreWristUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0AE492C582F64004226FE /* LibreWristUITestsLaunchTests.swift */; };
+		7BA0AE572C5834F6004226FE /* PhoneAppSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0AE562C5834F6004226FE /* PhoneAppSetupView.swift */; };
+		7BA0AE5B2C5AE980004226FE /* PhoneAppHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0AE5A2C5AE980004226FE /* PhoneAppHomeView.swift */; };
+		7BA0AE5D2C5AEB89004226FE /* PhoneAppDonateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0AE5C2C5AEB89004226FE /* PhoneAppDonateView.swift */; };
+		7BADE00E2C73E1E60074A47F /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE00D2C73E1E60074A47F /* Sensor.swift */; };
+		7BADE0102C73E30C0074A47F /* SensorFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE00F2C73E30C0074A47F /* SensorFamily.swift */; };
+		7BADE0122C73E3440074A47F /* SensorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE0112C73E3440074A47F /* SensorType.swift */; };
+		7BADE0142C73E3770074A47F /* SensorRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE0132C73E3770074A47F /* SensorRegion.swift */; };
+		7BADE0162C73E3990074A47F /* SensorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE0152C73E3990074A47F /* SensorState.swift */; };
+		7BADE0192C73E4520074A47F /* FactoryCalibrations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE0182C73E4520074A47F /* FactoryCalibrations.swift */; };
+		7BADE01B2C73E4B60074A47F /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE01A2C73E4B60074A47F /* Data.swift */; };
+		7BADE01D2C73E4E70074A47F /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE01C2C73E4E70074A47F /* Int.swift */; };
+		7BADE01F2C73E5C70074A47F /* SensorReading.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE01E2C73E5C70074A47F /* SensorReading.swift */; };
+		7BADE0212C73EB060074A47F /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE0202C73EB060074A47F /* Double.swift */; };
+		7BADE0232C73EB450074A47F /* GlucoseUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE0222C73EB450074A47F /* GlucoseUnit.swift */; };
+		7BBD27882C7154F4001A71E7 /* SecureDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 7BBD27872C7154F4001A71E7 /* SecureDefaults */; };
+		7BBD278A2C7155BE001A71E7 /* SecureDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBD27892C7155BE001A71E7 /* SecureDefaults.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +59,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7B01A98D2C700FE200B745BB /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
+		7B0635782C6EC46C00150802 /* LibreLinkUpConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreLinkUpConnection.swift; sourceTree = "<group>"; };
+		7B1A7CA32C79E413006D603C /* LibreLinkUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreLinkUp.swift; sourceTree = "<group>"; };
+		7B1A7CA52C79E8E2006D603C /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		7B1A7CA72C79EF7C006D603C /* MainDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDelegate.swift; sourceTree = "<group>"; };
+		7B435CCB2C6D46DF006F6E53 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		7B435CCF2C6D5103006F6E53 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		7B435CD12C6D51F9006F6E53 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		7B435CD32C6D57F5006F6E53 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		7B435CD52C6D5C1D006F6E53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		7BA0AE292C582F63004226FE /* LibreWrist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibreWrist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA0AE2C2C582F63004226FE /* LibreWristApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreWristApp.swift; sourceTree = "<group>"; };
 		7BA0AE2E2C582F63004226FE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -44,6 +79,21 @@
 		7BA0AE432C582F64004226FE /* LibreWristUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LibreWristUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA0AE472C582F64004226FE /* LibreWristUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreWristUITests.swift; sourceTree = "<group>"; };
 		7BA0AE492C582F64004226FE /* LibreWristUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreWristUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		7BA0AE562C5834F6004226FE /* PhoneAppSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAppSetupView.swift; sourceTree = "<group>"; };
+		7BA0AE5A2C5AE980004226FE /* PhoneAppHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAppHomeView.swift; sourceTree = "<group>"; };
+		7BA0AE5C2C5AEB89004226FE /* PhoneAppDonateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAppDonateView.swift; sourceTree = "<group>"; };
+		7BADE00D2C73E1E60074A47F /* Sensor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sensor.swift; sourceTree = "<group>"; };
+		7BADE00F2C73E30C0074A47F /* SensorFamily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorFamily.swift; sourceTree = "<group>"; };
+		7BADE0112C73E3440074A47F /* SensorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorType.swift; sourceTree = "<group>"; };
+		7BADE0132C73E3770074A47F /* SensorRegion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorRegion.swift; sourceTree = "<group>"; };
+		7BADE0152C73E3990074A47F /* SensorState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorState.swift; sourceTree = "<group>"; };
+		7BADE0182C73E4520074A47F /* FactoryCalibrations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FactoryCalibrations.swift; sourceTree = "<group>"; };
+		7BADE01A2C73E4B60074A47F /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		7BADE01C2C73E4E70074A47F /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
+		7BADE01E2C73E5C70074A47F /* SensorReading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorReading.swift; sourceTree = "<group>"; };
+		7BADE0202C73EB060074A47F /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		7BADE0222C73EB450074A47F /* GlucoseUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseUnit.swift; sourceTree = "<group>"; };
+		7BBD27892C7155BE001A71E7 /* SecureDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureDefaults.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +101,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BBD27882C7154F4001A71E7 /* SecureDefaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +122,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B3EA4F62C6C08C20061F239 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				7B3EA4FE2C6C0B1A0061F239 /* Content */,
+				7B3EA4F72C6C08CC0061F239 /* Extensions */,
+				7B435CD12C6D51F9006F6E53 /* Localizable.xcstrings */,
+			);
+			path = Library;
+			sourceTree = "<group>";
+		};
+		7B3EA4F72C6C08CC0061F239 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7B435CCB2C6D46DF006F6E53 /* Logger.swift */,
+				7B435CCF2C6D5103006F6E53 /* Date.swift */,
+				7B435CD32C6D57F5006F6E53 /* String.swift */,
+				7B01A98D2C700FE200B745BB /* UserDefaults.swift */,
+				7B1A7CA52C79E8E2006D603C /* Settings.swift */,
+				7BBD27892C7155BE001A71E7 /* SecureDefaults.swift */,
+				7BADE01A2C73E4B60074A47F /* Data.swift */,
+				7BADE01C2C73E4E70074A47F /* Int.swift */,
+				7BADE0202C73EB060074A47F /* Double.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		7B3EA4FE2C6C0B1A0061F239 /* Content */ = {
+			isa = PBXGroup;
+			children = (
+				7BADE0172C73E43F0074A47F /* Calibrations */,
+				7BADE00D2C73E1E60074A47F /* Sensor.swift */,
+				7BADE00F2C73E30C0074A47F /* SensorFamily.swift */,
+				7BADE0132C73E3770074A47F /* SensorRegion.swift */,
+				7BADE0152C73E3990074A47F /* SensorState.swift */,
+				7BADE01E2C73E5C70074A47F /* SensorReading.swift */,
+				7BADE0112C73E3440074A47F /* SensorType.swift */,
+				7BADE0222C73EB450074A47F /* GlucoseUnit.swift */,
+			);
+			path = Content;
+			sourceTree = "<group>";
+		};
 		7BA0AE202C582F63004226FE = {
 			isa = PBXGroup;
 			children = (
@@ -94,10 +186,18 @@
 		7BA0AE2B2C582F63004226FE /* LibreWrist */ = {
 			isa = PBXGroup;
 			children = (
+				7B435CD52C6D5C1D006F6E53 /* Info.plist */,
 				7BA0AE2C2C582F63004226FE /* LibreWristApp.swift */,
 				7BA0AE2E2C582F63004226FE /* ContentView.swift */,
+				7BA0AE5A2C5AE980004226FE /* PhoneAppHomeView.swift */,
+				7BA0AE562C5834F6004226FE /* PhoneAppSetupView.swift */,
+				7B0635782C6EC46C00150802 /* LibreLinkUpConnection.swift */,
+				7B1A7CA32C79E413006D603C /* LibreLinkUp.swift */,
+				7BA0AE5C2C5AEB89004226FE /* PhoneAppDonateView.swift */,
 				7BA0AE302C582F64004226FE /* Assets.xcassets */,
+				7B3EA4F62C6C08C20061F239 /* Library */,
 				7BA0AE322C582F64004226FE /* Preview Content */,
+				7B1A7CA72C79EF7C006D603C /* MainDelegate.swift */,
 			);
 			path = LibreWrist;
 			sourceTree = "<group>";
@@ -127,6 +227,14 @@
 			path = LibreWristUITests;
 			sourceTree = "<group>";
 		};
+		7BADE0172C73E43F0074A47F /* Calibrations */ = {
+			isa = PBXGroup;
+			children = (
+				7BADE0182C73E4520074A47F /* FactoryCalibrations.swift */,
+			);
+			path = Calibrations;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,6 +251,9 @@
 			dependencies = (
 			);
 			name = LibreWrist;
+			packageProductDependencies = (
+				7BBD27872C7154F4001A71E7 /* SecureDefaults */,
+			);
 			productName = LibreWrist;
 			productReference = 7BA0AE292C582F63004226FE /* LibreWrist.app */;
 			productType = "com.apple.product-type.application";
@@ -213,8 +324,12 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
 			);
 			mainGroup = 7BA0AE202C582F63004226FE;
+			packageReferences = (
+				7BBD27862C7154F4001A71E7 /* XCRemoteSwiftPackageReference "SecureDefaults" */,
+			);
 			productRefGroup = 7BA0AE2A2C582F63004226FE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -233,6 +348,7 @@
 			files = (
 				7BA0AE342C582F64004226FE /* Preview Assets.xcassets in Resources */,
 				7BA0AE312C582F64004226FE /* Assets.xcassets in Resources */,
+				7B435CD22C6D51F9006F6E53 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +373,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7BA0AE572C5834F6004226FE /* PhoneAppSetupView.swift in Sources */,
+				7BADE0122C73E3440074A47F /* SensorType.swift in Sources */,
+				7BADE01D2C73E4E70074A47F /* Int.swift in Sources */,
+				7BADE00E2C73E1E60074A47F /* Sensor.swift in Sources */,
+				7B435CCC2C6D46DF006F6E53 /* Logger.swift in Sources */,
+				7BADE0192C73E4520074A47F /* FactoryCalibrations.swift in Sources */,
+				7BADE01F2C73E5C70074A47F /* SensorReading.swift in Sources */,
+				7B01A98E2C700FE200B745BB /* UserDefaults.swift in Sources */,
+				7BADE0142C73E3770074A47F /* SensorRegion.swift in Sources */,
+				7BADE01B2C73E4B60074A47F /* Data.swift in Sources */,
+				7B435CD42C6D57F5006F6E53 /* String.swift in Sources */,
+				7BADE0162C73E3990074A47F /* SensorState.swift in Sources */,
+				7B1A7CA42C79E413006D603C /* LibreLinkUp.swift in Sources */,
+				7B435CD02C6D5103006F6E53 /* Date.swift in Sources */,
+				7BADE0212C73EB060074A47F /* Double.swift in Sources */,
+				7B0635792C6EC46C00150802 /* LibreLinkUpConnection.swift in Sources */,
+				7BBD278A2C7155BE001A71E7 /* SecureDefaults.swift in Sources */,
+				7BADE0232C73EB450074A47F /* GlucoseUnit.swift in Sources */,
+				7B1A7CA82C79EF7C006D603C /* MainDelegate.swift in Sources */,
+				7BADE0102C73E30C0074A47F /* SensorFamily.swift in Sources */,
+				7BA0AE5B2C5AE980004226FE /* PhoneAppHomeView.swift in Sources */,
+				7BA0AE5D2C5AEB89004226FE /* PhoneAppDonateView.swift in Sources */,
+				7B1A7CA62C79E8E2006D603C /* Settings.swift in Sources */,
 				7BA0AE2F2C582F63004226FE /* ContentView.swift in Sources */,
 				7BA0AE2D2C582F63004226FE /* LibreWristApp.swift in Sources */,
 			);
@@ -425,6 +564,7 @@
 				DEVELOPMENT_TEAM = 49Z678ZK52;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LibreWrist/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -454,6 +594,7 @@
 				DEVELOPMENT_TEAM = 49Z678ZK52;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LibreWrist/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -588,6 +729,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7BBD27862C7154F4001A71E7 /* XCRemoteSwiftPackageReference "SecureDefaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vpeschenkov/SecureDefaults.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7BBD27872C7154F4001A71E7 /* SecureDefaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7BBD27862C7154F4001A71E7 /* XCRemoteSwiftPackageReference "SecureDefaults" */;
+			productName = SecureDefaults;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7BA0AE212C582F63004226FE /* Project object */;
 }

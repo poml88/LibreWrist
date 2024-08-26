@@ -6,19 +6,44 @@
 //
 
 import SwiftUI
+import OSLog
 
 struct ContentView: View {
+    
+    @State var selectedTab = "Home"
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        TabView (selection:$selectedTab){
+            
+            PhoneAppHomeView()
+                .tabItem { 
+                    Image(systemName: "house")
+                    Text ("Tab 1")
+                }
+                .tag("Home")
+            
+            
+            PhoneAppSetupView()
+                .tabItem {
+                    Image(systemName: "gear")
+                    Text ("Tab 2")
+                }
+                .tag("Setup")
+            
+            PhoneAppDonateView()
+                .tabItem {
+                    Image(systemName: "banknote")
+                    Text ("Tab 3")
+                }
+                .tag("Donate")
         }
         .padding()
     }
 }
 
+
+
 #Preview {
     ContentView()
+        .environment(History.test)
 }
