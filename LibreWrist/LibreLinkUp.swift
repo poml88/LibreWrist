@@ -251,7 +251,7 @@ class LibreLinkUp  {
         let credentials = [
 //            "email": settings.libreLinkUpEmail,
 //            "password": settings.libreLinkUpPassword
-            "email": UserDefaults.standard.username,
+            "email": UserDefaults.group.username,
             "password": SecureDefaults().string(forKey: "libre-direct.settings.password")
         ]
         request.httpMethod = "POST"

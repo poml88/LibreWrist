@@ -39,6 +39,35 @@
 		7BADE0232C73EB450074A47F /* GlucoseUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE0222C73EB450074A47F /* GlucoseUnit.swift */; };
 		7BBD27882C7154F4001A71E7 /* SecureDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 7BBD27872C7154F4001A71E7 /* SecureDefaults */; };
 		7BBD278A2C7155BE001A71E7 /* SecureDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBD27892C7155BE001A71E7 /* SecureDefaults.swift */; };
+		7BC51F382C7C77B2009542D2 /* LibreWristWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC51F372C7C77B2009542D2 /* LibreWristWatchApp.swift */; };
+		7BC51F3A2C7C77B2009542D2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC51F392C7C77B2009542D2 /* ContentView.swift */; };
+		7BC51F3C2C7C77B3009542D2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BC51F3B2C7C77B3009542D2 /* Assets.xcassets */; };
+		7BC51F3F2C7C77B3009542D2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BC51F3E2C7C77B3009542D2 /* Preview Assets.xcassets */; };
+		7BC51F422C7C77B3009542D2 /* LibreWristWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 7BC51F352C7C77B2009542D2 /* LibreWristWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		7BC51F482C7C7FA3009542D2 /* WatchAppHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC51F472C7C7FA3009542D2 /* WatchAppHomeView.swift */; };
+		7BC51F4A2C7C80FE009542D2 /* WatchAppNightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC51F492C7C80FE009542D2 /* WatchAppNightView.swift */; };
+		7BC51F4B2C7C822C009542D2 /* LibreLinkUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1A7CA32C79E413006D603C /* LibreLinkUp.swift */; };
+		7BC51F4E2C7C82B7009542D2 /* SecureDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 7BC51F4D2C7C82B7009542D2 /* SecureDefaults */; };
+		7BC51F4F2C7C8308009542D2 /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE01C2C73E4E70074A47F /* Int.swift */; };
+		7BC51F512C7C8413009542D2 /* TrendArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC51F502C7C8413009542D2 /* TrendArrow.swift */; };
+		7BC51F522C7C8413009542D2 /* TrendArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC51F502C7C8413009542D2 /* TrendArrow.swift */; };
+		7BC51F532C7C84B6009542D2 /* GlucoseUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE0222C73EB450074A47F /* GlucoseUnit.swift */; };
+		7BC51F542C7C84E7009542D2 /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE0202C73EB060074A47F /* Double.swift */; };
+		7BC51F552C7C851A009542D2 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1A7CA52C79E8E2006D603C /* Settings.swift */; };
+		7BC51F562C7C8538009542D2 /* UserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B01A98D2C700FE200B745BB /* UserDefaults.swift */; };
+		7BC51F572C7C853B009542D2 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B435CCB2C6D46DF006F6E53 /* Logger.swift */; };
+		7BC51F582C7C854F009542D2 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B435CCF2C6D5103006F6E53 /* Date.swift */; };
+		7BC51F592C7C8564009542D2 /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE01A2C73E4B60074A47F /* Data.swift */; };
+		7BC51F5A2C7C8573009542D2 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B435CD32C6D57F5006F6E53 /* String.swift */; };
+		7BC51F5B2C7C8589009542D2 /* SensorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE0112C73E3440074A47F /* SensorType.swift */; };
+		7BC51F5C2C7C931F009542D2 /* Sensor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE00D2C73E1E60074A47F /* Sensor.swift */; };
+		7BC51F5D2C7C93C7009542D2 /* SensorFamily.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE00F2C73E30C0074A47F /* SensorFamily.swift */; };
+		7BC51F5E2C7C93DE009542D2 /* SensorRegion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE0132C73E3770074A47F /* SensorRegion.swift */; };
+		7BC51F5F2C7C93F3009542D2 /* SensorState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE0152C73E3990074A47F /* SensorState.swift */; };
+		7BC51F602C7C9406009542D2 /* FactoryCalibrations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE0182C73E4520074A47F /* FactoryCalibrations.swift */; };
+		7BC51FBB2C7D04DE009542D2 /* WatchAppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC51FBA2C7D04DE009542D2 /* WatchAppSettingsView.swift */; };
+		7BC51FBD2C7D31C3009542D2 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC51FBC2C7D31C3009542D2 /* History.swift */; };
+		7BC51FBE2C7D31C3009542D2 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC51FBC2C7D31C3009542D2 /* History.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,7 +85,28 @@
 			remoteGlobalIDString = 7BA0AE282C582F63004226FE;
 			remoteInfo = LibreWrist;
 		};
+		7BC51F402C7C77B3009542D2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7BA0AE212C582F63004226FE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7BC51F342C7C77B2009542D2;
+			remoteInfo = "LibreWristWatch Watch App";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		7BC51F462C7C77B3009542D2 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				7BC51F422C7C77B3009542D2 /* LibreWristWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		7B01A98D2C700FE200B745BB /* UserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaults.swift; sourceTree = "<group>"; };
@@ -94,6 +144,20 @@
 		7BADE0202C73EB060074A47F /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		7BADE0222C73EB450074A47F /* GlucoseUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseUnit.swift; sourceTree = "<group>"; };
 		7BBD27892C7155BE001A71E7 /* SecureDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureDefaults.swift; sourceTree = "<group>"; };
+		7BC51F352C7C77B2009542D2 /* LibreWristWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LibreWristWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7BC51F372C7C77B2009542D2 /* LibreWristWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreWristWatchApp.swift; sourceTree = "<group>"; };
+		7BC51F392C7C77B2009542D2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		7BC51F3B2C7C77B3009542D2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7BC51F3E2C7C77B3009542D2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		7BC51F472C7C7FA3009542D2 /* WatchAppHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAppHomeView.swift; sourceTree = "<group>"; };
+		7BC51F492C7C80FE009542D2 /* WatchAppNightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAppNightView.swift; sourceTree = "<group>"; };
+		7BC51F502C7C8413009542D2 /* TrendArrow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendArrow.swift; sourceTree = "<group>"; };
+		7BC51F612C7C9CD1009542D2 /* LibreWristConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = LibreWristConfig.xcconfig; sourceTree = "<group>"; };
+		7BC51F622C7C9D51009542D2 /* LibreWrist.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LibreWrist.entitlements; sourceTree = "<group>"; };
+		7BC51F632C7C9E96009542D2 /* LibreWristWatch Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LibreWristWatch Watch App.entitlements"; sourceTree = "<group>"; };
+		7BC51F642C7CA68D009542D2 /* LibreWristWatch-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "LibreWristWatch-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		7BC51FBA2C7D04DE009542D2 /* WatchAppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAppSettingsView.swift; sourceTree = "<group>"; };
+		7BC51FBC2C7D31C3009542D2 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +180,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7BC51F322C7C77B2009542D2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BC51F4E2C7C82B7009542D2 /* SecureDefaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +231,8 @@
 				7BADE01E2C73E5C70074A47F /* SensorReading.swift */,
 				7BADE0112C73E3440074A47F /* SensorType.swift */,
 				7BADE0222C73EB450074A47F /* GlucoseUnit.swift */,
+				7BC51F502C7C8413009542D2 /* TrendArrow.swift */,
+				7BC51FBC2C7D31C3009542D2 /* History.swift */,
 			);
 			path = Content;
 			sourceTree = "<group>";
@@ -166,10 +240,13 @@
 		7BA0AE202C582F63004226FE = {
 			isa = PBXGroup;
 			children = (
+				7BC51F612C7C9CD1009542D2 /* LibreWristConfig.xcconfig */,
 				7BA0AE2B2C582F63004226FE /* LibreWrist */,
 				7BA0AE3C2C582F64004226FE /* LibreWristTests */,
 				7BA0AE462C582F64004226FE /* LibreWristUITests */,
+				7BC51F362C7C77B2009542D2 /* LibreWristWatch Watch App */,
 				7BA0AE2A2C582F63004226FE /* Products */,
+				7BC51F4C2C7C82B7009542D2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -179,6 +256,7 @@
 				7BA0AE292C582F63004226FE /* LibreWrist.app */,
 				7BA0AE392C582F64004226FE /* LibreWristTests.xctest */,
 				7BA0AE432C582F64004226FE /* LibreWristUITests.xctest */,
+				7BC51F352C7C77B2009542D2 /* LibreWristWatch Watch App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -186,18 +264,16 @@
 		7BA0AE2B2C582F63004226FE /* LibreWrist */ = {
 			isa = PBXGroup;
 			children = (
+				7BC51FC02C7D3DEF009542D2 /* Views */,
+				7BC51F622C7C9D51009542D2 /* LibreWrist.entitlements */,
 				7B435CD52C6D5C1D006F6E53 /* Info.plist */,
 				7BA0AE2C2C582F63004226FE /* LibreWristApp.swift */,
-				7BA0AE2E2C582F63004226FE /* ContentView.swift */,
-				7BA0AE5A2C5AE980004226FE /* PhoneAppHomeView.swift */,
-				7BA0AE562C5834F6004226FE /* PhoneAppSetupView.swift */,
-				7B0635782C6EC46C00150802 /* LibreLinkUpConnection.swift */,
 				7B1A7CA32C79E413006D603C /* LibreLinkUp.swift */,
-				7BA0AE5C2C5AEB89004226FE /* PhoneAppDonateView.swift */,
+				7B0635782C6EC46C00150802 /* LibreLinkUpConnection.swift */,
+				7B1A7CA72C79EF7C006D603C /* MainDelegate.swift */,
 				7BA0AE302C582F64004226FE /* Assets.xcassets */,
 				7B3EA4F62C6C08C20061F239 /* Library */,
 				7BA0AE322C582F64004226FE /* Preview Content */,
-				7B1A7CA72C79EF7C006D603C /* MainDelegate.swift */,
 			);
 			path = LibreWrist;
 			sourceTree = "<group>";
@@ -235,6 +311,56 @@
 			path = Calibrations;
 			sourceTree = "<group>";
 		};
+		7BC51F362C7C77B2009542D2 /* LibreWristWatch Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				7BC51FBF2C7D3D4B009542D2 /* Views */,
+				7BC51F642C7CA68D009542D2 /* LibreWristWatch-Watch-App-Info.plist */,
+				7BC51F632C7C9E96009542D2 /* LibreWristWatch Watch App.entitlements */,
+				7BC51F372C7C77B2009542D2 /* LibreWristWatchApp.swift */,
+				7BC51F3B2C7C77B3009542D2 /* Assets.xcassets */,
+				7BC51F3D2C7C77B3009542D2 /* Preview Content */,
+			);
+			path = "LibreWristWatch Watch App";
+			sourceTree = "<group>";
+		};
+		7BC51F3D2C7C77B3009542D2 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				7BC51F3E2C7C77B3009542D2 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		7BC51F4C2C7C82B7009542D2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7BC51FBF2C7D3D4B009542D2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7BC51F392C7C77B2009542D2 /* ContentView.swift */,
+				7BC51F472C7C7FA3009542D2 /* WatchAppHomeView.swift */,
+				7BC51FBA2C7D04DE009542D2 /* WatchAppSettingsView.swift */,
+				7BC51F492C7C80FE009542D2 /* WatchAppNightView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		7BC51FC02C7D3DEF009542D2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7BA0AE2E2C582F63004226FE /* ContentView.swift */,
+				7BA0AE5A2C5AE980004226FE /* PhoneAppHomeView.swift */,
+				7BA0AE562C5834F6004226FE /* PhoneAppSetupView.swift */,
+				7BA0AE5C2C5AEB89004226FE /* PhoneAppDonateView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -245,10 +371,12 @@
 				7BA0AE252C582F63004226FE /* Sources */,
 				7BA0AE262C582F63004226FE /* Frameworks */,
 				7BA0AE272C582F63004226FE /* Resources */,
+				7BC51F462C7C77B3009542D2 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				7BC51F412C7C77B3009542D2 /* PBXTargetDependency */,
 			);
 			name = LibreWrist;
 			packageProductDependencies = (
@@ -294,6 +422,26 @@
 			productReference = 7BA0AE432C582F64004226FE /* LibreWristUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		7BC51F342C7C77B2009542D2 /* LibreWristWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7BC51F432C7C77B3009542D2 /* Build configuration list for PBXNativeTarget "LibreWristWatch Watch App" */;
+			buildPhases = (
+				7BC51F312C7C77B2009542D2 /* Sources */,
+				7BC51F322C7C77B2009542D2 /* Frameworks */,
+				7BC51F332C7C77B2009542D2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "LibreWristWatch Watch App";
+			packageProductDependencies = (
+				7BC51F4D2C7C82B7009542D2 /* SecureDefaults */,
+			);
+			productName = "LibreWristWatch Watch App";
+			productReference = 7BC51F352C7C77B2009542D2 /* LibreWristWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -314,6 +462,9 @@
 					7BA0AE422C582F64004226FE = {
 						CreatedOnToolsVersion = 15.4;
 						TestTargetID = 7BA0AE282C582F63004226FE;
+					};
+					7BC51F342C7C77B2009542D2 = {
+						CreatedOnToolsVersion = 15.4;
 					};
 				};
 			};
@@ -337,6 +488,7 @@
 				7BA0AE282C582F63004226FE /* LibreWrist */,
 				7BA0AE382C582F64004226FE /* LibreWristTests */,
 				7BA0AE422C582F64004226FE /* LibreWristUITests */,
+				7BC51F342C7C77B2009542D2 /* LibreWristWatch Watch App */,
 			);
 		};
 /* End PBXProject section */
@@ -366,6 +518,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7BC51F332C7C77B2009542D2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BC51F3F2C7C77B3009542D2 /* Preview Assets.xcassets in Resources */,
+				7BC51F3C2C7C77B3009542D2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -386,10 +547,12 @@
 				7B435CD42C6D57F5006F6E53 /* String.swift in Sources */,
 				7BADE0162C73E3990074A47F /* SensorState.swift in Sources */,
 				7B1A7CA42C79E413006D603C /* LibreLinkUp.swift in Sources */,
+				7BC51F512C7C8413009542D2 /* TrendArrow.swift in Sources */,
 				7B435CD02C6D5103006F6E53 /* Date.swift in Sources */,
 				7BADE0212C73EB060074A47F /* Double.swift in Sources */,
 				7B0635792C6EC46C00150802 /* LibreLinkUpConnection.swift in Sources */,
 				7BBD278A2C7155BE001A71E7 /* SecureDefaults.swift in Sources */,
+				7BC51FBD2C7D31C3009542D2 /* History.swift in Sources */,
 				7BADE0232C73EB450074A47F /* GlucoseUnit.swift in Sources */,
 				7B1A7CA82C79EF7C006D603C /* MainDelegate.swift in Sources */,
 				7BADE0102C73E30C0074A47F /* SensorFamily.swift in Sources */,
@@ -418,6 +581,36 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7BC51F312C7C77B2009542D2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BC51F3A2C7C77B2009542D2 /* ContentView.swift in Sources */,
+				7BC51F5C2C7C931F009542D2 /* Sensor.swift in Sources */,
+				7BC51F482C7C7FA3009542D2 /* WatchAppHomeView.swift in Sources */,
+				7BC51F4B2C7C822C009542D2 /* LibreLinkUp.swift in Sources */,
+				7BC51F562C7C8538009542D2 /* UserDefaults.swift in Sources */,
+				7BC51F5D2C7C93C7009542D2 /* SensorFamily.swift in Sources */,
+				7BC51F5E2C7C93DE009542D2 /* SensorRegion.swift in Sources */,
+				7BC51FBB2C7D04DE009542D2 /* WatchAppSettingsView.swift in Sources */,
+				7BC51F4F2C7C8308009542D2 /* Int.swift in Sources */,
+				7BC51F552C7C851A009542D2 /* Settings.swift in Sources */,
+				7BC51F382C7C77B2009542D2 /* LibreWristWatchApp.swift in Sources */,
+				7BC51F5B2C7C8589009542D2 /* SensorType.swift in Sources */,
+				7BC51F592C7C8564009542D2 /* Data.swift in Sources */,
+				7BC51FBE2C7D31C3009542D2 /* History.swift in Sources */,
+				7BC51F602C7C9406009542D2 /* FactoryCalibrations.swift in Sources */,
+				7BC51F572C7C853B009542D2 /* Logger.swift in Sources */,
+				7BC51F522C7C8413009542D2 /* TrendArrow.swift in Sources */,
+				7BC51F532C7C84B6009542D2 /* GlucoseUnit.swift in Sources */,
+				7BC51F5F2C7C93F3009542D2 /* SensorState.swift in Sources */,
+				7BC51F542C7C84E7009542D2 /* Double.swift in Sources */,
+				7BC51F5A2C7C8573009542D2 /* String.swift in Sources */,
+				7BC51F582C7C854F009542D2 /* Date.swift in Sources */,
+				7BC51F4A2C7C80FE009542D2 /* WatchAppNightView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -430,6 +623,11 @@
 			isa = PBXTargetDependency;
 			target = 7BA0AE282C582F63004226FE /* LibreWrist */;
 			targetProxy = 7BA0AE442C582F64004226FE /* PBXContainerItemProxy */;
+		};
+		7BC51F412C7C77B3009542D2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7BC51F342C7C77B2009542D2 /* LibreWristWatch Watch App */;
+			targetProxy = 7BC51F402C7C77B3009542D2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -555,9 +753,12 @@
 		};
 		7BA0AE4E2C582F64004226FE /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BC51F612C7C9CD1009542D2 /* LibreWristConfig.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LibreWrist/LibreWrist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LibreWrist/Preview Content\"";
@@ -575,7 +776,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.poeml.philipp.LibreWrist;
+				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_BUNDLE_IDENTIFIER}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -585,9 +786,12 @@
 		};
 		7BA0AE4F2C582F64004226FE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BC51F612C7C9CD1009542D2 /* LibreWristConfig.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = LibreWrist/LibreWrist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LibreWrist/Preview Content\"";
@@ -605,7 +809,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.poeml.philipp.LibreWrist;
+				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_BUNDLE_IDENTIFIER}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -689,6 +893,72 @@
 			};
 			name = Release;
 		};
+		7BC51F442C7C77B3009542D2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BC51F612C7C9CD1009542D2 /* LibreWristConfig.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "LibreWristWatch Watch App/LibreWristWatch Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LibreWristWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 49Z678ZK52;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "LibreWristWatch-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = LibreWristWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = de.poeml.philipp.LibreWrist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_BUNDLE_IDENTIFIER}.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.5;
+			};
+			name = Debug;
+		};
+		7BC51F452C7C77B3009542D2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BC51F612C7C9CD1009542D2 /* LibreWristConfig.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "LibreWristWatch Watch App/LibreWristWatch Watch App.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LibreWristWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 49Z678ZK52;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "LibreWristWatch-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = LibreWristWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = de.poeml.philipp.LibreWrist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "${PRODUCT_BUNDLE_IDENTIFIER}.watchkitapp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.5;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -728,6 +998,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		7BC51F432C7C77B3009542D2 /* Build configuration list for PBXNativeTarget "LibreWristWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BC51F442C7C77B3009542D2 /* Debug */,
+				7BC51F452C7C77B3009542D2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -743,6 +1022,11 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		7BBD27872C7154F4001A71E7 /* SecureDefaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7BBD27862C7154F4001A71E7 /* XCRemoteSwiftPackageReference "SecureDefaults" */;
+			productName = SecureDefaults;
+		};
+		7BC51F4D2C7C82B7009542D2 /* SecureDefaults */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 7BBD27862C7154F4001A71E7 /* XCRemoteSwiftPackageReference "SecureDefaults" */;
 			productName = SecureDefaults;

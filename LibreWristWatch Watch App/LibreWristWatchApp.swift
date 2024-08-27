@@ -1,17 +1,15 @@
 //
-//  LibreWristApp.swift
-//  LibreWrist
+//  LibreWristWatchApp.swift
+//  LibreWristWatch Watch App
 //
-//  Created by Peter Müller on 29.07.24.
+//  Created by Peter Müller on 26.08.24.
 //
 
 import SwiftUI
 
-
 @main
-
-struct LibreWristApp: App {
-        
+struct LibreWristWatch_Watch_AppApp: App {
+    
     init(){
         UserDefaults.group.register(defaults: Settings.defaults)
         print("init")
@@ -26,8 +24,4 @@ struct LibreWristApp: App {
         }
     }
 }
-
-
-
-
 

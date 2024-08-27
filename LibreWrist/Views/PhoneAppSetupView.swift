@@ -12,9 +12,9 @@ import SecureDefaults
 
 struct PhoneAppSetupView: View {
     
-    @State private var username = UserDefaults.standard.username
+    @State private var username = UserDefaults.group.username
     @State private var password = SecureDefaults().string(forKey: "libre-direct.settings.password") ?? ""
-    @State private var connected = UserDefaults.standard.connected
+    @State private var connected = UserDefaults.group.connected
     @State private var libreLinkUpResponse: String = "[...]"
     
 
@@ -57,14 +57,16 @@ struct PhoneAppSetupView: View {
                         Text("Username")
                     }.textContentType(.emailAddress)
                         .keyboardType(.emailAddress)
+                        .autocorrectionDisabled(true)
+                        .textInputAutocapitalization(.never)
                         .onChange(of: username) { _ in
-                            UserDefaults.standard.connected = .disconnected
+                            UserDefaults.group.connected = .disconnected
                             settings.libreLinkUpToken = ""
                         }
                     SecureField(text: $password, prompt: Text("Password")) {
                         Text("Password")
                     }.onChange(of: password) { _ in
-                        UserDefaults.standard.connected = .disconnected
+                        UserDefaults.group.connected = .disconnected
                         settings.libreLinkUpToken = ""
                     }
                 }
@@ -107,14 +109,14 @@ struct PhoneAppSetupView: View {
 //        )
         .onReceive(timer) { time in
             // TODO: synchronize by common method
-            connected = UserDefaults.standard.connected
-            //    UserDefaults.standard.connected.connected = .disconnected
+            connected = UserDefaults.group.connected
+            //    UserDefaults.group.connected.connected = .disconnected
         }
     }
     
     private func tryToConnect() {
         settings.libreLinkUpToken = ""
-        UserDefaults.standard.username = username
+        UserDefaults.group.username = username
         let sdefaults = SecureDefaults()
         if !sdefaults.isKeyCreated {
             sdefaults.password = UUID().uuidString
@@ -122,16 +124,16 @@ struct PhoneAppSetupView: View {
         sdefaults.set(password, forKey: "libre-direct.settings.password")
         sdefaults.synchronize()
         //        appConfiguration.password = password
-        UserDefaults.standard.connected = .connecting
+        UserDefaults.group.connected = .connecting
 //        let libreLinkUpConection = LibreLinkUpConnection()
 //        libreLinkUpConection.connectConnection ()
         Task {
             do {
                 try await LibreLinkUp().login()
-                UserDefaults.standard.connected = .connected
+                UserDefaults.group.connected = .connected
             } catch {
                 libreLinkUpResponse = error.localizedDescription.capitalized
-                UserDefaults.standard.connected = .disconnected
+                UserDefaults.group.connected = .disconnected
             }
         }
         

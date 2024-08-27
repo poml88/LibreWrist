@@ -7,6 +7,18 @@
 
 import Foundation
 
+extension UserDefaults {
+    static let group = UserDefaults(suiteName: stringValue(forKey: "APP_GROUP_ID"))!
+    
+    static func stringValue(forKey key: String) -> String {
+        guard let value = Bundle.main.object(forInfoDictionaryKey: key) as? String else {
+            fatalError("Invalid value or undefined key")
+        }
+        return value
+    }
+}
+
+
 
 @Observable class Settings {
     
@@ -121,8 +133,8 @@ import Foundation
 //        didSet { UserDefaults.standard.set(self.readingInterval, forKey: "readingInterval") }
 //    }
 //
-    var displayingMillimoles: Bool = UserDefaults.standard.bool(forKey: "displayingMillimoles")  {
-        didSet { UserDefaults.standard.set(self.displayingMillimoles, forKey: "displayingMillimoles") }
+    var displayingMillimoles: Bool = UserDefaults.group.bool(forKey: "displayingMillimoles")  {
+        didSet { UserDefaults.group.set(self.displayingMillimoles, forKey: "displayingMillimoles") }
     }
 
 //    var numberFormatter: NumberFormatter = NumberFormatter()
@@ -187,44 +199,44 @@ import Foundation
 //        didSet { UserDefaults.standard.set(self.nightscoutToken, forKey: "nightscoutToken") }
 //    }
 //
-    var libreLinkUpEmail: String = UserDefaults.standard.string(forKey: "libreLinkUpEmail")!  {
-        didSet { UserDefaults.standard.set(self.libreLinkUpEmail, forKey: "libreLinkUpEmail") }
+    var libreLinkUpEmail: String = UserDefaults.group.string(forKey: "libreLinkUpEmail") ?? ""  {
+        didSet { UserDefaults.group.set(self.libreLinkUpEmail, forKey: "libreLinkUpEmail") }
     }
 
-    var libreLinkUpPassword: String = UserDefaults.standard.string(forKey: "libreLinkUpPassword")! {
-        didSet { UserDefaults.standard.set(self.libreLinkUpPassword, forKey: "libreLinkUpPassword") }
+    var libreLinkUpPassword: String = UserDefaults.group.string(forKey: "libreLinkUpPassword") ?? "" {
+        didSet { UserDefaults.group.set(self.libreLinkUpPassword, forKey: "libreLinkUpPassword") }
     }
 
-    var libreLinkUpUserId: String = UserDefaults.standard.string(forKey: "libreLinkUpUserId")!  {
-        didSet { UserDefaults.standard.set(self.libreLinkUpUserId, forKey: "libreLinkUpUserId") }
+    var libreLinkUpUserId: String = UserDefaults.group.string(forKey: "libreLinkUpUserId")!  {
+        didSet { UserDefaults.group.set(self.libreLinkUpUserId, forKey: "libreLinkUpUserId") }
     }
 
-    var libreLinkUpPatientId: String = UserDefaults.standard.string(forKey: "libreLinkUpPatientId")! {
-        didSet { UserDefaults.standard.set(self.libreLinkUpPatientId, forKey: "libreLinkUpPatientId") }
+    var libreLinkUpPatientId: String = UserDefaults.group.string(forKey: "libreLinkUpPatientId")! {
+        didSet { UserDefaults.group.set(self.libreLinkUpPatientId, forKey: "libreLinkUpPatientId") }
     }
 
-    var libreLinkUpCountry: String = UserDefaults.standard.string(forKey: "libreLinkUpCountry")!  {
-        didSet { UserDefaults.standard.set(self.libreLinkUpCountry, forKey: "libreLinkUpCountry") }
+    var libreLinkUpCountry: String = UserDefaults.group.string(forKey: "libreLinkUpCountry")!  {
+        didSet { UserDefaults.group.set(self.libreLinkUpCountry, forKey: "libreLinkUpCountry") }
     }
 
-    var libreLinkUpRegion: String = UserDefaults.standard.string(forKey: "libreLinkUpRegion")!  {
-        didSet { UserDefaults.standard.set(self.libreLinkUpRegion, forKey: "libreLinkUpRegion") }
+    var libreLinkUpRegion: String = UserDefaults.group.string(forKey: "libreLinkUpRegion")!  {
+        didSet { UserDefaults.group.set(self.libreLinkUpRegion, forKey: "libreLinkUpRegion") }
     }
 
-    var libreLinkUpToken: String = UserDefaults.standard.string(forKey: "libreLinkUpToken")!  {
-        didSet { UserDefaults.standard.set(self.libreLinkUpToken, forKey: "libreLinkUpToken") }
+    var libreLinkUpToken: String = UserDefaults.group.string(forKey: "libreLinkUpToken")!  {
+        didSet { UserDefaults.group.set(self.libreLinkUpToken, forKey: "libreLinkUpToken") }
     }
 
-    var libreLinkUpTokenExpirationDate: Date = Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: "libreLinkUpTokenExpirationDate")) {
-        didSet { UserDefaults.standard.set(self.libreLinkUpTokenExpirationDate.timeIntervalSince1970, forKey: "libreLinkUpTokenExpirationDate") }
+    var libreLinkUpTokenExpirationDate: Date = Date(timeIntervalSince1970: UserDefaults.group.double(forKey: "libreLinkUpTokenExpirationDate")) {
+        didSet { UserDefaults.group.set(self.libreLinkUpTokenExpirationDate.timeIntervalSince1970, forKey: "libreLinkUpTokenExpirationDate") }
     }
 
-    var libreLinkUpFollowing: Bool = UserDefaults.standard.bool(forKey: "libreLinkUpFollowing")  {
-        didSet { UserDefaults.standard.set(self.libreLinkUpFollowing, forKey: "libreLinkUpFollowing") }
+    var libreLinkUpFollowing: Bool = UserDefaults.group.bool(forKey: "libreLinkUpFollowing")  {
+        didSet { UserDefaults.group.set(self.libreLinkUpFollowing, forKey: "libreLinkUpFollowing") }
     }
 
-    var libreLinkUpScrapingLogbook: Bool = UserDefaults.standard.bool(forKey: "libreLinkUpScrapingLogbook") {
-        didSet { UserDefaults.standard.set(self.libreLinkUpScrapingLogbook, forKey: "libreLinkUpScrapingLogbook") }
+    var libreLinkUpScrapingLogbook: Bool = UserDefaults.group.bool(forKey: "libreLinkUpScrapingLogbook") {
+        didSet { UserDefaults.group.set(self.libreLinkUpScrapingLogbook, forKey: "libreLinkUpScrapingLogbook") }
     }
 
 //    var selectedService: OnlineService = OnlineService(rawValue: UserDefaults.standard.string(forKey: "selectedService")!)! {
@@ -235,8 +247,8 @@ import Foundation
 //        didSet { UserDefaults.standard.set(self.onlineInterval, forKey: "onlineInterval") }
 //    }
 //
-    var lastOnlineDate: Date = Date(timeIntervalSince1970: UserDefaults.standard.double(forKey: "lastOnlineDate")) {
-        didSet { UserDefaults.standard.set(self.lastOnlineDate.timeIntervalSince1970, forKey: "lastOnlineDate") }
+    var lastOnlineDate: Date = Date(timeIntervalSince1970: UserDefaults.group.double(forKey: "lastOnlineDate")) {
+        didSet { UserDefaults.group.set(self.lastOnlineDate.timeIntervalSince1970, forKey: "lastOnlineDate") }
     }
 
 //    var activeSensorSerial: String = UserDefaults.standard.string(forKey: "activeSensorSerial")! {
