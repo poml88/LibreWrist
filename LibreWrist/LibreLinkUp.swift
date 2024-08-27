@@ -207,10 +207,6 @@ class LibreLinkUp  {
 
 //    var main: MainDelegate!
     
-    
-    
-    
-    
     let siteURL = "https://api.libreview.io"
     let loginEndpoint = "llu/auth/login"
     let configEndpoint = "llu/config"
@@ -540,12 +536,12 @@ class LibreLinkUp  {
                             
                             let measurementString = "\(measurement)"
                             Logger.general.info("LibreLinkUp: last glucose measurement: \(measurementString) (JSON: \(lastGlucoseMeasurement))")
-                            if lastGlucose.trendArrow != nil {
-                                DispatchQueue.main.async { [self] in
 #warning ("Do something with trend arrow")
+//                            if lastGlucose.trendArrow != nil {
+//                                DispatchQueue.main.async { [self] in
 //                                    PhoneAppHomeView(trendArrow: TrendArrow = lastGlucose.trendArrow)!
-                                }
-                            }
+//                                }
+//                            }
                             // TODO: scrape historic data only when the 17-minute delay has passed
                             var i = 0
                             if let graphData = data["graphData"] as? [[String: Any]] {

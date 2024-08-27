@@ -24,6 +24,7 @@ struct PhoneAppHomeView: View {
     @State private var libreLinkUpResponse: String = "[...]"
     @State private var libreLinkUpHistory: [LibreLinkUpGlucose] = MockDataPhone
     @State private var libreLinkUpLogbookHistory: [LibreLinkUpGlucose] = []
+    @State private var isReloading: Bool = false
     
     @State var lastReadingDate: Date = Date.distantPast
     @State var sensor: Sensor!
@@ -35,7 +36,9 @@ struct PhoneAppHomeView: View {
         VStack {
             HStack {
                 Text("\(currentGlucose)")
-                    .font(.system(size: 96, weight: .bold))
+                    .font(.system(size: 128, weight: .bold))
+                    .minimumScaleFactor(0.1)
+                    .padding()
                 VStack {
                     Text("\(trendArrow)")
                         .font(.system(size: 50, weight: .bold))
@@ -48,29 +51,18 @@ struct PhoneAppHomeView: View {
                         Text("\(minutesSinceLastReading) min ago")
                             .font(.footnote)
                             .monospacedDigit()
-                            .onReceive(timer) { _ in
-                                minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-                            }
                     }
                 }
+                .padding()
             }
             
             if libreLinkUpHistory.count > 0 {
-                
                 let rectXStart: Date = libreLinkUpHistory.last?.glucose.date ?? Date.distantPast
                 let rectXStop: Date = libreLinkUpHistory.first?.glucose.date ?? Date.distantFuture
                 
                 Chart {
                     //                    RuleMark(y: .value("Minimum High", 300))
                     //                        .foregroundStyle(.clear)
-                    
-                    RuleMark(y: .value("Lower limit", 85))
-                        .foregroundStyle(.red)
-                        .lineStyle(.init(lineWidth: 1, dash: [2]))
-                    
-                    RuleMark(y: .value("Upper limit", 300))
-                        .foregroundStyle(.red)
-                        .lineStyle(.init(lineWidth: 1, dash: [2]))
                     
                     RectangleMark(
                         xStart: .value("Rect Start Width", rectXStart),
@@ -81,6 +73,14 @@ struct PhoneAppHomeView: View {
                     .opacity(0.2)
                     .foregroundStyle(.green)
                     
+                    RuleMark(y: .value("Lower limit", 85))
+                        .foregroundStyle(.red)
+                        .lineStyle(.init(lineWidth: 1, dash: [2]))
+                    
+                    RuleMark(y: .value("Upper limit", 300))
+                        .foregroundStyle(.red)
+                        .lineStyle(.init(lineWidth: 1, dash: [2]))
+
                     
                     ForEach(libreLinkUpHistory) { item in
                         
@@ -170,23 +170,43 @@ struct PhoneAppHomeView: View {
                     }
                 }
                 .padding()
+                .overlay
+                {
+                    if isReloading == true {
+                        ZStack {
+                            Color(white: 0, opacity: 0.25)
+                            ProgressView().tint(.white)
+                        }
+                    }
+                }
             }
         }
         
         .onReceive(timer) { time in
             print("Timer")
-            Task {
-                await reloadLibreLinkUp()
+            minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
+            if minutesSinceLastReading >= 1 {
+                Task {
+                    isReloading = true
+                    await reloadLibreLinkUp()
+                    isReloading = false
+                }
             }
         }
-        .onAppear() {
+        .onAppear() { // fires when switching the Views, e.g. form settings to home view.
             print("onAppear")
+            minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
                 print("Active")
-                Task {
-                    await reloadLibreLinkUp()
+                minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
+                if minutesSinceLastReading >= 1 {
+                    Task {
+                        isReloading = true
+                        await reloadLibreLinkUp()
+                        isReloading = false
+                    }
                 }
             } else if newPhase == .inactive {
                 print("Inactive")

@@ -21,6 +21,7 @@ struct WatchAppHomeView: View {
     @State private var libreLinkUpResponse: String = "[...]"
     @State private var libreLinkUpLogbookHistory: [LibreLinkUpGlucose] = []
     @State private var minutesSinceLastReading: Int = 999
+    @State private var isReloading: Bool = false
     
     @State var lastReadingDate: Date = Date.distantPast
     @State var sensor: Sensor!
@@ -34,111 +35,115 @@ struct WatchAppHomeView: View {
         VStack{
             HStack {
                 Text("\(currentGlucose)")
-                    .font(.largeTitle.bold())
+                    .font(.system(size: 60, weight: .bold))
+                    .minimumScaleFactor(0.1)
+                    .padding()
                 VStack (spacing: -10){
                     Text("\(trendArrow)")
                         .font(.title2)
-//                    Text("\(lastReadingDate.toLocalTime())")
-//                        .font(.system(size: 30, weight: .bold))
+                    //                    Text("\(lastReadingDate.toLocalTime())")
+                    //                        .font(.system(size: 30, weight: .bold))
                     
                     if minutesSinceLastReading == 999 {
                         Text("-- min ago")
                     } else {
                         Text("\(minutesSinceLastReading) min ago")
-            
-                            .onReceive(minuteTimer) { _ in
-                                minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-                            }
                     }
                 }
+                .padding()
             }
-            let rectXStart: Date = libreLinkUpHistory.last?.glucose.date ?? Date.distantPast
-            let rectXStop: Date = libreLinkUpHistory.first?.glucose.date ?? Date.distantFuture
-            Chart {
-                RuleMark(y: .value("Lower limit", 85))
-                    .foregroundStyle(.red)
-                    .lineStyle(.init(lineWidth: 1, dash: [2]))
-                
-                RuleMark(y: .value("Upper limit", 225))
-                    .foregroundStyle(.red)
-                    .lineStyle(.init(lineWidth: 1, dash: [2]))
-                
-                RectangleMark(
-                    xStart: .value("Rect Start Width", rectXStart),
-                    xEnd: .value("Rect End Width", rectXStop),
-                    //                xStart: .value("Rect Start Width", 1),
-                    //                xEnd: .value("Rect End Width", 2),
-                    yStart: .value("Rect Start Height", 70),
-                    yEnd: .value("Rect End Height", 180)
-                )
-                .opacity(0.2)
-                .foregroundStyle(.green)
-                
-                ForEach(libreLinkUpHistory) { item in
+            if libreLinkUpHistory.count > 0 {
+                let rectXStart: Date = libreLinkUpHistory.last?.glucose.date ?? Date.distantPast
+                let rectXStop: Date = libreLinkUpHistory.first?.glucose.date ?? Date.distantFuture
+                Chart {
                     
-                    PointMark(x: .value("Time", item.glucose.date),
-                              y: .value("Glucose", item.glucose.value)
+                    RectangleMark(
+                        xStart: .value("Rect Start Width", rectXStart),
+                        xEnd: .value("Rect End Width", rectXStop),
+                        //                xStart: .value("Rect Start Width", 1),
+                        //                xEnd: .value("Rect End Width", 2),
+                        yStart: .value("Rect Start Height", 70),
+                        yEnd: .value("Rect End Height", 180)
                     )
-                    .foregroundStyle(.red)
-                    .symbolSize(2)
+                    .opacity(0.2)
+                    .foregroundStyle(.green)
                     
-                    LineMark(x: .value("Time", item.glucose.date),
-                             y: .value("Glucose", item.glucose.value))
-                    .interpolationMethod(.linear)
-                    .lineStyle(.init(lineWidth: 2))
+                    RuleMark(y: .value("Lower limit", 85))
+                        .foregroundStyle(.red)
+                        .lineStyle(.init(lineWidth: 1, dash: [2]))
                     
+                    RuleMark(y: .value("Upper limit", 225))
+                        .foregroundStyle(.red)
+                        .lineStyle(.init(lineWidth: 1, dash: [2]))
                     
-                    //                if let selectedlibreLinkHistoryPoint,selectedlibreLinkHistoryPoint.id == item.id {
-                    //                    RuleMark(x: .value("Time", selectedlibreLinkHistoryPoint.glucose.date))
-                    //                        .annotation(position: .top) {
-                    //                            VStack(alignment: .leading, spacing: 6){
-                    //                                Text("\(selectedlibreLinkHistoryPoint.glucose.date.toLocalTime())")
-                    //
-                    //                                Text("\(selectedlibreLinkHistoryPoint.glucose.value) mg/dL")
-                    //                                    .font(.title3.bold())
-                    //                            }
-                    //                            .padding(.horizontal,10)
-                    //                            .padding(.vertical,4)
-                    //                            .background{
-                    //                                RoundedRectangle(cornerRadius: 4, style: .continuous)
-                    //                                    .fill(.background.shadow(.drop(radius: 2)))
-                    //                            }
-                    //                        }
-                    //                }
+                    ForEach(libreLinkUpHistory) { item in
+                        
+                        PointMark(x: .value("Time", item.glucose.date),
+                                  y: .value("Glucose", item.glucose.value)
+                        )
+                        .foregroundStyle(.red)
+                        .symbolSize(3)
+                        
+                        LineMark(x: .value("Time", item.glucose.date),
+                                 y: .value("Glucose", item.glucose.value))
+                        .interpolationMethod(.linear)
+                        .lineStyle(.init(lineWidth: 3))
+                        
+                        
+                        //                if let selectedlibreLinkHistoryPoint,selectedlibreLinkHistoryPoint.id == item.id {
+                        //                    RuleMark(x: .value("Time", selectedlibreLinkHistoryPoint.glucose.date))
+                        //                        .annotation(position: .top) {
+                        //                            VStack(alignment: .leading, spacing: 6){
+                        //                                Text("\(selectedlibreLinkHistoryPoint.glucose.date.toLocalTime())")
+                        //
+                        //                                Text("\(selectedlibreLinkHistoryPoint.glucose.value) mg/dL")
+                        //                                    .font(.title3.bold())
+                        //                            }
+                        //                            .padding(.horizontal,10)
+                        //                            .padding(.vertical,4)
+                        //                            .background{
+                        //                                RoundedRectangle(cornerRadius: 4, style: .continuous)
+                        //                                    .fill(.background.shadow(.drop(radius: 2)))
+                        //                            }
+                        //                        }
+                        //                }
+                    }
+                    
+                    ForEach(history.factoryTrend) { item in
+                        PointMark(x: .value("Time", item.date),
+                                  y: .value("Glucose", item.value)
+                        )
+                        .foregroundStyle(.yellow)
+                        .symbolSize(6)
+                        
+                    }
                 }
                 
-                ForEach(history.factoryTrend) { item in
-                    PointMark(x: .value("Time", item.date),
-                              y: .value("Glucose", item.value)
-                    )
-                    .foregroundStyle(.yellow)
-                    .symbolSize(6)
-                    
+                .chartYScale(domain: [50, 225])
+                .chartXAxis {
+                    AxisMarks(values: .stride(by: .hour, count: 2)) { _ in
+                        AxisGridLine(stroke: .init(lineWidth: 0.5, dash: [2, 3]))
+                        AxisTick(length: -5, stroke: .init(lineWidth: 1))
+                            .foregroundStyle(.gray)
+                        //                        AxisValueLabel( anchor: .top)
+                        AxisValueLabel(format: .dateTime.hour(.defaultDigits(amPM: .narrow)), anchor: .top)
+                            .font(.caption2)
+                    }
+                    AxisMarks(values: .stride(by: .hour, count: 1)) { _ in
+                        //                        AxisGridLine(stroke: .init(lineWidth: 0.5, dash: [2, 3]))
+                        AxisTick(length: -5, stroke: .init(lineWidth: 1))
+                            .foregroundStyle(.gray)
+                    }
                 }
-            }
-            
-            .chartYScale(domain: [50, 225])
-            .chartXAxis {
-                AxisMarks(values: .stride(by: .hour, count: 3)) { _ in
-                    AxisGridLine(stroke: .init(lineWidth: 0.5, dash: [2, 3]))
-                    AxisTick(length: -5, stroke: .init(lineWidth: 1))
-                        .foregroundStyle(.gray)
-                    //                        AxisValueLabel( anchor: .top)
-                    AxisValueLabel(format: .dateTime.hour(.defaultDigits(amPM: .narrow)), anchor: .top)
-                }
-                AxisMarks(values: .stride(by: .hour, count: 1)) { _ in
-                    //                        AxisGridLine(stroke: .init(lineWidth: 0.5, dash: [2, 3]))
-                    AxisTick(length: -5, stroke: .init(lineWidth: 1))
-                        .foregroundStyle(.gray)
-                }
-            }
-            .chartYAxis {
-                AxisMarks(position: .trailing, values: .stride(by: 50)) { value in
-                    AxisGridLine(stroke: .init(lineWidth: 0.5))
-                    //                        AxisTick(length: 5, stroke: .init(lineWidth: 1))
-                        .foregroundStyle(.gray)
-                    AxisValueLabel()
-                    
+                .chartYAxis {
+                    AxisMarks(position: .trailing, values: .stride(by: 50)) { value in
+                        AxisGridLine(stroke: .init(lineWidth: 0.5))
+                        //                        AxisTick(length: 5, stroke: .init(lineWidth: 1))
+                            .foregroundStyle(.gray)
+                        AxisValueLabel()
+                            .font(.caption2)
+                        
+                    }
                 }
             }
             //        .chartOverlay { overlayProxy in
@@ -164,23 +169,49 @@ struct WatchAppHomeView: View {
         }
         .padding(.top, -30)
         .padding(.bottom, -15)
-        .onReceive(minuteTimer) { time in
-            print("Timer")
-            Task {
-                await reloadLibreLinkUp()
+        .overlay
+        {
+            if isReloading == true {
+                ZStack {
+                    Color(white: 0, opacity: 0.25)
+                    ProgressView().tint(.white)
+                }
             }
         }
-        .onAppear() {
-//            Task {
-//                await reloadLibreLinkUp()
+        .onReceive(minuteTimer) { time in
+            print("Timer")
+            minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
+            if minutesSinceLastReading >= 1 {
+                Task {
+                    isReloading = true
+                    await reloadLibreLinkUp()
+                    isReloading = false
+                }
+            }
+        }
+        .onAppear() { // fires when switching the Views, e.g. form settings to home view.
+            print("onAppear")
+            minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
+//            if minutesSinceLastReading >= 1 {
+//                Task {
+//                    isReloading = true
+//                    await reloadLibreLinkUp()
+//                    isReloading = false
+//                }
 //            }
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
                 print("Active")
-                Task {
-                    await reloadLibreLinkUp()
+                minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
+                if minutesSinceLastReading >= 1 {
+                    Task {
+                        isReloading = true
+                        await reloadLibreLinkUp()
+                        isReloading = false
+                    }
                 }
+                
             } else if newPhase == .inactive {
                 print("Inactive")
             } else if newPhase == .background {
@@ -190,7 +221,7 @@ struct WatchAppHomeView: View {
         
         
     }
-        
+    
     
     func reloadLibreLinkUp() async {
         
@@ -219,10 +250,7 @@ struct WatchAppHomeView: View {
                 dataString = (data as! Data).string
                 libreLinkUpResponse = dataString + (logbookData as! Data).string
                 // TODO: just merge with newer values
-                libreLinkUpHistory = graphHistory.reversed()
-                //For watch show only 6 hours
-                libreLinkUpHistory = libreLinkUpHistory.dropLast(70)
-                
+                libreLinkUpHistory = graphHistory.reversed().dropLast(70) //For watch show only 6 hours
                 print(libreLinkUpHistory)
                 libreLinkUpLogbookHistory = logbookHistory
                 if graphHistory.count > 0 {
