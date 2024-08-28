@@ -23,7 +23,7 @@ struct WatchAppHomeView: View {
     @State private var minutesSinceLastReading: Int = 999
     @State private var isReloading: Bool = false
     
-    @State var lastReadingDate: Date = Date.distantPast
+    @State var lastReadingDate: Date = Date.init(timeIntervalSinceReferenceDate: 746479063)
     @State var sensor: Sensor!
     @State var currentGlucose: Int = 0
     @State var trendArrow = "---"
@@ -145,6 +145,7 @@ struct WatchAppHomeView: View {
                         
                     }
                 }
+                .padding(.top, -20)
             }
             //        .chartOverlay { overlayProxy in
             //            GeometryReader { geometryProxy in
@@ -167,7 +168,7 @@ struct WatchAppHomeView: View {
             //                    )
             //            }
         }
-        .padding(.top, -30)
+        .padding(.top, -50)
         .padding(.bottom, -15)
         .overlay
         {
@@ -292,6 +293,7 @@ struct WatchAppHomeView: View {
 
 #Preview {
     WatchAppHomeView()
+        .environment(History.test)
 }
 
 let MockDataWatch = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1000,

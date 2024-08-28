@@ -115,6 +115,7 @@ struct PhoneAppHomeView: View {
                         }
                     }
                     
+                    #warning ("breaks preview")
                     ForEach(history.factoryTrend) { item in
                         PointMark(x: .value("Time", item.date),
                                   y: .value("Glucose", item.value)
@@ -170,18 +171,18 @@ struct PhoneAppHomeView: View {
                     }
                 }
                 .padding()
-                .overlay
-                {
-                    if isReloading == true {
-                        ZStack {
-                            Color(white: 0, opacity: 0.25)
-                            ProgressView().tint(.white)
-                        }
-                    }
+                
+            }
+        }
+        .overlay
+        {
+            if isReloading == true {
+                ZStack {
+                    Color(white: 0, opacity: 0.25)
+                    ProgressView().tint(.white)
                 }
             }
         }
-        
         .onReceive(timer) { time in
             print("Timer")
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
