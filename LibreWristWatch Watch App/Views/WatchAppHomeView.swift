@@ -22,6 +22,7 @@ struct WatchAppHomeView: View {
     @State private var libreLinkUpLogbookHistory: [LibreLinkUpGlucose] = []
     @State private var minutesSinceLastReading: Int = 999
     @State private var isReloading: Bool = false
+    @State private var isShowingDisclaimer = false
     
     @State var lastReadingDate: Date = Date.init(timeIntervalSinceReferenceDate: 746479063)
     @State var sensor: Sensor!
@@ -34,21 +35,34 @@ struct WatchAppHomeView: View {
     var body: some View {
         VStack{
             HStack {
-                Text("\(currentGlucose)")
-                    .font(.system(size: 60, weight: .bold))
+                if minutesSinceLastReading >= 3 {
+                    Text("---")
+                    .font(.system(size: 60)) //, weight: .bold
                     .minimumScaleFactor(0.1)
                     .padding()
+                } else {
+                    Text("\(currentGlucose)")
+                        .font(.system(size: 60)) //, weight: .bold
+                        .minimumScaleFactor(0.1)
+                        .padding()
+                }
+                    
                 VStack (spacing: -10){
-                    Text("\(trendArrow)")
-                        .font(.title2)
+                    if minutesSinceLastReading >= 3 {
+                        Text("---")
+                            .font(.title)
+                    } else {
+                        Text("\(trendArrow)")
+                            .font(.title)
+                    }
                     //                    Text("\(lastReadingDate.toLocalTime())")
                     //                        .font(.system(size: 30, weight: .bold))
                     
-                    if minutesSinceLastReading == 999 {
-                        Text("-- min ago")
-                    } else {
-                        Text("\(minutesSinceLastReading) min ago")
-                    }
+//                    if minutesSinceLastReading == 999 {
+//                        Text("-- min ago")
+//                    } else {
+//                        Text("\(minutesSinceLastReading) min ago")
+//                    }
                 }
                 .padding()
             }
@@ -72,23 +86,27 @@ struct WatchAppHomeView: View {
                         .foregroundStyle(.red)
                         .lineStyle(.init(lineWidth: 1, dash: [2]))
                     
-                    RuleMark(y: .value("Upper limit", 225))
-                        .foregroundStyle(.red)
-                        .lineStyle(.init(lineWidth: 1, dash: [2]))
+//                    RuleMark(y: .value("Upper limit", 225))
+//                        .foregroundStyle(.red)
+//                        .lineStyle(.init(lineWidth: 1, dash: [2]))
                     
                     ForEach(libreLinkUpHistory) { item in
                         
-                        PointMark(x: .value("Time", item.glucose.date),
-                                  y: .value("Glucose", item.glucose.value)
-                        )
-                        .foregroundStyle(.red)
-                        .symbolSize(3)
+//                        PointMark(x: .value("Time", item.glucose.date),
+//                                  y: .value("Glucose", item.glucose.value)
+//                        )
+//                        .foregroundStyle(.red)
+//                        .symbolSize(3)
                         
                         LineMark(x: .value("Time", item.glucose.date),
                                  y: .value("Glucose", item.glucose.value))
                         .interpolationMethod(.linear)
                         .lineStyle(.init(lineWidth: 3))
-                        
+                        .symbol(){
+                            Circle()
+                                .fill(item.color.color)
+                                .frame(width: 4, height: 4)
+                        }
                         
                         //                if let selectedlibreLinkHistoryPoint,selectedlibreLinkHistoryPoint.id == item.id {
                         //                    RuleMark(x: .value("Time", selectedlibreLinkHistoryPoint.glucose.date))
@@ -114,8 +132,7 @@ struct WatchAppHomeView: View {
                                   y: .value("Glucose", item.value)
                         )
                         .foregroundStyle(.yellow)
-                        .symbolSize(6)
-                        
+                        .symbolSize(8)
                     }
                 }
                 
@@ -127,7 +144,7 @@ struct WatchAppHomeView: View {
                             .foregroundStyle(.gray)
                         //                        AxisValueLabel( anchor: .top)
                         AxisValueLabel(format: .dateTime.hour(.defaultDigits(amPM: .narrow)), anchor: .top)
-                            .font(.caption2)
+                            .font(.system(size: 10))
                     }
                     AxisMarks(values: .stride(by: .hour, count: 1)) { _ in
                         //                        AxisGridLine(stroke: .init(lineWidth: 0.5, dash: [2, 3]))
@@ -141,7 +158,7 @@ struct WatchAppHomeView: View {
                         //                        AxisTick(length: 5, stroke: .init(lineWidth: 1))
                             .foregroundStyle(.gray)
                         AxisValueLabel()
-                            .font(.caption2)
+                            .font(.system(size: 10))
                         
                     }
                 }
@@ -168,8 +185,14 @@ struct WatchAppHomeView: View {
             //                    )
             //            }
         }
-        .padding(.top, -50)
+        .padding(.top, -40)
         .padding(.bottom, -15)
+        .alert ("Warning", isPresented: $isShowingDisclaimer) {
+            Button("Accept", role: .cancel, action: {settings.hasSeenDisclaimer = true})
+        }
+    message: {
+            Text("!! Not for treatment decisions !!\n\nUse at your own risk!\n\nThe information presented in this app and its extensions must not be used for treatment or dosing decisions. Consult the glucose-monitoring system and/or a healthcare professional.")
+        }
         .overlay
         {
             if isReloading == true {
@@ -177,6 +200,7 @@ struct WatchAppHomeView: View {
                     Color(white: 0, opacity: 0.25)
                     ProgressView().tint(.white)
                 }
+                .ignoresSafeArea()
             }
         }
         .onReceive(minuteTimer) { time in
@@ -192,6 +216,9 @@ struct WatchAppHomeView: View {
         }
         .onAppear() { // fires when switching the Views, e.g. form settings to home view.
             print("onAppear")
+            if settings.hasSeenDisclaimer == false {
+                isShowingDisclaimer = true
+            }
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
 //            if minutesSinceLastReading >= 1 {
 //                Task {
@@ -219,15 +246,34 @@ struct WatchAppHomeView: View {
                 print("Background")
             }
         }
-        
+        .overlay {
+            if minutesSinceLastReading >= 3 {
+                ZStack {
+                    Color(white: 0, opacity: 0.5)
+                    
+                    VStack {
+                        Image(systemName: "hourglass.circle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 40)
+                        
+                        Text("No recent data")
+                    }
+                    
+                    
+                }
+                .ignoresSafeArea()
+            }
+        }
         
     }
-    
+        
     
     func reloadLibreLinkUp() async {
         
         var dataString = ""
         var retries = 0
+        let dropLastValues = 70
         
         
     loop: repeat {
@@ -251,8 +297,7 @@ struct WatchAppHomeView: View {
                 dataString = (data as! Data).string
                 libreLinkUpResponse = dataString + (logbookData as! Data).string
                 // TODO: just merge with newer values
-                libreLinkUpHistory = graphHistory.reversed().dropLast(70) //For watch show only 6 hours
-                print(libreLinkUpHistory)
+                libreLinkUpHistory = graphHistory.reversed().dropLast(dropLastValues) //For watch show only 6 hours
                 libreLinkUpLogbookHistory = logbookHistory
                 if graphHistory.count > 0 {
                     DispatchQueue.main.async {
@@ -270,8 +315,8 @@ struct WatchAppHomeView: View {
                         if trend.isEmpty || lastMeasurement.id > trend[0].id {
                             trend.insert(lastMeasurement.glucose, at: 0)
                         }
-                        // keep only the latest 22 minutes considering the 17-minute latency of the historic values update
-                        trend = trend.filter { lastMeasurement.id - $0.id < 22 }
+                        // keep only the latest 16 minutes considering the 17-minute latency of the historic values update
+                        trend = trend.filter { lastMeasurement.id - $0.id < 16 }
                         history.factoryTrend = trend
                         Logger.general.info("LibreLinkUp: history.factoryTrend: \(history.factoryTrend)")
                         // TODO: merge and update sensor history / trend

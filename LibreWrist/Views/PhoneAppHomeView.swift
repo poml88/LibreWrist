@@ -11,6 +11,8 @@ import Charts
 
 
 
+
+
 struct PhoneAppHomeView: View {
     
     private let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
@@ -25,6 +27,7 @@ struct PhoneAppHomeView: View {
     @State private var libreLinkUpHistory: [LibreLinkUpGlucose] = MockDataPhone
     @State private var libreLinkUpLogbookHistory: [LibreLinkUpGlucose] = []
     @State private var isReloading: Bool = false
+    @State private var isShowingDisclaimer = false
     
     @State var lastReadingDate: Date = Date.distantPast
     @State var sensor: Sensor!
@@ -36,7 +39,7 @@ struct PhoneAppHomeView: View {
         VStack {
             HStack {
                 Text("\(currentGlucose)")
-                    .font(.system(size: 128, weight: .bold))
+                    .font(.system(size: 128)) //, weight: .bold)
                     .minimumScaleFactor(0.1)
                     .padding()
                 VStack {
@@ -60,6 +63,11 @@ struct PhoneAppHomeView: View {
                 let rectXStart: Date = libreLinkUpHistory.last?.glucose.date ?? Date.distantPast
                 let rectXStop: Date = libreLinkUpHistory.first?.glucose.date ?? Date.distantFuture
                 
+                //Configuration
+                let chartYScaleMin = 50
+                let chartYScaleMax = 250
+                // Setting to 6 hours below by deleting half of the values.
+                
                 Chart {
                     //                    RuleMark(y: .value("Minimum High", 300))
                     //                        .foregroundStyle(.clear)
@@ -77,23 +85,41 @@ struct PhoneAppHomeView: View {
                         .foregroundStyle(.red)
                         .lineStyle(.init(lineWidth: 1, dash: [2]))
                     
-                    RuleMark(y: .value("Upper limit", 300))
-                        .foregroundStyle(.red)
-                        .lineStyle(.init(lineWidth: 1, dash: [2]))
+//                    RuleMark(y: .value("Upper limit", 300))
+//                        .foregroundStyle(.red)
+//                        .lineStyle(.init(lineWidth: 1, dash: [2]))
 
-                    
+//                    switch libreLinkUpHistory[0].color {
+//                    case .green:
+//                            .foregroundStyle(.green)
+//                    case .yellow:
+//                            .foregroundStyle(.yellow)
+//                    case .orange:
+//                            .foregroundStyle(.orange)
+//                    case red:
+//                            .foregroundStyle(.red)
+//                    default:
+//                            .foregroundStyle(.white)
+//                    }
+
                     ForEach(libreLinkUpHistory) { item in
-                        
-                        PointMark(x: .value("Time", item.glucose.date),
-                                  y: .value("Glucose", item.glucose.value)
-                        )
-                        .foregroundStyle(.red)
-                        .symbolSize(12)
+                                                
+//                        PointMark(x: .value("Time", item.glucose.date),
+//                                  y: .value("Glucose", item.glucose.value)
+//                        )
+//                        .foregroundStyle(item.color.color)
+//                        .symbolSize(12)
                         
                         LineMark(x: .value("Time", item.glucose.date),
                                  y: .value("Glucose", item.glucose.value))
                         .interpolationMethod(.linear)
                         .lineStyle(.init(lineWidth: 5))
+                        .symbol(){
+                            Circle()
+                                .fill(item.color.color)
+                                .frame(width: 6, height: 6)
+                        }
+//                        .symbolSize(100)
                         
                         
                         if let selectedlibreLinkHistoryPoint,selectedlibreLinkHistoryPoint.id == item.id {
@@ -120,14 +146,14 @@ struct PhoneAppHomeView: View {
                         PointMark(x: .value("Time", item.date),
                                   y: .value("Glucose", item.value)
                         )
-                        .foregroundStyle(.yellow)
-                        .symbolSize(6)
+                        .foregroundStyle(Color.yellow)
+                        .symbolSize(20)
                         
                     }
                 }
-                .chartYScale(domain: [0, 350])
+                .chartYScale(domain: [chartYScaleMin, chartYScaleMax])
                 .chartXAxis {
-                    AxisMarks(values: .stride(by: .hour, count: 3)) { _ in
+                    AxisMarks(values: .stride(by: .hour, count: 2)) { _ in
                         AxisGridLine(stroke: .init(lineWidth: 0.5, dash: [2, 3]))
                         AxisTick(length: -5, stroke: .init(lineWidth: 1))
                             .foregroundStyle(.gray)
@@ -174,6 +200,14 @@ struct PhoneAppHomeView: View {
                 
             }
         }
+        .alert ("Warning", isPresented: $isShowingDisclaimer) {
+            Button("Accept", role: .cancel, action: {settings.hasSeenDisclaimer = true})
+        }
+    message: {
+            Text("!! Not for treatment decisions !!\n\nUse at your own risk!\n\nThe information presented in this app and its extensions must not be used for treatment or dosing decisions. Consult the glucose-monitoring system and/or a healthcare professional.")
+        }
+        
+        
         .overlay
         {
             if isReloading == true {
@@ -196,7 +230,11 @@ struct PhoneAppHomeView: View {
         }
         .onAppear() { // fires when switching the Views, e.g. form settings to home view.
             print("onAppear")
+            if settings.hasSeenDisclaimer == false {
+                isShowingDisclaimer = true
+            }
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
+             
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
@@ -222,6 +260,7 @@ struct PhoneAppHomeView: View {
         
         var dataString = ""
         var retries = 0
+        let dropLastValues = 70
         
         
     loop: repeat {
@@ -244,9 +283,7 @@ struct PhoneAppHomeView: View {
                 dataString = (data as! Data).string
                 libreLinkUpResponse = dataString + (logbookData as! Data).string
                 // TODO: just merge with newer values
-                libreLinkUpHistory = graphHistory.reversed()
-                
-                print(libreLinkUpHistory)
+                libreLinkUpHistory = graphHistory.reversed().dropLast(dropLastValues)
                 libreLinkUpLogbookHistory = logbookHistory
                 if graphHistory.count > 0 {
                     DispatchQueue.main.async {
@@ -264,8 +301,8 @@ struct PhoneAppHomeView: View {
                         if trend.isEmpty || lastMeasurement.id > trend[0].id {
                             trend.insert(lastMeasurement.glucose, at: 0)
                         }
-                        // keep only the latest 22 minutes considering the 17-minute latency of the historic values update
-                        trend = trend.filter { lastMeasurement.id - $0.id < 22 }
+                        // keep only the latest 16 minutes considering the 17-minute latency of the historic values update
+                        trend = trend.filter { lastMeasurement.id - $0.id < 16 }
                         history.factoryTrend = trend
                         Logger.general.info("LibreLinkUp: history.factoryTrend: \(history.factoryTrend)")
                         // TODO: merge and update sensor history / trend

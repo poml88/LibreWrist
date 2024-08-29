@@ -38,6 +38,7 @@ extension History {
 
         let factoryTrend = [231, 232, 233, 234, 235, 236, 237, 238, 239, 230, 231, 232, 233, 234, 235].enumerated().map { Glucose($0.1, id: 5000 - $0.0, date: Date() - Double($0.1) * 60) }
         history.factoryTrend = factoryTrend
+#warning("make some useful mock data")
         history.factoryTrend = [Glucose(200, id: 6031, date: Date(timeIntervalSince1970: 746275463)), Glucose(190, id: 6032, date: Date(timeIntervalSince1970: 746279063)), Glucose(180, id: 6033, date: Date(timeIntervalSince1970: 746282663))]
 
         let storedValues = [231, 252, 253, 254, 245, 196, 177, 128, 149, 150, 101, 122, 133, 144, 155, 166, 177, 178, 149, 140, 141, 142, 143, 144, 155, 166, 177, 178, 169, 150, 141, 132].enumerated().map { Glucose($0.1, id: $0.0, date: Date() - Double($0.1) * 15 * 60, source: "SourceApp com.example.sourceapp") }

@@ -4,6 +4,9 @@
     "-- min ago" : {
 
     },
+    "!! Not for treatment decisions !!\n\nUse at your own risk!\n\nThe information presented in this app and its extensions must not be used for treatment or dosing decisions. Consult the glucose-monitoring system and/or a healthcare professional." : {
+
+    },
     "%@" : {
 
     },
@@ -14,6 +17,9 @@
 
     },
     "%lld min ago" : {
+
+    },
+    "Accept" : {
 
     },
     "Connect" : {
@@ -61,13 +67,13 @@
     "Time" : {
 
     },
-    "Upper limit" : {
-
-    },
     "Username" : {
 
     },
     "Username (email adress)" : {
+
+    },
+    "Warning" : {
 
     }
   },

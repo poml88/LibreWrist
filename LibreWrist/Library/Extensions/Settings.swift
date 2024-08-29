@@ -238,6 +238,10 @@ extension UserDefaults {
     var libreLinkUpScrapingLogbook: Bool = UserDefaults.group.bool(forKey: "libreLinkUpScrapingLogbook") {
         didSet { UserDefaults.group.set(self.libreLinkUpScrapingLogbook, forKey: "libreLinkUpScrapingLogbook") }
     }
+    
+    var hasSeenDisclaimer: Bool = UserDefaults.group.bool(forKey: "hasSeenDisclaimer") {
+        didSet { UserDefaults.group.set(self.hasSeenDisclaimer, forKey: "hasSeenDisclaimer") }
+    }
 
 //    var selectedService: OnlineService = OnlineService(rawValue: UserDefaults.standard.string(forKey: "selectedService")!)! {
 //        didSet { UserDefaults.standard.set(self.selectedService.rawValue, forKey: "selectedService") }

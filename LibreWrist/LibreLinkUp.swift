@@ -234,10 +234,10 @@ class LibreLinkUp  {
     //    init(main: MainDelegate) {
     //        self.main = main
     //    }
-    init() {
-        //settings = Settings()
-//        print ("\(settings)")
-    }
+//    init() {
+//        //settings = Settings()
+////        print ("\(settings)")
+//    }
     
     
     @discardableResult

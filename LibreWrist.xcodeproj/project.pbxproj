@@ -16,6 +16,8 @@
 		7B435CD02C6D5103006F6E53 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B435CCF2C6D5103006F6E53 /* Date.swift */; };
 		7B435CD22C6D51F9006F6E53 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7B435CD12C6D51F9006F6E53 /* Localizable.xcstrings */; };
 		7B435CD42C6D57F5006F6E53 /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B435CD32C6D57F5006F6E53 /* String.swift */; };
+		7B462BFD2C7FBAC8003FEDC3 /* MeasurementColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B462BFC2C7FBAC8003FEDC3 /* MeasurementColor.swift */; };
+		7B462BFE2C7FC46A003FEDC3 /* MeasurementColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B462BFC2C7FBAC8003FEDC3 /* MeasurementColor.swift */; };
 		7BA0AE2D2C582F63004226FE /* LibreWristApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0AE2C2C582F63004226FE /* LibreWristApp.swift */; };
 		7BA0AE2F2C582F63004226FE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0AE2E2C582F63004226FE /* ContentView.swift */; };
 		7BA0AE312C582F64004226FE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BA0AE302C582F64004226FE /* Assets.xcassets */; };
@@ -119,6 +121,7 @@
 		7B435CD12C6D51F9006F6E53 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		7B435CD32C6D57F5006F6E53 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		7B435CD52C6D5C1D006F6E53 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		7B462BFC2C7FBAC8003FEDC3 /* MeasurementColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementColor.swift; sourceTree = "<group>"; };
 		7BA0AE292C582F63004226FE /* LibreWrist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LibreWrist.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BA0AE2C2C582F63004226FE /* LibreWristApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreWristApp.swift; sourceTree = "<group>"; };
 		7BA0AE2E2C582F63004226FE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -216,6 +219,7 @@
 				7BADE01A2C73E4B60074A47F /* Data.swift */,
 				7BADE01C2C73E4E70074A47F /* Int.swift */,
 				7BADE0202C73EB060074A47F /* Double.swift */,
+				7B462BFC2C7FBAC8003FEDC3 /* MeasurementColor.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -536,6 +540,7 @@
 			files = (
 				7BA0AE572C5834F6004226FE /* PhoneAppSetupView.swift in Sources */,
 				7BADE0122C73E3440074A47F /* SensorType.swift in Sources */,
+				7B462BFD2C7FBAC8003FEDC3 /* MeasurementColor.swift in Sources */,
 				7BADE01D2C73E4E70074A47F /* Int.swift in Sources */,
 				7BADE00E2C73E1E60074A47F /* Sensor.swift in Sources */,
 				7B435CCC2C6D46DF006F6E53 /* Logger.swift in Sources */,
@@ -599,6 +604,7 @@
 				7BC51F5B2C7C8589009542D2 /* SensorType.swift in Sources */,
 				7BC51F592C7C8564009542D2 /* Data.swift in Sources */,
 				7BC51FBE2C7D31C3009542D2 /* History.swift in Sources */,
+				7B462BFE2C7FC46A003FEDC3 /* MeasurementColor.swift in Sources */,
 				7BC51F602C7C9406009542D2 /* FactoryCalibrations.swift in Sources */,
 				7BC51F572C7C853B009542D2 /* Logger.swift in Sources */,
 				7BC51F522C7C8413009542D2 /* TrendArrow.swift in Sources */,
@@ -760,7 +766,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LibreWrist/LibreWrist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"LibreWrist/Preview Content\"";
 				DEVELOPMENT_TEAM = 49Z678ZK52;
 				ENABLE_PREVIEWS = YES;
@@ -793,7 +799,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = LibreWrist/LibreWrist.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"LibreWrist/Preview Content\"";
 				DEVELOPMENT_TEAM = 49Z678ZK52;
 				ENABLE_PREVIEWS = YES;
@@ -901,7 +907,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "LibreWristWatch Watch App/LibreWristWatch Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"LibreWristWatch Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = 49Z678ZK52;
 				ENABLE_PREVIEWS = YES;
@@ -934,7 +940,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "LibreWristWatch Watch App/LibreWristWatch Watch App.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"LibreWristWatch Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = 49Z678ZK52;
 				ENABLE_PREVIEWS = YES;
