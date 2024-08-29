@@ -40,6 +40,9 @@
     "Lower limit" : {
 
     },
+    "No data received since %lld min.\n\nCheck network and bluetooth connections." : {
+
+    },
     "Password" : {
 
     },

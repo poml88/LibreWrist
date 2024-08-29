@@ -35,26 +35,26 @@ struct WatchAppHomeView: View {
     var body: some View {
         VStack{
             HStack {
-                if minutesSinceLastReading >= 3 {
-                    Text("---")
-                    .font(.system(size: 60)) //, weight: .bold
-                    .minimumScaleFactor(0.1)
-                    .padding()
-                } else {
+//                if minutesSinceLastReading >= 3 {
+//                    Text("---")
+//                    .font(.system(size: 60)) //, weight: .bold
+//                    .minimumScaleFactor(0.1)
+//                    .padding()
+//                } else {
                     Text("\(currentGlucose)")
                         .font(.system(size: 60)) //, weight: .bold
                         .minimumScaleFactor(0.1)
                         .padding()
-                }
+//                }
                     
                 VStack (spacing: -10){
-                    if minutesSinceLastReading >= 3 {
-                        Text("---")
-                            .font(.title)
-                    } else {
+//                    if minutesSinceLastReading >= 3 {
+//                        Text("---")
+//                            .font(.title)
+//                    } else {
                         Text("\(trendArrow)")
                             .font(.title)
-                    }
+//                    }
                     //                    Text("\(lastReadingDate.toLocalTime())")
                     //                        .font(.system(size: 30, weight: .bold))
                     
@@ -220,13 +220,13 @@ struct WatchAppHomeView: View {
                 isShowingDisclaimer = true
             }
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-//            if minutesSinceLastReading >= 1 {
-//                Task {
-//                    isReloading = true
-//                    await reloadLibreLinkUp()
-//                    isReloading = false
-//                }
-//            }
+            if minutesSinceLastReading >= 1 {
+                Task {
+                    isReloading = true
+                    await reloadLibreLinkUp()
+                    isReloading = false
+                }
+            }
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
@@ -247,7 +247,7 @@ struct WatchAppHomeView: View {
             }
         }
         .overlay {
-            if minutesSinceLastReading >= 3 {
+            if minutesSinceLastReading >= 3 && isReloading == false {
                 ZStack {
                     Color(white: 0, opacity: 0.5)
                     
@@ -257,7 +257,8 @@ struct WatchAppHomeView: View {
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 40)
                         
-                        Text("No recent data")
+                        Text("No data since \(minutesSinceLastReading) min.")
+                            .multilineTextAlignment(.center)
                     }
                     
                     
@@ -265,7 +266,6 @@ struct WatchAppHomeView: View {
                 .ignoresSafeArea()
             }
         }
-        
     }
         
     
@@ -279,7 +279,6 @@ struct WatchAppHomeView: View {
     loop: repeat {
         do {
             let token = settings.libreLinkUpToken
-            print("token!!!"); print(token)
             if settings.libreLinkUpUserId.isEmpty ||
                 settings.libreLinkUpToken.isEmpty ||
                 settings.libreLinkUpTokenExpirationDate < Date() ||

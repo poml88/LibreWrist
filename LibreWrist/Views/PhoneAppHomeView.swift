@@ -234,7 +234,13 @@ struct PhoneAppHomeView: View {
                 isShowingDisclaimer = true
             }
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-             
+            if minutesSinceLastReading >= 1 {
+                Task {
+                    isReloading = true
+                    await reloadLibreLinkUp()
+                    isReloading = false
+                }
+            }
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
@@ -253,6 +259,29 @@ struct PhoneAppHomeView: View {
                 print("Background")
             }
         }
+        .overlay {
+            if minutesSinceLastReading >= 3 && isReloading == false {
+                ZStack {
+                    Color(white: 0, opacity: 0.5)
+                    
+                    VStack {
+                        Image(systemName: "hourglass.circle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100)
+                            .padding()
+                        
+                        Text("No data received since \(minutesSinceLastReading) min.\n\nCheck network and bluetooth connections.")
+                            .multilineTextAlignment(.center)
+                            .padding()
+                    }
+                    .background()
+                    .cornerRadius(10)
+                    .opacity(0.5)
+                }
+                .ignoresSafeArea()
+            }
+        }
     }
     
     
@@ -266,7 +295,6 @@ struct PhoneAppHomeView: View {
     loop: repeat {
         do {
             let token = settings.libreLinkUpToken
-            print("token!!!"); print(token)
             if settings.libreLinkUpUserId.isEmpty ||
                 settings.libreLinkUpToken.isEmpty ||
                 settings.libreLinkUpTokenExpirationDate < Date() ||
