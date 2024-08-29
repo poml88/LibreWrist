@@ -58,6 +58,10 @@ struct PhoneAppHomeView: View {
                 }
                 .padding()
             }
+            .frame(maxWidth: .infinity)
+            .safeAreaPadding(0)
+            .background(Color(libreLinkUpHistory[0].color.color))
+            
             
             if libreLinkUpHistory.count > 0 {
                 let rectXStart: Date = libreLinkUpHistory.last?.glucose.date ?? Date.distantPast
@@ -152,6 +156,9 @@ struct PhoneAppHomeView: View {
                     }
                 }
                 .chartYScale(domain: [chartYScaleMin, chartYScaleMax])
+//                .chartXVisibleDomain(length: 3600 * 6)
+//                .chartScrollableAxes(.horizontal)
+//                .chartScrollPosition(initialX: Date())
                 .chartXAxis {
                     AxisMarks(values: .stride(by: .hour, count: 2)) { _ in
                         AxisGridLine(stroke: .init(lineWidth: 0.5, dash: [2, 3]))
@@ -234,13 +241,13 @@ struct PhoneAppHomeView: View {
                 isShowingDisclaimer = true
             }
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-            if minutesSinceLastReading >= 1 {
-                Task {
-                    isReloading = true
-                    await reloadLibreLinkUp()
-                    isReloading = false
-                }
-            }
+//            if minutesSinceLastReading >= 1 {
+//                Task {
+//                    isReloading = true
+//                    await reloadLibreLinkUp()
+//                    isReloading = false
+//                }
+//            }
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {

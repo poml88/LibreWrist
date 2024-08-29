@@ -19,13 +19,14 @@ struct WatchAppSettingsView: View {
     
     var body: some View {
         VStack {
-            Spacer()
+            
             Text(statusMessage())
 //                .padding(EdgeInsets(top: 12, leading: 0, bottom: 12, trailing: 0))
                 .padding()
                 .font(.headline)
                 .background(statusColor())
                 .cornerRadius(5)
+                .safeAreaPadding(0)
                
                 
                 

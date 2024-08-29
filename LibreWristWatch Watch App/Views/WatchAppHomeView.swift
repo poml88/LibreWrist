@@ -42,7 +42,8 @@ struct WatchAppHomeView: View {
 //                    .padding()
 //                } else {
                     Text("\(currentGlucose)")
-                        .font(.system(size: 60)) //, weight: .bold
+                    .font(.system(size: 60)) //, weight: .bold
+                    .foregroundStyle(libreLinkUpHistory[0].color.color)
                         .minimumScaleFactor(0.1)
                         .padding()
 //                }
@@ -54,6 +55,7 @@ struct WatchAppHomeView: View {
 //                    } else {
                         Text("\(trendArrow)")
                             .font(.title)
+                            .foregroundStyle(libreLinkUpHistory[0].color.color)
 //                    }
                     //                    Text("\(lastReadingDate.toLocalTime())")
                     //                        .font(.system(size: 30, weight: .bold))
@@ -220,13 +222,13 @@ struct WatchAppHomeView: View {
                 isShowingDisclaimer = true
             }
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-            if minutesSinceLastReading >= 1 {
-                Task {
-                    isReloading = true
-                    await reloadLibreLinkUp()
-                    isReloading = false
-                }
-            }
+//            if minutesSinceLastReading >= 1 {
+//                Task {
+//                    isReloading = true
+//                    await reloadLibreLinkUp()
+//                    isReloading = false
+//                }
+//            }
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
