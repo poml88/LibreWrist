@@ -1,6 +1,6 @@
 ## LibreWrist App
 
-*** Warning ***, This project is highly experimental! Please use this app with caution and extreme care. Do not make careless decisions based on software. Do not use this software if you are unsure.***
+***Warning, This project is highly experimental! Please use this app with caution and extreme care. Do not make careless decisions based on software. Do not use this software if you are unsure. Don't use this App for medical decisions. It comes without absolutely no warranty. Use it at your own risk!***
 
 This software is free and open source. It is being developed out of personal needs, but everyone should be able to benefit from it.
 
