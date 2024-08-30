@@ -1,5 +1,7 @@
 # LibreWrist App #
 
+![watch](https://github.com/user-attachments/assets/6e9da8ca-c773-4747-bd9a-aa0db2741033)
+
 ***Warning, This project is highly experimental! Please use this app with caution and extreme care. Do not make careless decisions based on software. Do not use this software if you are unsure. Don't use this App for medical decisions. It comes without absolutely no warranty. Use it at your own risk!***
 
 This software is free and open source. It is being developed out of personal needs, but everyone should be able to benefit from it.
@@ -17,3 +19,4 @@ Please consider a donation for these projects as well:
 
 ### Credits: ###
 [DiaBLE](https://github.com/gui-dos/DiaBLE), [GlucoseDirect](https://github.com/creepymonster/GlucoseDirect), [Nightguard]( https://github.com/nightscout/nightguard), [Nightscout LibreLink Up Uploader](https://github.com/timoschlueter/nightscout-librelink-up)
+
