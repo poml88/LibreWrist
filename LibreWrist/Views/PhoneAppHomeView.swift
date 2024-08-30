@@ -18,6 +18,7 @@ struct PhoneAppHomeView: View {
     private let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     
     @Environment(\.scenePhase) var scenePhase
+    @Environment(\.colorScheme) var colorScheme
     @Environment(History.self) var history: History
     
     
@@ -37,30 +38,58 @@ struct PhoneAppHomeView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Text("\(currentGlucose)")
-                    .font(.system(size: 128)) //, weight: .bold)
-                    .minimumScaleFactor(0.1)
-                    .padding()
-                VStack {
-                    Text("\(trendArrow)")
-                        .font(.system(size: 50, weight: .bold))
-                    Text("\(lastReadingDate.toLocalTime())")
-                        .font(.system(size: 30, weight: .bold))
-                    
-                    if minutesSinceLastReading == 999 {
-                        Text("-- min ago")
-                    } else {
-                        Text("\(minutesSinceLastReading) min ago")
-                            .font(.footnote)
-                            .monospacedDigit()
+            if colorScheme == .dark {
+                HStack {
+                    Text("\(currentGlucose)")
+                        .font(.system(size: 128)) //, weight: .bold)
+                        .foregroundStyle(libreLinkUpHistory[0].color.color)
+                        .minimumScaleFactor(0.1)
+                        .padding()
+                    VStack {
+                        Text("\(trendArrow)")
+                            .font(.system(size: 50, weight: .bold))
+                            .foregroundStyle(libreLinkUpHistory[0].color.color)
+                        
+                        Text("\(lastReadingDate.toLocalTime())")
+                            .font(.system(size: 30, weight: .bold))
+                        
+                        if minutesSinceLastReading == 999 {
+                            Text("-- min ago")
+                        } else {
+                            Text("\(minutesSinceLastReading) min ago")
+                                .font(.footnote)
+                                .monospacedDigit()
+                        }
                     }
+                    .padding()
                 }
-                .padding()
+            } else {
+                HStack {
+                    Text("\(currentGlucose)")
+                        .font(.system(size: 128)) //, weight: .bold)
+                        .minimumScaleFactor(0.1)
+                        .padding()
+                    VStack {
+                        Text("\(trendArrow)")
+                            .font(.system(size: 50, weight: .bold))
+                        
+                        Text("\(lastReadingDate.toLocalTime())")
+                            .font(.system(size: 30, weight: .bold))
+                        
+                        if minutesSinceLastReading == 999 {
+                            Text("-- min ago")
+                        } else {
+                            Text("\(minutesSinceLastReading) min ago")
+                                .font(.footnote)
+                                .monospacedDigit()
+                        }
+                    }
+                    .padding()
+                }
+                .frame(maxWidth: .infinity)
+                .safeAreaPadding(0)
+                .background(Color(libreLinkUpHistory[0].color.color))
             }
-            .frame(maxWidth: .infinity)
-            .safeAreaPadding(0)
-            .background(Color(libreLinkUpHistory[0].color.color))
             
             
             if libreLinkUpHistory.count > 0 {
