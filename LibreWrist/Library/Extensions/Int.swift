@@ -176,14 +176,14 @@ extension Int {
     func asGlucose(glucoseUnit: GlucoseUnit, withUnit: Bool = false) -> String {
         var glucose: String
 
-        if glucoseUnit == .mmolL {
+        if glucoseUnit == .mmoll {
             glucose = GlucoseFormatters.mmolLFormatter.string(from: self.toMmolL() as NSNumber)!
         } else {
             glucose = GlucoseFormatters.mgdLFormatter.string(from: self.toDouble() as NSNumber)!
         }
 
         if withUnit {
-            return "\(glucose) \(glucoseUnit.localizedDescription)"
+            return "\(glucose) \(glucoseUnit.description)"
         }
 
         return glucose

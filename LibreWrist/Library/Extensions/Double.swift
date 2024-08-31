@@ -20,14 +20,14 @@ extension Double {
     func asShortMinuteChange(glucoseUnit: GlucoseUnit, withUnit: Bool = false) -> String {
         var formattedMinuteChange = ""
 
-        if glucoseUnit == .mgdL {
+        if glucoseUnit == .mgdl {
             formattedMinuteChange = GlucoseFormatters.minuteChangeFormatter.string(from: self as NSNumber)!
         } else {
             formattedMinuteChange = GlucoseFormatters.minuteChangeFormatter.string(from: self.toMmolL() as NSNumber)!
         }
 
         if withUnit {
-            return String(format: ("%1$@ %2$@"), formattedMinuteChange, glucoseUnit.localizedDescription)
+            return String(format: ("%1$@ %2$@"), formattedMinuteChange, glucoseUnit.description)
         }
 
         return String(format: ("%1$@"), formattedMinuteChange)

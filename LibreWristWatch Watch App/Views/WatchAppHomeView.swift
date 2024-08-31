@@ -25,7 +25,7 @@ struct WatchAppHomeView: View {
     @State private var isShowingDisclaimer = false
     
     @State var lastReadingDate: Date = Date.init(timeIntervalSinceReferenceDate: 746479063)
-    @State var sensor: Sensor!
+//    @State var sensor: Sensor!
     @State var currentGlucose: Int = 0
     @State var trendArrow = "---"
     
@@ -306,7 +306,7 @@ struct WatchAppHomeView: View {
                         let lastMeasurement = libreLinkUpHistory[0]
                         lastReadingDate = lastMeasurement.glucose.date
                         minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-                        sensor?.lastReadingDate = lastReadingDate
+//                        sensor?.lastReadingDate = lastReadingDate
                         currentGlucose = lastMeasurement.glucose.value
                         trendArrow = lastMeasurement.trendArrow?.symbol ?? "---"
                         // TODO: keep the raw values filling the gaps with -1 values

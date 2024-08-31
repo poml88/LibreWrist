@@ -11,7 +11,7 @@ import SecureDefaults
 struct WatchAppSettingsView: View {
     
     @State private var username = UserDefaults.group.username
-    @State private var password = SecureDefaults().string(forKey: "libre-direct.settings.password") ?? ""
+    @State private var password = SecureDefaults.sgroup.string(forKey: "llu.password") ?? ""
     @State private var libreLinkUpResponse: String = "[...]"
     @State private var connected = UserDefaults.group.connected
     
@@ -72,11 +72,11 @@ struct WatchAppSettingsView: View {
     private func tryToConnect() {
         settings.libreLinkUpToken = ""
         UserDefaults.group.username = username
-        let sdefaults = SecureDefaults()
+        let sdefaults = SecureDefaults.sgroup
         if !sdefaults.isKeyCreated {
             sdefaults.password = UUID().uuidString
         }
-        sdefaults.set(password, forKey: "libre-direct.settings.password")
+        sdefaults.set(password, forKey: "llu.password")
         sdefaults.synchronize()
         //        appConfiguration.password = password
         UserDefaults.group.connected = .connecting

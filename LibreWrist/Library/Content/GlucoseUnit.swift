@@ -7,24 +7,31 @@
 
 import Foundation
 
-enum GlucoseUnit: String, Codable, Hashable {
-    case mgdL = "mg/dL"
-    case mmolL = "mmol/L"
-
-    // MARK: Internal
-
+enum GlucoseUnit: String, CustomStringConvertible, CaseIterable, Identifiable {
+    case mgdl, mmoll
+    var id: String { rawValue}
+    
     static let exchangeRate: Double = 0.0555
 
-    var localizedDescription: String {
-        self.rawValue
-    }
-
-    var shortLocalizedDescription: String {
+    var description: String {
         switch self {
-        case .mgdL:
-            return "mg"
-        case .mmolL:
-            return "mmol"
+        case .mgdl:  "mg/dL"
+        case .mmoll: "mmol/L"
         }
+    }
+}
+
+
+extension Int {
+    var units: String {
+        UserDefaults.standard.bool(forKey: "displayingMillimoles") ?
+        String(format: "%.1f", Double(self) / 18.0182) : String(self)
+    }
+}
+
+extension Double {
+    var units: String {
+        UserDefaults.standard.bool(forKey: "displayingMillimoles") ?
+        String(format: "%.1f", self / 18.0182) : String(format: "%.0f", self)
     }
 }

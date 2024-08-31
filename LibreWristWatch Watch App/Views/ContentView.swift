@@ -15,12 +15,17 @@ struct ContentView: View {
 
         var body: some View {
             TabView(selection: $selected) {
+                WatchAppActionView()
+                    .tag("Action")
                 WatchAppHomeView()
                     .tag("Home")
-                WatchAppSettingsView()
-                    .tag("Settings")
                 WatchAppNightView()
                     .tag("NightView")
+                WatchAppSettingsView()
+                    .tag("Connect")
+                WatchAppSettings2View()
+                    .tag("Connect")
+                
                 
             }
             .tabViewStyle(.page)

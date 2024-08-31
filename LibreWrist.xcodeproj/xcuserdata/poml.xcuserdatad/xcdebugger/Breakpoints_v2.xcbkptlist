@@ -14,8 +14,8 @@
             filePath = "LibreWrist/Library/Extensions/Settings.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "11"
-            endingLineNumber = "11"
+            startingLineNumber = "26"
+            endingLineNumber = "26"
             landmarkName = "UserDefaults"
             landmarkType = "21">
          </BreakpointContent>
@@ -30,8 +30,8 @@
             filePath = "LibreWrist/Library/Extensions/Settings.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "12"
-            endingLineNumber = "12"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
             landmarkName = "UserDefaults"
             landmarkType = "21">
          </BreakpointContent>
@@ -46,8 +46,8 @@
             filePath = "LibreWrist/Library/Extensions/Settings.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
             landmarkName = "stringValue(forKey:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -207,6 +207,7 @@ class LibreLinkUp  {
 
 //    var main: MainDelegate!
     
+    
     let siteURL = "https://api.libreview.io"
     let loginEndpoint = "llu/auth/login"
     let configEndpoint = "llu/config"
@@ -217,7 +218,7 @@ class LibreLinkUp  {
 
     var regionalSiteURL: String { "https://api-\(settings.libreLinkUpRegion).libreview.io" }
 
-    var unit: GlucoseUnit = .mgdL
+    var unit: GlucoseUnit = .mgdl
 
     let headers = [
         "User-Agent": "Mozilla/5.0",
@@ -229,8 +230,9 @@ class LibreLinkUp  {
         "Pragma": "no-cache",
         "Cache-Control": "no-cache",
     ]
-
-
+    
+    
+    
     //    init(main: MainDelegate) {
     //        self.main = main
     //    }
@@ -244,11 +246,14 @@ class LibreLinkUp  {
     func login() async throws -> (Any, URLResponse) {
         var request = URLRequest(url: URL(string: "\(siteURL)/\(loginEndpoint)")!)
         
+        let appGroupID = UserDefaults.stringValue(forKey: "APP_GROUP_ID")
         let credentials = [
 //            "email": settings.libreLinkUpEmail,
 //            "password": settings.libreLinkUpPassword
             "email": UserDefaults.group.username,
-            "password": SecureDefaults().string(forKey: "libre-direct.settings.password")
+            "password": SecureDefaults.sgroup.string(forKey: "llu.password")
+            // with password there was a tricky error: since this library is used by watch and phone I got an error "Type 'SecureDefaults' has no member 'sgroup'"
+            // I had to add the SecureDefaults extensino to the watch app as well. the watch app called it and it did not know about sgroup. It did work for the phone app though.
         ]
         request.httpMethod = "POST"
         for (header, value) in headers {
@@ -444,7 +449,7 @@ class LibreLinkUp  {
                    let data = json["data"] as? [String: Any],
                    let connection = data["connection"] as? [String: Any] {
                     Logger.general.info("LibreLinkUp: connection data: \(connection)")
-                    unit = connection["uom"] as? Int ?? 1 == 1 ? .mgdL : .mmolL
+                    unit = connection["uom"] as? Int ?? 1 == 1 ? .mgdl : .mmoll
                     let unitString = "\(unit)"
                     Logger.general.info("LibreLinkUp: measurement unit: \(unitString)")
                     var deviceSerials: [String: String] = [:]
@@ -664,4 +669,6 @@ class LibreLinkUp  {
         }
     }
 
+    
+    
 }

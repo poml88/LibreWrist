@@ -31,7 +31,7 @@ struct PhoneAppHomeView: View {
     @State private var isShowingDisclaimer = false
     
     @State var lastReadingDate: Date = Date.distantPast
-    @State var sensor: Sensor!
+//    @State var sensor: Sensor!
     @State var currentGlucose: Int = 0
     @State var trendArrow = "---"
     
@@ -86,9 +86,11 @@ struct PhoneAppHomeView: View {
                     }
                     .padding()
                 }
-                .frame(maxWidth: .infinity)
-                .safeAreaPadding(0)
                 .background(Color(libreLinkUpHistory[0].color.color))
+//                .frame(maxWidth: .infinity)
+                .cornerRadius(30)
+//                .safeAreaPadding(.top)
+                
             }
             
             
@@ -355,7 +357,7 @@ struct PhoneAppHomeView: View {
                         let lastMeasurement = libreLinkUpHistory[0]
                         lastReadingDate = lastMeasurement.glucose.date
                         minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-                        sensor?.lastReadingDate = lastReadingDate
+//                        sensor?.lastReadingDate = lastReadingDate
                         currentGlucose = lastMeasurement.glucose.value
                         trendArrow = lastMeasurement.trendArrow?.symbol ?? "---"
                         // TODO: keep the raw values filling the gaps with -1 values
