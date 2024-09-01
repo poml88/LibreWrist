@@ -1,0 +1,105 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "!! Not for treatment decisions !!\n\nUse at your own risk!\n\nThe information presented in this app and its extensions must not be used for treatment or dosing decisions. Consult the glucose-monitoring system and/or a healthcare professional." : {
+
+    },
+    "%.1f" : {
+
+    },
+    "%@" : {
+
+    },
+    "%lld" : {
+
+    },
+    "%lld mg/dL" : {
+
+    },
+    "💰 Paypal Me" : {
+
+    },
+    "Accept" : {
+
+    },
+    "Add insulin" : {
+
+    },
+    "Bolus Insulin (Novorapid)" : {
+
+    },
+    "Connect" : {
+
+    },
+    "Credentials" : {
+
+    },
+    "Glucose" : {
+
+    },
+    "If you like this app...\n🙂\n Please Donate! 💪🤝💰" : {
+
+    },
+    "Insulin units" : {
+
+    },
+    "IOB: %.2fU" : {
+
+    },
+    "LibreWrist" : {
+
+    },
+    "Lower limit" : {
+
+    },
+    "No data received since %lld min.\n\nCheck network and bluetooth connections." : {
+
+    },
+    "Password" : {
+
+    },
+    "Please enter a date" : {
+
+    },
+    "Rect End Height" : {
+
+    },
+    "Rect End Width" : {
+
+    },
+    "Rect Start Height" : {
+
+    },
+    "Rect Start Width" : {
+
+    },
+    "Reset IOB" : {
+
+    },
+    "Saved %.1f units." : {
+
+    },
+    "Settings" : {
+
+    },
+    "Success" : {
+
+    },
+    "Time" : {
+
+    },
+    "Try pressing \"Connect\" again to resend credentials to watch." : {
+
+    },
+    "Username" : {
+
+    },
+    "Username (email adress)" : {
+
+    },
+    "Warning" : {
+
+    }
+  },
+  "version" : "1.0"
+}

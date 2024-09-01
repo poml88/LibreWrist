@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @StateObject var watchConnector = WatchToPhoneConnector()
+    
     @State var selected = "Home"
     
 
@@ -21,10 +23,10 @@ struct ContentView: View {
                     .tag("Home")
                 WatchAppNightView()
                     .tag("NightView")
-                WatchAppSettingsView()
-                    .tag("Connect")
-                WatchAppSettings2View()
-                    .tag("Connect")
+//                WatchAppSettingsView()
+//                    .tag("Connect")
+//                WatchAppSettings2View()
+//                    .tag("Connect")
                 
                 
             }

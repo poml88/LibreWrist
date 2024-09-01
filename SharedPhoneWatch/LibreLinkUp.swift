@@ -293,6 +293,7 @@ class LibreLinkUp  {
                                        let interval = data["interval"] as? Int,
                                        let lockout = data["lockout"] as? Int {
                                         Logger.general.info("LibreLinkUp: login failures: \(failures), interval: \(interval) s, lockout: \(lockout) s")
+                                        #warning ("warn the user to wait 5 minutes before reattempting")
                                         // TODO: warn the user to wait 5 minutes before reattempting
                                     }
                                 }

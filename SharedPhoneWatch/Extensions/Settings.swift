@@ -7,10 +7,42 @@
 
 import Foundation
 
+
+class SharedData {
+    static let defaultsGroup: UserDefaults? = UserDefaults(suiteName: stringValue(forKey: "APP_GROUP_ID"))
+    
+    static func stringValue(forKey key: String) -> String {
+        guard let value = Bundle.main.object(forInfoDictionaryKey: key) as? String else {
+            fatalError("Invalid value or undefined key")
+        }
+        return value
+    }
+    
+    enum Keys: String {
+        case insulinSelected = "insulinSelectedKey"
+        
+        var key: String {
+            switch self {
+            default: self.rawValue
+            }
+        }
+    }
+    
+    static var insulinSelected: Double {
+        get {
+            defaultsGroup?.double(forKey: Keys.insulinSelected.key) ?? 0.0
+        } set {
+            defaultsGroup?.set(newValue, forKey: Keys.insulinSelected.key)
+        }
+    }
+    
+}
+
 private enum Keys: String {
     case username = "username"
     case keyConnection = "connection"
     case keyLockTime = "lockTime"
+    case insulinDeliveryHistory = "insulinDeliveryHistoryKey"
 }
 
 enum Connection: Int {
@@ -70,6 +102,51 @@ extension UserDefaults {
             object(forKey: Keys.keyLockTime.rawValue) as? Date ?? Date.distantPast
         }
     }
+    
+    var insulinDeliveryHistory: [InsulinDelivery]? {
+        get {
+            return getObject(forKey: Keys.insulinDeliveryHistory.rawValue)
+        }
+        set {
+            if let newValue = newValue {
+                setObject(newValue, forKey: Keys.insulinDeliveryHistory.rawValue)
+            } else {
+                removeObject(forKey: Keys.insulinDeliveryHistory.rawValue)
+            }
+        }
+    }
+}
+
+extension UserDefaults {
+   
+
+    func setArray<Element>(_ array: [Element], forKey key: String) where Element: Encodable {
+        let data = try? JSONEncoder().encode(array)
+        set(data, forKey: key)
+    }
+
+    func getArray<Element>(forKey key: String) -> [Element]? where Element: Decodable {
+        guard let data = data(forKey: key) else {
+            return nil
+        }
+
+        return try? JSONDecoder().decode([Element].self, from: data)
+    }
+
+    func setObject<Element>(_ obj: Element, forKey key: String) where Element: Encodable {
+        let data = try? JSONEncoder().encode(obj)
+        set(data, forKey: key)
+    }
+
+    func getObject<Element>(forKey key: String) -> Element? where Element: Decodable {
+        guard let data = data(forKey: key) else {
+            return nil
+        }
+
+        return try? JSONDecoder().decode(Element.self, from: data)
+    }
+
+    
 }
 
 

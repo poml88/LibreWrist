@@ -10,7 +10,9 @@ import OSLog
 import SecureDefaults
  
 
-struct PhoneAppSetupView: View {
+struct PhoneAppConnectView: View {
+    
+    @StateObject var watchConnector = PhoneToWatchConnector()
     
     @State private var username = UserDefaults.group.username
     @State private var password = SecureDefaults.sgroup.string(forKey: "llu.password") ?? ""
@@ -78,6 +80,7 @@ struct PhoneAppSetupView: View {
                 .disabled(username.isBlank || password.isBlank)
                 
                 if connected == .connected {
+                    Text("Try pressing \"Connect\" again to resend credentials to watch.")
                     Text("**Not for treatment decisions.**\\\n\\\nThe information presented in this app and its extensions must not be used for treatment or dosing decisions. Consult the glucose-monitoring system and/or a healthcare professional.".attributed)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .font(.system(size: 16))
@@ -123,14 +126,23 @@ struct PhoneAppSetupView: View {
         }
         sdefaults.set(password, forKey: "llu.password")
         sdefaults.synchronize()
+        
+        
+        
+        
+        
         //        appConfiguration.password = password
         UserDefaults.group.connected = .connecting
-//        let libreLinkUpConection = LibreLinkUpConnection()
-//        libreLinkUpConection.connectConnection ()
+        //        let libreLinkUpConection = LibreLinkUpConnection()
+        //        libreLinkUpConection.connectConnection ()
         Task {
             do {
                 try await LibreLinkUp().login()
                 UserDefaults.group.connected = .connected
+                let messageToWatch: [String: Any] = ["content": "credentials",
+                                                     "username": username,
+                                                     "password": password]
+                sendMessagetoWatch(message: messageToWatch)
             } catch {
                 libreLinkUpResponse = error.localizedDescription.capitalized
                 UserDefaults.group.connected = .disconnected
@@ -138,7 +150,11 @@ struct PhoneAppSetupView: View {
         }
         
         
-        
+        func sendMessagetoWatch(message: [String: Any]){
+            
+            //            let messageToSend: [String: Any] = ["message": message]
+            watchConnector.sendMessagetoWatch(message)
+        }
         
 //        libreViewAPI.fetchCurrentGlucoseEntry { glucose, error in
 //            if glucose != nil {
@@ -156,5 +172,5 @@ struct PhoneAppSetupView: View {
 }
 
 #Preview {
-    PhoneAppSetupView()
+    PhoneAppConnectView()
 }

@@ -23,6 +23,7 @@ struct WatchAppHomeView: View {
     @State private var minutesSinceLastReading: Int = 999
     @State private var isReloading: Bool = false
     @State private var isShowingDisclaimer = false
+    @State private var currentIOB: Double = 0.0
     
     @State var lastReadingDate: Date = Date.init(timeIntervalSinceReferenceDate: 746479063)
 //    @State var sensor: Sensor!
@@ -56,6 +57,10 @@ struct WatchAppHomeView: View {
                         Text("\(trendArrow)")
                             .font(.title)
                             .foregroundStyle(libreLinkUpHistory[0].color.color)
+                    
+                    Text("\(currentIOB, specifier: "%.2f")U")
+                        .font(.body)
+                    
 //                    }
                     //                    Text("\(lastReadingDate.toLocalTime())")
                     //                        .font(.system(size: 30, weight: .bold))
@@ -207,6 +212,21 @@ struct WatchAppHomeView: View {
         }
         .onReceive(minuteTimer) { time in
             print("Timer")
+            
+            var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
+            var sumIOB: Double = 0
+            for item in insulinDeliveryHistory {
+                if Date().timeIntervalSince1970 - item.timeStamp > 12 * 60 * 60 {
+                    insulinDeliveryHistory.removeAll(where: {$0.id == item.id})
+                } else {
+                    let IOB =   updateIOB(timeStamp: item.timeStamp) * item.insulinUnits
+                    sumIOB = sumIOB + IOB
+                }
+            }
+            currentIOB = sumIOB
+            UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
+            
+            
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
             if minutesSinceLastReading >= 1 {
                 Task {
@@ -269,6 +289,12 @@ struct WatchAppHomeView: View {
             }
         }
     }
+    
+    func updateIOB(timeStamp time: Double) -> Double {
+        let model = ExponentialInsulinModel(actionDuration: 270 * 60, peakActivityTime: 120 * 60, delay: 15 * 60)
+        let result = model.percentEffectRemaining(at: Date().timeIntervalSince1970 - time)
+        return result
+    }
         
     
     func reloadLibreLinkUp() async {
@@ -299,6 +325,9 @@ struct WatchAppHomeView: View {
                 libreLinkUpResponse = dataString + (logbookData as! Data).string
                 // TODO: just merge with newer values
                 libreLinkUpHistory = graphHistory.reversed().dropLast(dropLastValues) //For watch show only 6 hours
+                if libreLinkUpHistory.count == 0 {
+                    libreLinkUpHistory = MockDataWatch
+                }
                 libreLinkUpLogbookHistory = logbookHistory
                 if graphHistory.count > 0 {
                     DispatchQueue.main.async {

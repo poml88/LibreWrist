@@ -10,6 +10,8 @@ import OSLog
 
 struct ContentView: View {
     
+    @StateObject var watchConnector = PhoneToWatchConnector()
+    
     @State var selectedTab = "Home"
     
     var body: some View {
@@ -18,22 +20,29 @@ struct ContentView: View {
             PhoneAppHomeView()
                 .tabItem { 
                     Image(systemName: "house")
-                    Text ("Tab 1")
+//                    Text ("Tab 1")
                 }
                 .tag("Home")
             
             
-            PhoneAppSetupView()
+            PhoneAppConnectView()
+                .tabItem {
+                    Image(systemName: "app.connected.to.app.below.fill")
+//                    Text ("Tab 2")
+                }
+                .tag("Connect")
+            
+            PhoneAppSettingsView()
                 .tabItem {
                     Image(systemName: "gear")
-                    Text ("Tab 2")
+//                    Text ("Tab 2")
                 }
-                .tag("Setup")
+                .tag("Settings")
             
             PhoneAppDonateView()
                 .tabItem {
-                    Image(systemName: "banknote")
-                    Text ("Tab 3")
+                    Image(systemName: "hand.thumbsup")
+//                    Text ("Tab 3")
                 }
                 .tag("Donate")
         }

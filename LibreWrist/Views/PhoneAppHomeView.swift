@@ -22,6 +22,8 @@ struct PhoneAppHomeView: View {
     @Environment(History.self) var history: History
     
     
+    
+    
     @State private var selectedlibreLinkHistoryPoint: LibreLinkUpGlucose?
     @State private var minutesSinceLastReading: Int = 999
     @State private var libreLinkUpResponse: String = "[...]"
@@ -29,6 +31,8 @@ struct PhoneAppHomeView: View {
     @State private var libreLinkUpLogbookHistory: [LibreLinkUpGlucose] = []
     @State private var isReloading: Bool = false
     @State private var isShowingDisclaimer = false
+    @State private var currentIOB: Double = 0.0
+//    @State private var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
     
     @State var lastReadingDate: Date = Date.distantPast
 //    @State var sensor: Sensor!
@@ -49,17 +53,18 @@ struct PhoneAppHomeView: View {
                         Text("\(trendArrow)")
                             .font(.system(size: 50, weight: .bold))
                             .foregroundStyle(libreLinkUpHistory[0].color.color)
+                        Text("IOB: \(currentIOB, specifier: "%.2f")U")
                         
-                        Text("\(lastReadingDate.toLocalTime())")
-                            .font(.system(size: 30, weight: .bold))
-                        
-                        if minutesSinceLastReading == 999 {
-                            Text("-- min ago")
-                        } else {
-                            Text("\(minutesSinceLastReading) min ago")
-                                .font(.footnote)
-                                .monospacedDigit()
-                        }
+//                        Text("\(lastReadingDate.toLocalTime())")
+//                            .font(.system(size: 30, weight: .bold))
+//                        
+//                        if minutesSinceLastReading == 999 {
+//                            Text("-- min ago")
+//                        } else {
+//                            Text("\(minutesSinceLastReading) min ago")
+//                                .font(.footnote)
+//                                .monospacedDigit()
+//                        }
                     }
                     .padding()
                 }
@@ -73,16 +78,19 @@ struct PhoneAppHomeView: View {
                         Text("\(trendArrow)")
                             .font(.system(size: 50, weight: .bold))
                         
-                        Text("\(lastReadingDate.toLocalTime())")
-                            .font(.system(size: 30, weight: .bold))
+                        Text("IOB: \(currentIOB, specifier: "%.2f")U")
+                            .font(.title2)
                         
-                        if minutesSinceLastReading == 999 {
-                            Text("-- min ago")
-                        } else {
-                            Text("\(minutesSinceLastReading) min ago")
-                                .font(.footnote)
-                                .monospacedDigit()
-                        }
+//                        Text("\(lastReadingDate.toLocalTime())")
+//                            .font(.system(size: 30, weight: .bold))
+//
+//                        if minutesSinceLastReading == 999 {
+//                            Text("-- min ago")
+//                        } else {
+//                            Text("\(minutesSinceLastReading) min ago")
+//                                .font(.footnote)
+//                                .monospacedDigit()
+//                        }
                     }
                     .padding()
                 }
@@ -257,6 +265,21 @@ struct PhoneAppHomeView: View {
         }
         .onReceive(timer) { time in
             print("Timer")
+            
+            var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
+            var sumIOB: Double = 0
+            for item in insulinDeliveryHistory {
+                if Date().timeIntervalSince1970 - item.timeStamp > 12 * 60 * 60 {
+                    insulinDeliveryHistory.removeAll(where: {$0.id == item.id})
+                } else {
+                    let IOB =   updateIOB(timeStamp: item.timeStamp) * item.insulinUnits
+                    sumIOB = sumIOB + IOB
+                }
+            }
+            currentIOB = sumIOB
+            UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
+            
+            
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
             if minutesSinceLastReading >= 1 {
                 Task {
@@ -271,6 +294,23 @@ struct PhoneAppHomeView: View {
             if settings.hasSeenDisclaimer == false {
                 isShowingDisclaimer = true
             }
+            
+            var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
+            var sumIOB: Double = 0
+            for item in insulinDeliveryHistory {
+                if Date().timeIntervalSince1970 - item.timeStamp > 12 * 60 * 60 {
+                    insulinDeliveryHistory.removeAll(where: {$0.id == item.id})
+                } else {
+                    let IOB =   updateIOB(timeStamp: item.timeStamp) * item.insulinUnits
+                    sumIOB = sumIOB + IOB
+                }
+            }
+            currentIOB = sumIOB
+            UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
+            
+            
+            
+            
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
 //            if minutesSinceLastReading >= 1 {
 //                Task {
@@ -283,6 +323,22 @@ struct PhoneAppHomeView: View {
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
                 print("Active")
+                
+                var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
+                var sumIOB: Double = 0
+                for item in insulinDeliveryHistory {
+                    if Date().timeIntervalSince1970 - item.timeStamp > 12 * 60 * 60 {
+                        insulinDeliveryHistory.removeAll(where: {$0.id == item.id})
+                    } else {
+                        let IOB =   updateIOB(timeStamp: item.timeStamp) * item.insulinUnits
+                        sumIOB = sumIOB + IOB
+                    }
+                }
+                currentIOB = sumIOB
+                UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
+                
+                
+                
                 minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
                 if minutesSinceLastReading >= 1 {
                     Task {
@@ -322,6 +378,12 @@ struct PhoneAppHomeView: View {
         }
     }
     
+    func updateIOB(timeStamp time: Double) -> Double {
+        let model = ExponentialInsulinModel(actionDuration: 270 * 60, peakActivityTime: 120 * 60, delay: 15 * 60)
+        let result = model.percentEffectRemaining(at: Date().timeIntervalSince1970 - time)
+        return result
+    }
+    
     
     func reloadLibreLinkUp() async {
         
@@ -350,6 +412,9 @@ struct PhoneAppHomeView: View {
                 libreLinkUpResponse = dataString + (logbookData as! Data).string
                 // TODO: just merge with newer values
                 libreLinkUpHistory = graphHistory.reversed().dropLast(dropLastValues)
+                if libreLinkUpHistory.count == 0 {
+                    libreLinkUpHistory = MockDataPhone
+                }
                 libreLinkUpLogbookHistory = logbookHistory
                 if graphHistory.count > 0 {
                     DispatchQueue.main.async {
