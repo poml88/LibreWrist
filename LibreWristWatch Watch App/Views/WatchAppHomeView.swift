@@ -241,6 +241,23 @@ struct WatchAppHomeView: View {
             if settings.hasSeenDisclaimer == false {
                 isShowingDisclaimer = true
             }
+            
+            
+            var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
+            var sumIOB: Double = 0
+            for item in insulinDeliveryHistory {
+                if Date().timeIntervalSince1970 - item.timeStamp > 12 * 60 * 60 {
+                    insulinDeliveryHistory.removeAll(where: {$0.id == item.id})
+                } else {
+                    let IOB =   updateIOB(timeStamp: item.timeStamp) * item.insulinUnits
+                    sumIOB = sumIOB + IOB
+                }
+            }
+            currentIOB = sumIOB
+            UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
+            
+            
+            
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
 //            if minutesSinceLastReading >= 1 {
 //                Task {
@@ -253,6 +270,23 @@ struct WatchAppHomeView: View {
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
                 print("Active")
+                
+                
+                var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
+                var sumIOB: Double = 0
+                for item in insulinDeliveryHistory {
+                    if Date().timeIntervalSince1970 - item.timeStamp > 12 * 60 * 60 {
+                        insulinDeliveryHistory.removeAll(where: {$0.id == item.id})
+                    } else {
+                        let IOB =   updateIOB(timeStamp: item.timeStamp) * item.insulinUnits
+                        sumIOB = sumIOB + IOB
+                    }
+                }
+                currentIOB = sumIOB
+                UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
+                
+                
+                
                 minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
                 if minutesSinceLastReading >= 1 {
                     Task {

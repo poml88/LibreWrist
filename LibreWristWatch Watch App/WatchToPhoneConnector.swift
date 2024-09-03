@@ -39,9 +39,18 @@ class WatchToPhoneConnector: NSObject, WCSessionDelegate, ObservableObject {
         }
         
         if message["content"] as? String == "insulinDelivery" {
-            
+            let insulinDeliveryHistoryItem = InsulinDelivery(id: UUID(), timestamp: message["timeStamp"] as? Double ?? Date().timeIntervalSince1970 - 12 * 3600, insulinUnits: message["units"] as? Double ?? 0.0)
+            var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
+            insulinDeliveryHistory.append(insulinDeliveryHistoryItem)
+            UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
             
         }
+        
+        if message["content"] as? String == "clearInsulinHistory" {
+            UserDefaults.group.insulinDeliveryHistory = []
+            
+        }
+
         
         if let replyHandler = replyHandler {
             

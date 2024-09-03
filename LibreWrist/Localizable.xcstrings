@@ -19,6 +19,9 @@
     "💰 Paypal Me" : {
 
     },
+    "a" : {
+
+    },
     "Accept" : {
 
     },
@@ -28,10 +31,22 @@
     "Bolus Insulin (Novorapid)" : {
 
     },
+    "Cancel" : {
+
+    },
+    "Confirm" : {
+
+    },
     "Connect" : {
 
     },
     "Credentials" : {
+
+    },
+    "Dismiss" : {
+
+    },
+    "Do you want to add %.1f units?" : {
 
     },
     "Glucose" : {
@@ -76,13 +91,10 @@
     "Reset IOB" : {
 
     },
-    "Saved %.1f units." : {
-
-    },
     "Settings" : {
 
     },
-    "Success" : {
+    "Submit" : {
 
     },
     "Time" : {

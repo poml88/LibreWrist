@@ -156,12 +156,7 @@ struct AuthTicket: Codable {
 }
 
 
-enum MeasurementColor: Int, Codable {
-    case green  = 1
-    case yellow = 2
-    case orange = 3
-    case red    = 4
-}
+
 
 
 struct GlucoseMeasurement: Codable {

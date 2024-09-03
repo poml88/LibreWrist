@@ -8,6 +8,14 @@
 import SwiftUI
 
 
+enum MeasurementColor: Int, Codable {
+    case green  = 1
+    case yellow = 2
+    case orange = 3
+    case red    = 4
+}
+
+
 extension MeasurementColor {
     var color: Color {
         switch self {

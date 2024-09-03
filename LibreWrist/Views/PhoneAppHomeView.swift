@@ -10,9 +10,6 @@ import OSLog
 import Charts
 
 
-
-
-
 struct PhoneAppHomeView: View {
     
     private let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
@@ -22,8 +19,6 @@ struct PhoneAppHomeView: View {
     @Environment(History.self) var history: History
     
     
-    
-    
     @State private var selectedlibreLinkHistoryPoint: LibreLinkUpGlucose?
     @State private var minutesSinceLastReading: Int = 999
     @State private var libreLinkUpResponse: String = "[...]"
@@ -31,6 +26,7 @@ struct PhoneAppHomeView: View {
     @State private var libreLinkUpLogbookHistory: [LibreLinkUpGlucose] = []
     @State private var isReloading: Bool = false
     @State private var isShowingDisclaimer = false
+    @State private var isShowingInsulinDeliverySheet = false
     @State private var currentIOB: Double = 0.0
 //    @State private var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
     
@@ -49,11 +45,28 @@ struct PhoneAppHomeView: View {
                         .foregroundStyle(libreLinkUpHistory[0].color.color)
                         .minimumScaleFactor(0.1)
                         .padding()
+                   
                     VStack {
                         Text("\(trendArrow)")
                             .font(.system(size: 50, weight: .bold))
                             .foregroundStyle(libreLinkUpHistory[0].color.color)
-                        Text("IOB: \(currentIOB, specifier: "%.2f")U")
+                      
+                        Button ("a") {
+                            isShowingInsulinDeliverySheet.toggle()
+                        }
+              
+//                        Text("IOB: \(currentIOB, specifier: "%.2f")U")
+                        
+                        Button {
+                            isShowingInsulinDeliverySheet.toggle()
+                        } label: {
+                            Text("IOB: \(currentIOB, specifier: "%.2f")U")
+                                .font(.title2)
+                                .foregroundStyle(Color.primary)
+                        }
+                        .sheet(isPresented: $isShowingInsulinDeliverySheet, content: {
+                            PhoneAppInsulinDeliveryView()
+                        })
                         
 //                        Text("\(lastReadingDate.toLocalTime())")
 //                            .font(.system(size: 30, weight: .bold))
@@ -78,8 +91,21 @@ struct PhoneAppHomeView: View {
                         Text("\(trendArrow)")
                             .font(.system(size: 50, weight: .bold))
                         
-                        Text("IOB: \(currentIOB, specifier: "%.2f")U")
-                            .font(.title2)
+//                        Text("IOB: \(currentIOB, specifier: "%.2f")U")
+//                            .font(.title2)
+                        
+                        Button {
+                            isShowingInsulinDeliverySheet.toggle()
+                        } label: {
+                            Text("IOB: \(currentIOB, specifier: "%.2f")U")
+                                .font(.title2)
+                                .foregroundStyle(Color.primary)
+                        }
+                        .sheet(isPresented: $isShowingInsulinDeliverySheet, content: {
+                            PhoneAppInsulinDeliveryView()
+                        })
+                        
+                        
                         
 //                        Text("\(lastReadingDate.toLocalTime())")
 //                            .font(.system(size: 30, weight: .bold))
@@ -454,12 +480,15 @@ struct PhoneAppHomeView: View {
 }
 
 
-
-
 #Preview {
     PhoneAppHomeView()
         .environment(History.test)
 }
+
+
+
+
+
 
 
 struct MockData {
