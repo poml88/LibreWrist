@@ -20,74 +20,7 @@ import SecureDefaults
 
 struct Glucose: Identifiable, Codable {
 
-    // enum iSAS.DataQuality {
-    //     case ok
-    //     case sd14FifoOverflow
-    //     case filterDelta
-    //     case workVoltage
-    //     case peakDeltaExceeded
-    //     case averageDeltaExceeded
-    //     case rf
-    //     case refR
-    //     case signalSaturated
-    //     case signalLow
-    //     case thermistorOutOfRange
-    //     case tempHigh
-    //     case tempLow
-    //     case invalidData
-    // }
-
-    struct DataQuality: OptionSet, Codable, CustomStringConvertible {
-
-        let rawValue: Int
-
-        static let OK = DataQuality([])
-
-        // lower 9 of 11 bits in the measurement field 0xe/0xb
-        static let SD14_FIFO_OVERFLOW  = DataQuality(rawValue: 0x0001)
-        /// delta between two successive of 4 filament measurements (1-2, 2-3, 3-4) > fram[332] (Libre 1: 90)
-        /// indicates too much jitter in measurement
-        static let FILTER_DELTA        = DataQuality(rawValue: 0x0002)
-        static let WORK_VOLTAGE        = DataQuality(rawValue: 0x0004)
-        static let PEAK_DELTA_EXCEEDED = DataQuality(rawValue: 0x0008)
-        static let AVG_DELTA_EXCEEDED  = DataQuality(rawValue: 0x0010)
-        /// NFC activity detected during a measurement which was retried since corrupted by NFC power usage
-        static let RF                  = DataQuality(rawValue: 0x0020)
-        static let REF_R               = DataQuality(rawValue: 0x0040)
-        /// measurement result exceeds 0x3FFF (14 bits)
-        static let SIGNAL_SATURATED    = DataQuality(rawValue: 0x0080)
-        /// 4 times averaged raw reading < fram[330] (minimumThreshold: 150)
-        static let SENSOR_SIGNAL_LOW   = DataQuality(rawValue: 0x0100)
-
-        /// as an error code it actually indicates that one or more errors occurred in the
-        /// last measurement cycle and is stored in the measurement bit 0x19/0x1 ("hasError")
-        static let THERMISTOR_OUT_OF_RANGE = DataQuality(rawValue: 0x0800)
-
-        static let TEMP_HIGH           = DataQuality(rawValue: 0x2000)
-        static let TEMP_LOW            = DataQuality(rawValue: 0x4000)
-        static let INVALID_DATA        = DataQuality(rawValue: 0x8000)
-
-        var description: String {
-            var d = [String: Bool]()
-            d["OK"]                  = self == .OK
-            d["SD14_FIFO_OVERFLOW"]  = self.contains(.SD14_FIFO_OVERFLOW)
-            d["FILTER_DELTA"]        = self.contains(.FILTER_DELTA)
-            d["WORK_VOLTAGE"]        = self.contains(.WORK_VOLTAGE)
-            d["PEAK_DELTA_EXCEEDED"] = self.contains(.PEAK_DELTA_EXCEEDED)
-            d["AVG_DELTA_EXCEEDED"]  = self.contains(.AVG_DELTA_EXCEEDED)
-            d["RF"]                  = self.contains(.RF)
-            d["REF_R"]               = self.contains(.REF_R)
-            d["SIGNAL_SATURATED"]    = self.contains(.SIGNAL_SATURATED)
-            d["SENSOR_SIGNAL_LOW"]   = self.contains(.SENSOR_SIGNAL_LOW)
-            d["THERMISTOR_OUT_OF_RANGE"] = self.contains(.THERMISTOR_OUT_OF_RANGE)
-            d["TEMP_HIGH"]           = self.contains(.TEMP_HIGH)
-            d["TEMP_LOW"]            = self.contains(.TEMP_LOW)
-            d["INVALID_DATA"]        = self.contains(.INVALID_DATA)
-            return "0x\(rawValue.hex): \(d.filter{$1}.keys.joined(separator: ", "))"
-        }
-
-    }
-
+ 
     /// id: minutes since sensor start
     let id: Int
     let date: Date
@@ -95,15 +28,13 @@ struct Glucose: Identifiable, Codable {
     let rawTemperature: Int
     let temperatureAdjustment: Int
     let hasError: Bool
-    let dataQuality: DataQuality
-    let dataQualityFlags: Int
     var value: Int = 0
     var temperature: Double = 0
     var trendRate: Double = 0
-    var trendArrow: Int = 0  // TODO: enum
+    var trendArrow: TrendArrow = .stable  
     var source: String = "DiaBLE"
 
-    init(rawValue: Int, rawTemperature: Int = 0, temperatureAdjustment: Int = 0, trendRate: Double = 0, trendArrow: Int = 0, id: Int = 0, date: Date = Date(), hasError: Bool = false, dataQuality: DataQuality = .OK, dataQualityFlags: Int = 0) {
+    init(rawValue: Int, rawTemperature: Int = 0, temperatureAdjustment: Int = 0, trendRate: Double = 0, trendArrow: TrendArrow = .stable, id: Int = 0, date: Date = Date(), hasError: Bool = false) {
         self.id = id
         self.date = date
         self.rawValue = rawValue
@@ -113,8 +44,6 @@ struct Glucose: Identifiable, Codable {
         self.trendRate = trendRate
         self.trendArrow = trendArrow
         self.hasError = hasError
-        self.dataQuality = dataQuality
-        self.dataQualityFlags = dataQualityFlags
     }
 
     init(bytes: [UInt8], id: Int = 0, date: Date = Date()) {
@@ -124,8 +53,8 @@ struct Glucose: Identifiable, Codable {
         self.init(rawValue: rawValue, rawTemperature: rawTemperature, id: id, date: date)
     }
 
-    init(_ value: Int, temperature: Double = 0, trendRate: Double = 0, trendArrow: Int = 0, id: Int = 0, date: Date = Date(), dataQuality: Glucose.DataQuality = .OK, source: String = "DiaBLE") {
-        self.init(rawValue: value * 10, id: id, date: date, dataQuality: dataQuality)
+    init(_ value: Int, temperature: Double = 0, trendRate: Double = 0, trendArrow: TrendArrow = .stable, id: Int = 0, date: Date = Date(), source: String = "DiaBLE") {
+        self.init(rawValue: value * 10, id: id, date: date)
         self.temperature = temperature
         self.trendRate = trendRate
         self.trendArrow = trendArrow
@@ -214,6 +143,8 @@ class LibreLinkUp  {
     var regionalSiteURL: String { "https://api-\(settings.libreLinkUpRegion).libreview.io" }
 
     var unit: GlucoseUnit = .mgdl
+    
+
 
     let headers = [
         "User-Agent": "Mozilla/5.0",
@@ -416,7 +347,7 @@ class LibreLinkUp  {
 
 
     /// - Returns: (data, response, history, logbookData, logbookHistory, logbookAlarms)
-    func getPatientGraph() async throws -> (Any, URLResponse, [LibreLinkUpGlucose], Any, [LibreLinkUpGlucose], [LibreLinkUpAlarm]) {
+    func getPatientGraph() async throws -> (Any, URLResponse, [LibreLinkUpGlucose], Any, [LibreLinkUpGlucose], [LibreLinkUpAlarm], SensorSettings) {
         var request = URLRequest(url: URL(string: "\(regionalSiteURL)/\(connectionsEndpoint)/\(settings.libreLinkUpPatientId)/graph")!)
         var authenticatedHeaders = headers
         authenticatedHeaders["Authorization"] = "Bearer \(settings.libreLinkUpToken)"
@@ -430,6 +361,7 @@ class LibreLinkUp  {
         var logbookData: Data = Data()
         var logbookHistory: [LibreLinkUpGlucose] = []
         var logbookAlarms: [LibreLinkUpAlarm] = []
+        var sensorSettingsRead: SensorSettings = SensorSettings(uom: 1, targetLow: 70, targetHigh: 180, alarmLow: 80, alarmHigh: 300)
 
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
@@ -443,11 +375,22 @@ class LibreLinkUp  {
             do {
                 if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let data = json["data"] as? [String: Any],
-                   let connection = data["connection"] as? [String: Any] {
+                   let connection = data["connection"] as? [String: Any],
+                   let patientDevice = connection["patientDevice"] as? [String: Any]{
                     Logger.general.info("LibreLinkUp: connection data: \(connection)")
                     unit = connection["uom"] as? Int ?? 1 == 1 ? .mgdl : .mmoll
                     let unitString = "\(unit)"
                     Logger.general.info("LibreLinkUp: measurement unit: \(unitString)")
+                    
+                    let uom = connection["uom"] as? Int ?? 1
+                    let targetLow = connection["targetLow"] as? Int ?? 0
+                    let targetHigh = connection["targetHigh"] as? Int ?? 0
+                    
+                    let alarmLow = patientDevice["ll"] as? Int ?? 0
+                    let alarmHigh = patientDevice["hl"] as? Int ?? 0
+
+                    sensorSettingsRead = SensorSettings(uom: uom, targetLow: targetLow, targetHigh: targetHigh, alarmLow: alarmLow, alarmHigh: alarmHigh)
+                    
                     var deviceSerials: [String: String] = [:]
                     var deviceActivationTimes: [String: Int] = [:]
                     var deviceTypes: [String: SensorType] = [:]
@@ -654,7 +597,7 @@ class LibreLinkUp  {
                         }
                     }
                 }
-                return (data, response, history, logbookData, logbookHistory, logbookAlarms)
+                return (data, response, history, logbookData, logbookHistory, logbookAlarms, sensorSettingsRead)
             } catch {
                 Logger.general.info("LibreLinkUp: error while decoding response: \(error.localizedDescription)")
                 throw LibreLinkUpError.jsonDecoding

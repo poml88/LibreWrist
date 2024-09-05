@@ -24,6 +24,7 @@ struct WatchAppHomeView: View {
     @State private var isReloading: Bool = false
     @State private var isShowingDisclaimer = false
     @State private var currentIOB: Double = 0.0
+    @State private var sensorSettings = SensorSettings(uom: 1, targetLow: 70, targetHigh: 180, alarmLow: 80, alarmHigh: 300)
     
     @State var lastReadingDate: Date = Date.init(timeIntervalSinceReferenceDate: 746479063)
 //    @State var sensor: Sensor!
@@ -50,26 +51,27 @@ struct WatchAppHomeView: View {
 //                }
                     
                 VStack (spacing: -10){
-//                    if minutesSinceLastReading >= 3 {
-//                        Text("---")
-//                            .font(.title)
-//                    } else {
-                        Text("\(trendArrow)")
-                            .font(.title)
-                            .foregroundStyle(libreLinkUpHistory[0].color.color)
+                    //                    if minutesSinceLastReading >= 3 {
+                    //                        Text("---")
+                    //                            .font(.title)
+                    //                    } else {
+                    Text("\(trendArrow)")
+                        .font(.title)
+                        .foregroundStyle(libreLinkUpHistory[0].color.color)
                     
-                    Text("\(currentIOB, specifier: "%.2f")U")
-                        .font(.body)
-                    
-//                    }
+                    if currentIOB > 0 {
+                        Text("\(currentIOB, specifier: "%.2f")U")
+                            .font(.body)
+                    }
+                    //                    }
                     //                    Text("\(lastReadingDate.toLocalTime())")
                     //                        .font(.system(size: 30, weight: .bold))
                     
-//                    if minutesSinceLastReading == 999 {
-//                        Text("-- min ago")
-//                    } else {
-//                        Text("\(minutesSinceLastReading) min ago")
-//                    }
+                    //                    if minutesSinceLastReading == 999 {
+                    //                        Text("-- min ago")
+                    //                    } else {
+                    //                        Text("\(minutesSinceLastReading) min ago")
+                    //                    }
                 }
                 .padding()
             }
@@ -144,6 +146,15 @@ struct WatchAppHomeView: View {
                 }
                 
                 .chartYScale(domain: [50, 225])
+                
+                .chartXVisibleDomain(length: 3600 * 6)
+                .chartScrollableAxes(.horizontal)
+                .chartScrollPosition(initialX: Date())
+                .chartScrollTargetBehavior(
+                            .valueAligned(
+                                unit: 3600 * 2,
+                                majorAlignment: .page))
+
                 .chartXAxis {
                     AxisMarks(values: .stride(by: .hour, count: 2)) { _ in
                         AxisGridLine(stroke: .init(lineWidth: 0.5, dash: [2, 3]))
@@ -335,7 +346,7 @@ struct WatchAppHomeView: View {
         
         var dataString = ""
         var retries = 0
-        let dropLastValues = 70
+        let dropLastValues = 0
         
         
     loop: repeat {
@@ -354,7 +365,7 @@ struct WatchAppHomeView: View {
             }
             if !(settings.libreLinkUpUserId.isEmpty ||
                  settings.libreLinkUpToken.isEmpty) {
-                let (data, _, graphHistory, logbookData, logbookHistory, _) = try await LibreLinkUp().getPatientGraph()
+                let (data, _, graphHistory, logbookData, logbookHistory, _, sensorSettingsRead) = try await LibreLinkUp().getPatientGraph()
                 dataString = (data as! Data).string
                 libreLinkUpResponse = dataString + (logbookData as! Data).string
                 // TODO: just merge with newer values
@@ -409,35 +420,29 @@ let MockDataWatch = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1000,
                                                          rawTemperature: 4,
                                                          temperatureAdjustment: 4,
                                                          trendRate: 4.0,
-                                                         trendArrow: 4,
+                                                         trendArrow: .stable,
                                                          id: 6020,
                                                          date: Date(timeIntervalSince1970: 746239583),
-                                                         hasError: false,
-                                                         dataQuality: Glucose.DataQuality.OK,
-                                                         dataQualityFlags: 3),
+                                                         hasError: false),
                                         color: MeasurementColor.green,
                                         trendArrow: TrendArrow(rawValue: 0)),
                      LibreLinkUpGlucose(glucose: Glucose(rawValue: 1500,
                                                          rawTemperature: 4,
                                                          temperatureAdjustment: 4,
                                                          trendRate: 4.0,
-                                                         trendArrow: 4,
+                                                         trendArrow: .stable,
                                                          id: 6025,
                                                          date: Date(timeIntervalSince1970: 746260584),
-                                                         hasError: false,
-                                                         dataQuality: Glucose.DataQuality.OK,
-                                                         dataQualityFlags: 3),
+                                                         hasError: false),
                                         color: MeasurementColor.green,
                                         trendArrow: TrendArrow(rawValue: 0)),
                      LibreLinkUpGlucose(glucose: Glucose(rawValue: 800,
                                                          rawTemperature: 4,
                                                          temperatureAdjustment: 4,
                                                          trendRate: 4.0,
-                                                         trendArrow: 4,
+                                                         trendArrow: .stable,
                                                          id: 6030,
                                                          date: Date(timeIntervalSince1970: 746282663),
-                                                         hasError: false,
-                                                         dataQuality: Glucose.DataQuality.OK,
-                                                         dataQualityFlags: 3),
+                                                         hasError: false),
                                         color: MeasurementColor.green,
                                         trendArrow: TrendArrow(rawValue: 0))]

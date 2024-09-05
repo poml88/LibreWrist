@@ -34,12 +34,14 @@ struct PhoneAppHomeView: View {
 //    @State var sensor: Sensor!
     @State var currentGlucose: Int = 0
     @State var trendArrow = "---"
+    @State var sensorSettings = SensorSettings(uom: 1, targetLow: 70, targetHigh: 180, alarmLow: 80, alarmHigh: 300)
     
     
     var body: some View {
         VStack {
             if colorScheme == .dark {
                 HStack {
+                    
                     Text("\(currentGlucose)")
                         .font(.system(size: 128)) //, weight: .bold)
                         .foregroundStyle(libreLinkUpHistory[0].color.color)
@@ -51,10 +53,6 @@ struct PhoneAppHomeView: View {
                             .font(.system(size: 50, weight: .bold))
                             .foregroundStyle(libreLinkUpHistory[0].color.color)
                       
-                        Button ("a") {
-                            isShowingInsulinDeliverySheet.toggle()
-                        }
-              
 //                        Text("IOB: \(currentIOB, specifier: "%.2f")U")
                         
                         Button {
@@ -135,6 +133,9 @@ struct PhoneAppHomeView: View {
                 //Configuration
                 let chartYScaleMin = 50
                 let chartYScaleMax = 250
+                let chartRectangleYStart = sensorSettings.targetLow
+                let chartRectangleYEnd = sensorSettings.targetHigh
+                let chartRuleAlarmLL = sensorSettings.alarmLow
                 // Setting to 6 hours below by deleting half of the values.
                 
                 Chart {
@@ -144,13 +145,13 @@ struct PhoneAppHomeView: View {
                     RectangleMark(
                         xStart: .value("Rect Start Width", rectXStart),
                         xEnd: .value("Rect End Width", rectXStop),
-                        yStart: .value("Rect Start Height", 70),
-                        yEnd: .value("Rect End Height", 180)
+                        yStart: .value("Rect Start Height", chartRectangleYStart),
+                        yEnd: .value("Rect End Height", chartRectangleYEnd)
                     )
                     .opacity(0.2)
                     .foregroundStyle(.green)
                     
-                    RuleMark(y: .value("Lower limit", 85))
+                    RuleMark(y: .value("Lower limit", chartRuleAlarmLL))
                         .foregroundStyle(.red)
                         .lineStyle(.init(lineWidth: 1, dash: [2]))
                     
@@ -191,23 +192,23 @@ struct PhoneAppHomeView: View {
 //                        .symbolSize(100)
                         
                         
-                        if let selectedlibreLinkHistoryPoint,selectedlibreLinkHistoryPoint.id == item.id {
-                            RuleMark(x: .value("Time", selectedlibreLinkHistoryPoint.glucose.date))
-                                .annotation(position: .top) {
-                                    VStack(alignment: .leading, spacing: 6){
-                                        Text("\(selectedlibreLinkHistoryPoint.glucose.date.toLocalTime())")
-                                        
-                                        Text("\(selectedlibreLinkHistoryPoint.glucose.value) mg/dL")
-                                            .font(.title3.bold())
-                                    }
-                                    .padding(.horizontal,10)
-                                    .padding(.vertical,4)
-                                    .background{
-                                        RoundedRectangle(cornerRadius: 4, style: .continuous)
-                                            .fill(.background.shadow(.drop(radius: 2)))
-                                    }
-                                }
-                        }
+//                        if let selectedlibreLinkHistoryPoint,selectedlibreLinkHistoryPoint.id == item.id {
+//                            RuleMark(x: .value("Time", selectedlibreLinkHistoryPoint.glucose.date))
+//                                .annotation(position: .top) {
+//                                    VStack(alignment: .leading, spacing: 6){
+//                                        Text("\(selectedlibreLinkHistoryPoint.glucose.date.toLocalTime())")
+//                                        
+//                                        Text("\(selectedlibreLinkHistoryPoint.glucose.value) mg/dL")
+//                                            .font(.title3.bold())
+//                                    }
+//                                    .padding(.horizontal,10)
+//                                    .padding(.vertical,4)
+//                                    .background{
+//                                        RoundedRectangle(cornerRadius: 4, style: .continuous)
+//                                            .fill(.background.shadow(.drop(radius: 2)))
+//                                    }
+//                                }
+//                        }
                     }
                     
                     #warning ("breaks preview")
@@ -221,9 +222,15 @@ struct PhoneAppHomeView: View {
                     }
                 }
                 .chartYScale(domain: [chartYScaleMin, chartYScaleMax])
-//                .chartXVisibleDomain(length: 3600 * 6)
-//                .chartScrollableAxes(.horizontal)
-//                .chartScrollPosition(initialX: Date())
+                
+                .chartXVisibleDomain(length: 3600 * 6)
+                .chartScrollableAxes(.horizontal)
+                .chartScrollPosition(initialX: Date())
+                .chartScrollTargetBehavior(
+                            .valueAligned(
+                                unit: 3600 * 2,
+                                majorAlignment: .page))
+                
                 .chartXAxis {
                     AxisMarks(values: .stride(by: .hour, count: 2)) { _ in
                         AxisGridLine(stroke: .init(lineWidth: 0.5, dash: [2, 3]))
@@ -247,27 +254,27 @@ struct PhoneAppHomeView: View {
                         
                     }
                 }
-                .chartOverlay { overlayProxy in
-                    GeometryReader { geometryProxy in
-                        Rectangle().fill(.clear).contentShape(Rectangle())
-                            .gesture(DragGesture()
-                                .onChanged { value in
-                                    let currentX = value.location
-                                    if let currentDate: Date = overlayProxy.value(atX: currentX.x) {
-                                        //                                        let selectedlibreLinkHistoryPoint = libreLinkUpHistory[currentDate.toRounded(on: 1, .minute)]
-                                        if let currentItem = libreLinkUpHistory.first(where: { item in
-                                            item.glucose.date.toRounded(on: 1, .minute) == currentDate.toRounded(on: 1, .minute)
-                                        }){
-                                            self.selectedlibreLinkHistoryPoint = currentItem
-                                        }                                     }
-                                }
-                                     
-                                .onEnded { value in
-                                    self.selectedlibreLinkHistoryPoint = nil
-                                }
-                            )
-                    }
-                }
+//                .chartOverlay { overlayProxy in
+//                    GeometryReader { geometryProxy in
+//                        Rectangle().fill(.clear).contentShape(Rectangle())
+//                            .gesture(DragGesture()
+//                                .onChanged { value in
+//                                    let currentX = value.location
+//                                    if let currentDate: Date = overlayProxy.value(atX: currentX.x) {
+//                                        //                                        let selectedlibreLinkHistoryPoint = libreLinkUpHistory[currentDate.toRounded(on: 1, .minute)]
+//                                        if let currentItem = libreLinkUpHistory.first(where: { item in
+//                                            item.glucose.date.toRounded(on: 1, .minute) == currentDate.toRounded(on: 1, .minute)
+//                                        }){
+//                                            self.selectedlibreLinkHistoryPoint = currentItem
+//                                        }                                     }
+//                                }
+//                                     
+//                                .onEnded { value in
+//                                    self.selectedlibreLinkHistoryPoint = nil
+//                                }
+//                            )
+//                    }
+//                }
                 .padding()
                 
             }
@@ -415,7 +422,7 @@ struct PhoneAppHomeView: View {
         
         var dataString = ""
         var retries = 0
-        let dropLastValues = 70
+        let dropLastValues = 0
         
         
     loop: repeat {
@@ -433,7 +440,7 @@ struct PhoneAppHomeView: View {
             }
             if !(settings.libreLinkUpUserId.isEmpty ||
                  settings.libreLinkUpToken.isEmpty) {
-                let (data, _, graphHistory, logbookData, logbookHistory, _) = try await LibreLinkUp().getPatientGraph()
+                let (data, _, graphHistory, logbookData, logbookHistory, _, sensorSettingsRead) = try await LibreLinkUp().getPatientGraph()
                 dataString = (data as! Data).string
                 libreLinkUpResponse = dataString + (logbookData as! Data).string
                 // TODO: just merge with newer values
@@ -442,6 +449,9 @@ struct PhoneAppHomeView: View {
                     libreLinkUpHistory = MockDataPhone
                 }
                 libreLinkUpLogbookHistory = logbookHistory
+                
+                sensorSettings = sensorSettingsRead
+                
                 if graphHistory.count > 0 {
                     DispatchQueue.main.async {
                         settings.lastOnlineDate = Date()
@@ -480,10 +490,10 @@ struct PhoneAppHomeView: View {
 }
 
 
-#Preview {
-    PhoneAppHomeView()
-        .environment(History.test)
-}
+//#Preview {
+//    PhoneAppHomeView(sensorSettings: SensorSettings.init(uom: 1, targetLow: 70, targetHigh: 180, alarmLow: 80, alarmHigh: 300))
+//        .environment(History.test)
+//}
 
 
 
@@ -493,48 +503,42 @@ struct PhoneAppHomeView: View {
 
 struct MockData {
     
-    static let libreLinkUpHistory = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1200, rawTemperature: 4, temperatureAdjustment: 4, trendRate: 4.0, trendArrow: 4, id: 4, date: Date(timeIntervalSince1970: 746277263), hasError: false, dataQuality: Glucose.DataQuality.OK, dataQualityFlags: 3),
+    static let libreLinkUpHistory = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1200, rawTemperature: 4, temperatureAdjustment: 4, trendRate: 4.0, trendArrow: .stable, id: 4, date: Date(timeIntervalSince1970: 746277263), hasError: false),
                                                         color: MeasurementColor.green,
                                                         trendArrow: TrendArrow(rawValue: 0))]
     
-    let test = Glucose(rawValue: 4, rawTemperature: 4, temperatureAdjustment: 4, trendRate: 4.0, trendArrow: 4, id: 4, date: Date(timeIntervalSince1970: 345345345), hasError: false, dataQuality: Glucose.DataQuality.OK, dataQualityFlags: 3)
-    let test2 = Glucose(120, temperature: 20.0, trendRate: 0.0, trendArrow: 0, id: 6000, date: Date(), dataQuality: Glucose.DataQuality.OK, source: "Mock")
+    let test = Glucose(rawValue: 4, rawTemperature: 4, temperatureAdjustment: 4, trendRate: 4.0, trendArrow: .stable, id: 4, date: Date(timeIntervalSince1970: 345345345), hasError: false)
+    let test2 = Glucose(120, temperature: 20.0, trendRate: 0.0, trendArrow: .stable, id: 6000, date: Date(), source: "Mock")
 }
 
 let MockDataPhone = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1000,
                                                          rawTemperature: 4,
                                                          temperatureAdjustment: 4,
                                                          trendRate: 4.0,
-                                                         trendArrow: 4,
+                                                         trendArrow: .stable,
                                                          id: 6020,
                                                          date: Date(timeIntervalSince1970: 746239583),
-                                                         hasError: false,
-                                                         dataQuality: Glucose.DataQuality.OK,
-                                                         dataQualityFlags: 3),
+                                                         hasError: false),
                                         color: MeasurementColor.green,
                                         trendArrow: TrendArrow(rawValue: 0)),
                      LibreLinkUpGlucose(glucose: Glucose(rawValue: 1500,
                                                          rawTemperature: 4,
                                                          temperatureAdjustment: 4,
                                                          trendRate: 4.0,
-                                                         trendArrow: 4,
+                                                         trendArrow: .stable,
                                                          id: 6025,
                                                          date: Date(timeIntervalSince1970: 746260584),
-                                                         hasError: false,
-                                                         dataQuality: Glucose.DataQuality.OK,
-                                                         dataQualityFlags: 3),
-                                        color: MeasurementColor.green,
+                                                         hasError: false),
+                                         color: MeasurementColor.green,
                                         trendArrow: TrendArrow(rawValue: 0)),
                      LibreLinkUpGlucose(glucose: Glucose(rawValue: 800,
                                                          rawTemperature: 4,
                                                          temperatureAdjustment: 4,
                                                          trendRate: 4.0,
-                                                         trendArrow: 4,
+                                                         trendArrow: .stable,
                                                          id: 6030,
                                                          date: Date(timeIntervalSince1970: 746282663),
-                                                         hasError: false,
-                                                         dataQuality: Glucose.DataQuality.OK,
-                                                         dataQualityFlags: 3),
+                                                         hasError: false),
                                         color: MeasurementColor.green,
                                         trendArrow: TrendArrow(rawValue: 0))]
 

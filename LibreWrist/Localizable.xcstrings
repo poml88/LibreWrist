@@ -13,13 +13,7 @@
     "%lld" : {
 
     },
-    "%lld mg/dL" : {
-
-    },
     "💰 Paypal Me" : {
-
-    },
-    "a" : {
 
     },
     "Accept" : {
@@ -47,6 +41,9 @@
 
     },
     "Do you want to add %.1f units?" : {
+
+    },
+    "Do you want to reset insulin history?" : {
 
     },
     "Glucose" : {
@@ -88,6 +85,9 @@
     "Rect Start Width" : {
 
     },
+    "Reset" : {
+
+    },
     "Reset IOB" : {
 
     },
@@ -99,6 +99,16 @@
     },
     "Time" : {
 
+    },
+    "Time: %@       Units: %.1f" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Time: %1$@       Units: %2$.1f"
+          }
+        }
+      }
     },
     "Try pressing \"Connect\" again to resend credentials to watch." : {
 

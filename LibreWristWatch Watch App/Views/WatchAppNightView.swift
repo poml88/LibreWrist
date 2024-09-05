@@ -32,7 +32,7 @@ struct WatchAppNightView: View {
 //                        Text("---")
 //                            .font(.title)
 //                    } else {
-                Text("\(history.factoryTrend[0].trendArrow)")
+                Text("\(history.factoryTrend[0].trendArrow.symbol)")
                         .font(.title)
 //                        .foregroundStyle(libreLinkUpHistory[0].color.color)
                 
