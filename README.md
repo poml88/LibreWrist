@@ -7,7 +7,7 @@
 This software is free and open source. It is being developed out of personal needs, but everyone should be able to benefit from it.
 
 It is not meant to replace the vendor's app, but rather enhance it and make diabetes life a bit easier. It is at a very early stage.
-For example it can do only mg/dL right now and watch and phone are not yet talking to each other. Many other shortcomings for now.
+For example there are no widgets or complications yet. Chart is not scrollable, because I don't know how to jump to the current data programmatically. Many other shortcomings for now.
 
 ### Feedback... ###
 ... is welcome, use the "Issues" functionality of Github.
