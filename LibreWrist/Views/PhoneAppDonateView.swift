@@ -15,19 +15,13 @@ struct PhoneAppDonateView: View {
                 .padding()
             
             Link(destination: URL(string: "https://paypal.me/lovemyhusky")!) {
-                
-                    
-                    Text("💰 Paypal Me")
-                
-                .frame(width: 200, height: 50)
-                .foregroundColor(.primary)
-                .background(.primary)
-                .cornerRadius(10)
-                
+                Text("🐶 PayPal.Me")
+                    .frame(width: 200, height: 50)
+                    .foregroundColor(.primary)
+                    .background(.primary)
+                    .cornerRadius(10)
             }
-            
         }
-        
     }
 }
 

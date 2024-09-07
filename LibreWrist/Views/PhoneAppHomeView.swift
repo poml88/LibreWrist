@@ -12,7 +12,7 @@ import Charts
 
 struct PhoneAppHomeView: View {
     
-    private let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    
     
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.colorScheme) var colorScheme
@@ -28,13 +28,15 @@ struct PhoneAppHomeView: View {
     @State private var isShowingDisclaimer = false
     @State private var isShowingInsulinDeliverySheet = false
     @State private var currentIOB: Double = 0.0
-//    @State private var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
+    @State private var scrollPosition: Date = Date.now
+    @State private var sensorSettings = SensorSettings(uom: 1, targetLow: 70, targetHigh: 180, alarmLow: 80, alarmHigh: 300)
     
     @State var lastReadingDate: Date = Date.distantPast
-//    @State var sensor: Sensor!
     @State var currentGlucose: Int = 0
     @State var trendArrow = "---"
-    @State var sensorSettings = SensorSettings(uom: 1, targetLow: 70, targetHigh: 180, alarmLow: 80, alarmHigh: 300)
+    
+    private let timer = Timer.publish(every: 60, tolerance: 1, on: .main, in: .common).autoconnect()
+    
     
     
     var body: some View {
@@ -131,8 +133,12 @@ struct PhoneAppHomeView: View {
                 let rectXStop: Date = libreLinkUpHistory.first?.glucose.date ?? Date.distantFuture
                 
                 //Configuration
-                let chartYScaleMin = 50
-                let chartYScaleMax = 250
+                // 0 = mmoll  1 = mgdl  0.0555
+                var chartYScaleMin: Double { sensorSettings.uom == 0 ? 2.75 : 50 }
+                var chartYScaleMax: Double { sensorSettings.uom == 0 ? 14 : 250 }
+                var yAxisSteps: Double { sensorSettings.uom == 0 ? 3 : 50 }
+                
+                
                 let chartRectangleYStart = sensorSettings.targetLow
                 let chartRectangleYEnd = sensorSettings.targetHigh
                 let chartRuleAlarmLL = sensorSettings.alarmLow
@@ -154,6 +160,10 @@ struct PhoneAppHomeView: View {
                     RuleMark(y: .value("Lower limit", chartRuleAlarmLL))
                         .foregroundStyle(.red)
                         .lineStyle(.init(lineWidth: 1, dash: [2]))
+                    
+                    RuleMark(x: .value("Scroll right", rectXStop))
+                        .foregroundStyle(.yellow)
+                        .lineStyle(.init(lineWidth: 2))
                     
 //                    RuleMark(y: .value("Upper limit", 300))
 //                        .foregroundStyle(.red)
@@ -226,6 +236,7 @@ struct PhoneAppHomeView: View {
                 .chartXVisibleDomain(length: 3600 * 6)
                 .chartScrollableAxes(.horizontal)
                 .chartScrollPosition(initialX: Date())
+                .chartScrollPosition(x: $scrollPosition)
                 .chartScrollTargetBehavior(
                             .valueAligned(
                                 unit: 3600 * 2,
@@ -246,7 +257,7 @@ struct PhoneAppHomeView: View {
                     }
                 }
                 .chartYAxis {
-                    AxisMarks(position: .trailing, values: .stride(by: 50)) { value in
+                    AxisMarks(position: .trailing, values: .stride(by: yAxisSteps)) { value in
                         AxisGridLine(stroke: .init(lineWidth: 0.5))
                         //                        AxisTick(length: 5, stroke: .init(lineWidth: 1))
                             .foregroundStyle(.gray)
@@ -320,6 +331,7 @@ struct PhoneAppHomeView: View {
                     await reloadLibreLinkUp()
                     isReloading = false
                 }
+                scrollPosition = Date.now // libreLinkUpHistory.first?.glucose.date ?? Date.now
             }
         }
         .onAppear() { // fires when switching the Views, e.g. form settings to home view.
@@ -490,10 +502,10 @@ struct PhoneAppHomeView: View {
 }
 
 
-//#Preview {
-//    PhoneAppHomeView(sensorSettings: SensorSettings.init(uom: 1, targetLow: 70, targetHigh: 180, alarmLow: 80, alarmHigh: 300))
-//        .environment(History.test)
-//}
+#Preview {
+    PhoneAppHomeView()
+        .environment(History.test)
+}
 
 
 

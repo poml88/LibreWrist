@@ -17,16 +17,16 @@ struct ContentView: View {
 
         var body: some View {
             TabView(selection: $selected) {
-                WatchAppActionView()
-                    .tag("Action")
+//                WatchAppActionView()
+//                    .tag("Action")
                 WatchAppHomeView()
                     .tag("Home")
                 WatchAppNightView()
                     .tag("NightView")
 //                WatchAppSettingsView()
 //                    .tag("Connect")
-//                WatchAppSettings2View()
-//                    .tag("Connect")
+                WatchAppDonateView()
+                    .tag("Donate")
                 
                 
             }

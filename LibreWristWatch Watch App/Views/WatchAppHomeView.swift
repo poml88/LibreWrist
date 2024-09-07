@@ -27,11 +27,10 @@ struct WatchAppHomeView: View {
     @State private var sensorSettings = SensorSettings(uom: 1, targetLow: 70, targetHigh: 180, alarmLow: 80, alarmHigh: 300)
     
     @State var lastReadingDate: Date = Date.init(timeIntervalSinceReferenceDate: 746479063)
-//    @State var sensor: Sensor!
     @State var currentGlucose: Int = 0
     @State var trendArrow = "---"
     
-    private let minuteTimer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    private let minuteTimer = Timer.publish(every: 60, tolerance: 1, on: .main, in: .common).autoconnect()
     
     
     var body: some View {
@@ -78,6 +77,20 @@ struct WatchAppHomeView: View {
             if libreLinkUpHistory.count > 0 {
                 let rectXStart: Date = libreLinkUpHistory.last?.glucose.date ?? Date.distantPast
                 let rectXStop: Date = libreLinkUpHistory.first?.glucose.date ?? Date.distantFuture
+                
+                //Configuration
+                // 0 = mmoll  1 = mgdl  0.0555
+                var chartYScaleMin: Double { sensorSettings.uom == 0 ? 2.75 : 50 }
+                var chartYScaleMax: Double { sensorSettings.uom == 0 ? 14 : 250 }
+                var yAxisSteps: Double { sensorSettings.uom == 0 ? 3 : 50 }
+                
+                
+                let chartRectangleYStart = sensorSettings.targetLow
+                let chartRectangleYEnd = sensorSettings.targetHigh
+                let chartRuleAlarmLL = sensorSettings.alarmLow
+                // Setting to 6 hours below by deleting half of the values.
+                
+                
                 Chart {
                     
                     RectangleMark(
@@ -85,15 +98,19 @@ struct WatchAppHomeView: View {
                         xEnd: .value("Rect End Width", rectXStop),
                         //                xStart: .value("Rect Start Width", 1),
                         //                xEnd: .value("Rect End Width", 2),
-                        yStart: .value("Rect Start Height", 70),
-                        yEnd: .value("Rect End Height", 180)
+                        yStart: .value("Rect Start Height", chartRectangleYStart),
+                        yEnd: .value("Rect End Height", chartRectangleYEnd)
                     )
                     .opacity(0.2)
                     .foregroundStyle(.green)
                     
-                    RuleMark(y: .value("Lower limit", 85))
+                    RuleMark(y: .value("Lower limit", chartRuleAlarmLL))
                         .foregroundStyle(.red)
                         .lineStyle(.init(lineWidth: 1, dash: [2]))
+                    
+                    RuleMark(x: .value("Scroll right", rectXStop))
+                        .foregroundStyle(.yellow)
+                        .lineStyle(.init(lineWidth: 1))
                     
 //                    RuleMark(y: .value("Upper limit", 225))
 //                        .foregroundStyle(.red)
@@ -357,7 +374,6 @@ struct WatchAppHomeView: View {
                 settings.libreLinkUpTokenExpirationDate < Date() ||
                 retries == 1 {
                 do {
-                    print("Doing login")
                     try await LibreLinkUp().login()
                 } catch {
                     libreLinkUpResponse = error.localizedDescription.capitalized
@@ -374,6 +390,9 @@ struct WatchAppHomeView: View {
                     libreLinkUpHistory = MockDataWatch
                 }
                 libreLinkUpLogbookHistory = logbookHistory
+                
+                sensorSettings = sensorSettingsRead
+                
                 if graphHistory.count > 0 {
                     DispatchQueue.main.async {
                         settings.lastOnlineDate = Date()

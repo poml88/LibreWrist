@@ -13,7 +13,7 @@ struct WatchAppNightView: View {
     @Environment(History.self) var history: History
     
     var body: some View {
-        HStack {
+        VStack {
 //                if minutesSinceLastReading >= 3 {
 //                    Text("---")
 //                    .font(.system(size: 60)) //, weight: .bold
@@ -21,10 +21,10 @@ struct WatchAppNightView: View {
 //                    .padding()
 //                } else {
             Text("\(history.factoryTrend[0].value)")
-                .font(.system(size: 60)) //, weight: .bold
+                .font(.system(size: 100)) //, weight: .bold
 //                .foregroundStyle(libreLinkUpHistory[0].color.color)
-                    .minimumScaleFactor(0.1)
-                    .padding()
+                    .minimumScaleFactor(0.9)
+//                    .padding()
 //                }
                 
             VStack (spacing: -10){
@@ -33,7 +33,9 @@ struct WatchAppNightView: View {
 //                            .font(.title)
 //                    } else {
                 Text("\(history.factoryTrend[0].trendArrow.symbol)")
-                        .font(.title)
+                    .font(.system(size: 100)) //, weight: .bold
+    //                .foregroundStyle(libreLinkUpHistory[0].color.color)
+                        .minimumScaleFactor(0.7)
 //                        .foregroundStyle(libreLinkUpHistory[0].color.color)
                 
 //                Text("\(currentIOB, specifier: "%.2f")U")
@@ -56,4 +58,5 @@ struct WatchAppNightView: View {
 
 #Preview {
     WatchAppNightView()
+        .environment(History.test)
 }
