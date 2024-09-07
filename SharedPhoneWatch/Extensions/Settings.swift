@@ -49,6 +49,7 @@ enum Connection: Int {
     case disconnected = 0
     case connected = 1
     case connecting = 2
+    case newlyConnected = 3
     case failed = -1
     case locked = -2
 }

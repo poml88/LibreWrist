@@ -14,7 +14,7 @@ import OSLog
 struct WatchAppHomeView: View {
     
     @Environment(\.scenePhase) var scenePhase
-    @Environment(History.self) var history: History
+    @Environment(History.self) var history: History 
     
     @State private var libreLinkUpHistory: [LibreLinkUpGlucose] = MockDataWatch
     //    @State private var selectedlibreLinkHistoryPoint: LibreLinkUpGlucose?
@@ -25,12 +25,13 @@ struct WatchAppHomeView: View {
     @State private var isShowingDisclaimer = false
     @State private var currentIOB: Double = 0.0
     @State private var sensorSettings = SensorSettings(uom: 1, targetLow: 70, targetHigh: 180, alarmLow: 80, alarmHigh: 300)
+    @State private var connected = UserDefaults.group.connected
     
     @State var lastReadingDate: Date = Date.init(timeIntervalSinceReferenceDate: 746479063)
     @State var currentGlucose: Int = 0
     @State var trendArrow = "---"
     
-    private let minuteTimer = Timer.publish(every: 60, tolerance: 1, on: .main, in: .common).autoconnect()
+    private let timer = Timer.publish(every: 60, tolerance: 1, on: .main, in: .common).autoconnect()
     
     
     var body: some View {
@@ -81,7 +82,7 @@ struct WatchAppHomeView: View {
                 //Configuration
                 // 0 = mmoll  1 = mgdl  0.0555
                 var chartYScaleMin: Double { sensorSettings.uom == 0 ? 2.75 : 50 }
-                var chartYScaleMax: Double { sensorSettings.uom == 0 ? 14 : 250 }
+                var chartYScaleMax: Double { sensorSettings.uom == 0 ? 12.5 : 225 }
                 var yAxisSteps: Double { sensorSettings.uom == 0 ? 3 : 50 }
                 
                 
@@ -108,9 +109,9 @@ struct WatchAppHomeView: View {
                         .foregroundStyle(.red)
                         .lineStyle(.init(lineWidth: 1, dash: [2]))
                     
-                    RuleMark(x: .value("Scroll right", rectXStop))
-                        .foregroundStyle(.yellow)
-                        .lineStyle(.init(lineWidth: 1))
+//                    RuleMark(x: .value("Scroll right", rectXStop))
+//                        .foregroundStyle(.yellow)
+//                        .lineStyle(.init(lineWidth: 1))
                     
 //                    RuleMark(y: .value("Upper limit", 225))
 //                        .foregroundStyle(.red)
@@ -162,15 +163,15 @@ struct WatchAppHomeView: View {
                     }
                 }
                 
-                .chartYScale(domain: [50, 225])
+                .chartYScale(domain: [chartYScaleMin, chartYScaleMax])
                 
                 .chartXVisibleDomain(length: 3600 * 6)
-                .chartScrollableAxes(.horizontal)
-                .chartScrollPosition(initialX: Date())
-                .chartScrollTargetBehavior(
-                            .valueAligned(
-                                unit: 3600 * 2,
-                                majorAlignment: .page))
+//                .chartScrollableAxes(.horizontal)
+//                .chartScrollPosition(initialX: Date())
+//                .chartScrollTargetBehavior(
+//                            .valueAligned(
+//                                unit: 3600 * 2,
+//                                majorAlignment: .page))
 
                 .chartXAxis {
                     AxisMarks(values: .stride(by: .hour, count: 2)) { _ in
@@ -188,7 +189,7 @@ struct WatchAppHomeView: View {
                     }
                 }
                 .chartYAxis {
-                    AxisMarks(position: .trailing, values: .stride(by: 50)) { value in
+                    AxisMarks(position: .trailing, values: .stride(by: yAxisSteps)) { value in
                         AxisGridLine(stroke: .init(lineWidth: 0.5))
                         //                        AxisTick(length: 5, stroke: .init(lineWidth: 1))
                             .foregroundStyle(.gray)
@@ -238,7 +239,7 @@ struct WatchAppHomeView: View {
                 .ignoresSafeArea()
             }
         }
-        .onReceive(minuteTimer) { time in
+        .onReceive(timer) { time in
             print("Timer")
             
             var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
@@ -254,9 +255,9 @@ struct WatchAppHomeView: View {
             currentIOB = sumIOB
             UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
             
-            
+            connected = UserDefaults.group.connected
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-            if minutesSinceLastReading >= 1 {
+            if minutesSinceLastReading >= 1 && connected == .connected {
                 Task {
                     isReloading = true
                     await reloadLibreLinkUp()
@@ -287,14 +288,16 @@ struct WatchAppHomeView: View {
             
             
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-//            if minutesSinceLastReading >= 1 {
-//                Task {
-//                    isReloading = true
-//                    await reloadLibreLinkUp()
-//                    isReloading = false
-//                }
-//            }
-        }
+            connected = UserDefaults.group.connected
+            if minutesSinceLastReading >= 1 && connected == .newlyConnected {
+                Task {
+                    isReloading = true
+                    await reloadLibreLinkUp()
+                    isReloading = false
+                    connected = .connected
+                    UserDefaults.group.connected = .connected
+                }
+            }        }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
                 print("Active")
@@ -314,9 +317,9 @@ struct WatchAppHomeView: View {
                 UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
                 
                 
-                
+                connected = UserDefaults.group.connected
                 minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-                if minutesSinceLastReading >= 1 {
+                if minutesSinceLastReading >= 1 && connected == .connected {
                     Task {
                         isReloading = true
                         await reloadLibreLinkUp()
@@ -363,7 +366,7 @@ struct WatchAppHomeView: View {
         
         var dataString = ""
         var retries = 0
-        let dropLastValues = 0
+        let dropLastValues = 70
         
         
     loop: repeat {
@@ -375,8 +378,10 @@ struct WatchAppHomeView: View {
                 retries == 1 {
                 do {
                     try await LibreLinkUp().login()
+                    UserDefaults.group.connected = .connected
                 } catch {
                     libreLinkUpResponse = error.localizedDescription.capitalized
+                    UserDefaults.group.connected = .disconnected
                 }
             }
             if !(settings.libreLinkUpUserId.isEmpty ||

@@ -13,7 +13,7 @@
     "%lld" : {
 
     },
-    "💰 Paypal Me" : {
+    "🐶 PayPal.Me" : {
 
     },
     "Accept" : {
@@ -32,6 +32,9 @@
 
     },
     "Connect" : {
+
+    },
+    "Connection failed. Check credentials." : {
 
     },
     "Credentials" : {
@@ -89,9 +92,6 @@
 
     },
     "Reset IOB" : {
-
-    },
-    "Scroll right" : {
 
     },
     "Settings" : {

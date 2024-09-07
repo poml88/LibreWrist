@@ -30,11 +30,12 @@ struct PhoneAppHomeView: View {
     @State private var currentIOB: Double = 0.0
     @State private var scrollPosition: Date = Date.now
     @State private var sensorSettings = SensorSettings(uom: 1, targetLow: 70, targetHigh: 180, alarmLow: 80, alarmHigh: 300)
+    @State private var connected = UserDefaults.group.connected
     
     @State var lastReadingDate: Date = Date.distantPast
     @State var currentGlucose: Int = 0
     @State var trendArrow = "---"
-    
+     
     private let timer = Timer.publish(every: 60, tolerance: 1, on: .main, in: .common).autoconnect()
     
     
@@ -161,9 +162,9 @@ struct PhoneAppHomeView: View {
                         .foregroundStyle(.red)
                         .lineStyle(.init(lineWidth: 1, dash: [2]))
                     
-                    RuleMark(x: .value("Scroll right", rectXStop))
-                        .foregroundStyle(.yellow)
-                        .lineStyle(.init(lineWidth: 2))
+//                    RuleMark(x: .value("Scroll right", rectXStop))
+//                        .foregroundStyle(.yellow)
+//                        .lineStyle(.init(lineWidth: 2))
                     
 //                    RuleMark(y: .value("Upper limit", 300))
 //                        .foregroundStyle(.red)
@@ -234,13 +235,13 @@ struct PhoneAppHomeView: View {
                 .chartYScale(domain: [chartYScaleMin, chartYScaleMax])
                 
                 .chartXVisibleDomain(length: 3600 * 6)
-                .chartScrollableAxes(.horizontal)
-                .chartScrollPosition(initialX: Date())
-                .chartScrollPosition(x: $scrollPosition)
-                .chartScrollTargetBehavior(
-                            .valueAligned(
-                                unit: 3600 * 2,
-                                majorAlignment: .page))
+//                .chartScrollableAxes(.horizontal)
+//                .chartScrollPosition(initialX: Date())
+//                .chartScrollPosition(x: $scrollPosition)
+//                .chartScrollTargetBehavior(
+//                            .valueAligned(
+//                                unit: 3600 * 2,
+//                                majorAlignment: .page))
                 
                 .chartXAxis {
                     AxisMarks(values: .stride(by: .hour, count: 2)) { _ in
@@ -323,15 +324,15 @@ struct PhoneAppHomeView: View {
             currentIOB = sumIOB
             UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
             
-            
+            connected = UserDefaults.group.connected
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-            if minutesSinceLastReading >= 1 {
+            if minutesSinceLastReading >= 1 && connected == .connected {
                 Task {
                     isReloading = true
                     await reloadLibreLinkUp()
                     isReloading = false
                 }
-                scrollPosition = Date.now // libreLinkUpHistory.first?.glucose.date ?? Date.now
+                scrollPosition = libreLinkUpHistory.first?.glucose.date ?? Date.now
             }
         }
         .onAppear() { // fires when switching the Views, e.g. form settings to home view.
@@ -353,17 +354,17 @@ struct PhoneAppHomeView: View {
             currentIOB = sumIOB
             UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
             
-            
-            
-            
             minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-//            if minutesSinceLastReading >= 1 {
-//                Task {
-//                    isReloading = true
-//                    await reloadLibreLinkUp()
-//                    isReloading = false
-//                }
-//            }
+            connected = UserDefaults.group.connected
+            if minutesSinceLastReading >= 1 && connected == .newlyConnected {
+                Task {
+                    isReloading = true
+                    await reloadLibreLinkUp()
+                    isReloading = false
+                    connected = .connected
+                    UserDefaults.group.connected = .connected
+                }
+            }
         }
         .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active {
@@ -383,9 +384,9 @@ struct PhoneAppHomeView: View {
                 UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
                 
                 
-                
+                connected = UserDefaults.group.connected
                 minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-                if minutesSinceLastReading >= 1 {
+                if minutesSinceLastReading >= 1 && connected == .connected {
                     Task {
                         isReloading = true
                         await reloadLibreLinkUp()
@@ -434,7 +435,7 @@ struct PhoneAppHomeView: View {
         
         var dataString = ""
         var retries = 0
-        let dropLastValues = 0
+        let dropLastValues = 70
         
         
     loop: repeat {

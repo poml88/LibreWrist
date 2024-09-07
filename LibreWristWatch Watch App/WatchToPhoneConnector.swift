@@ -36,6 +36,7 @@ class WatchToPhoneConnector: NSObject, WCSessionDelegate, ObservableObject {
             let password = message["password"] as? String ?? ""
             sdefaults.set(password, forKey: "llu.password")
             sdefaults.synchronize()
+            UserDefaults.group.connected = .newlyConnected
         }
         
         if message["content"] as? String == "insulinDelivery" {

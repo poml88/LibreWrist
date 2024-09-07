@@ -4,7 +4,7 @@
 //
 //  Created by Peter Müller on 26.08.24.
 //
-
+/*
 import SwiftUI
 import SecureDefaults
 
@@ -120,3 +120,4 @@ struct WatchAppSettingsView: View {
 #Preview {
     WatchAppSettingsView()
 }
+*/

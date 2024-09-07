@@ -18,14 +18,16 @@ struct PhoneAppConnectView: View {
     @State private var password = SecureDefaults.sgroup.string(forKey: "llu.password") ?? ""
     @State private var connected = UserDefaults.group.connected
     @State private var libreLinkUpResponse: String = "[...]"
+    @State private var isShowingConnectionFailed = false
     
 
-    private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    private let timer = Timer.publish(every: 1, tolerance: 0.5, on: .main, in: .common).autoconnect()
     
     
     func statusMessage() -> String {
         switch connected {
         case .connected: return "Connected."
+        case .newlyConnected: return "Connected."
         case .connecting: return "Connecting..."
         case .disconnected: return "Disconnected"
         case .failed: return "Connection failed."
@@ -36,6 +38,7 @@ struct PhoneAppConnectView: View {
     func statusColor() -> Color {
         switch connected {
         case .connected: return .green
+        case .newlyConnected: return .green
         case .connecting: return .orange
         case .disconnected: return .gray
         case .failed: return .red
@@ -96,6 +99,12 @@ struct PhoneAppConnectView: View {
                 
             Spacer()
         }
+        .alert ("Warning", isPresented: $isShowingConnectionFailed) {
+//            Button("Accept", role: .cancel, action: {settings.hasSeenDisclaimer = true})
+        }
+    message: {
+            Text("Connection failed. Check credentials.")
+        }
         .overlay
         {
             if connected == .connecting {
@@ -126,29 +135,23 @@ struct PhoneAppConnectView: View {
         }
         sdefaults.set(password, forKey: "llu.password")
         sdefaults.synchronize()
-        
-        
-        
-        
-        
-        //        appConfiguration.password = password
         UserDefaults.group.connected = .connecting
-        //        let libreLinkUpConection = LibreLinkUpConnection()
-        //        libreLinkUpConection.connectConnection ()
         Task {
             do {
+                print("do")
                 try await LibreLinkUp().login()
-                UserDefaults.group.connected = .connected
+                UserDefaults.group.connected = .newlyConnected
                 let messageToWatch: [String: Any] = ["content": "credentials",
                                                      "username": username,
                                                      "password": password]
                 sendMessagetoWatch(message: messageToWatch)
             } catch {
+                print("catch")
+                isShowingConnectionFailed = true
                 libreLinkUpResponse = error.localizedDescription.capitalized
                 UserDefaults.group.connected = .disconnected
             }
         }
-        
         
         func sendMessagetoWatch(message: [String: Any]){
             
