@@ -10,6 +10,7 @@ It is not meant to replace the vendor's app, but rather enhance it and make diab
 For example there are no widgets or complications yet. Chart is not scrollable, because I don't know how to jump to the current data programmatically. Many other shortcomings for now.
 
 ### Usage ###
+- The app needs iOS 17.5 and watchOS 10.5
 - TestFlight: https://testflight.apple.com/join/HwgkwcGz
 - Settings are made in the iOS app and are then transferred to the watchOS app. This only works if the watchOS app is installed on the watch.
 - To connect to your LibreLinkUp follower account, enter your credentials on the connect tab. If the watchOS app is installed, the credentials are transferred to the watch app. It is possible to re-transfer the credentials by pressing the "connect" button again.
