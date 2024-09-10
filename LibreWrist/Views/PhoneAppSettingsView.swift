@@ -12,7 +12,7 @@ struct PhoneAppSettingsView: View {
         Form {
             Section {
                 Text("Settings")
-                
+//                UIApplication.shared.isIdleTimerDisabled = true
             }
             
             
