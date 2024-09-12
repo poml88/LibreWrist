@@ -18,11 +18,13 @@ struct LibreWristApp: App {
     }
     
     @State private var history = History()
+    @State private var libreLinkUpHistory = LibreLinkUpHistory.mock
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environment(history)
+                .environment(libreLinkUpHistory)
         }
     }
 }

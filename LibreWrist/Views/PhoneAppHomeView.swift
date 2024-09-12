@@ -17,12 +17,13 @@ struct PhoneAppHomeView: View {
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.colorScheme) var colorScheme
     @Environment(History.self) var history: History
+    @Environment(LibreLinkUpHistory.self) var libreLinkUpHistory: LibreLinkUpHistory
     
     
     @State private var selectedlibreLinkHistoryPoint: LibreLinkUpGlucose?
     @State private var minutesSinceLastReading: Int = 999
     @State private var libreLinkUpResponse: String = "[...]"
-    @State private var libreLinkUpHistory: [LibreLinkUpGlucose] = MockDataPhone
+//    @State private var libreLinkUpHistory = LibreLinkUpHistory.mock
     @State private var libreLinkUpLogbookHistory: [LibreLinkUpGlucose] = []
     @State private var isReloading: Bool = false
     @State private var isShowingDisclaimer = false
@@ -47,14 +48,14 @@ struct PhoneAppHomeView: View {
                     
                     Text("\(currentGlucose)")
                         .font(.system(size: 128)) //, weight: .bold)
-                        .foregroundStyle(libreLinkUpHistory[0].color.color)
+                        .foregroundStyle(libreLinkUpHistory.libreLinkUpGlucose[0].color.color)
                         .minimumScaleFactor(0.1)
                         .padding()
                    
                     VStack {
                         Text("\(trendArrow)")
                             .font(.system(size: 50, weight: .bold))
-                            .foregroundStyle(libreLinkUpHistory[0].color.color)
+                            .foregroundStyle(libreLinkUpHistory.libreLinkUpGlucose[0].color.color)
                       
 //                        Text("IOB: \(currentIOB, specifier: "%.2f")U")
                         
@@ -121,7 +122,7 @@ struct PhoneAppHomeView: View {
                     }
                     .padding()
                 }
-                .background(Color(libreLinkUpHistory[0].color.color))
+                .background(Color(libreLinkUpHistory.libreLinkUpGlucose[0].color.color))
 //                .frame(maxWidth: .infinity)
                 .cornerRadius(30)
 //                .safeAreaPadding(.top)
@@ -129,9 +130,9 @@ struct PhoneAppHomeView: View {
             }
             
             
-            if libreLinkUpHistory.count > 0 {
-                let rectXStart: Date = libreLinkUpHistory.last?.glucose.date ?? Date.distantPast
-                let rectXStop: Date = libreLinkUpHistory.first?.glucose.date ?? Date.distantFuture
+            if libreLinkUpHistory.libreLinkUpGlucose.count > 0 {
+                let rectXStart: Date = libreLinkUpHistory.libreLinkUpGlucose.last?.glucose.date ?? Date.distantPast
+                let rectXStop: Date = libreLinkUpHistory.libreLinkUpGlucose.first?.glucose.date ?? Date.distantFuture
                 
                 //Configuration
                 // 0 = mmoll  1 = mgdl  0.0555
@@ -183,7 +184,7 @@ struct PhoneAppHomeView: View {
 //                            .foregroundStyle(.white)
 //                    }
 
-                    ForEach(libreLinkUpHistory) { item in
+                    ForEach(libreLinkUpHistory.libreLinkUpGlucose) { item in
                                                 
 //                        PointMark(x: .value("Time", item.glucose.date),
 //                                  y: .value("Glucose", item.glucose.value)
@@ -332,7 +333,7 @@ struct PhoneAppHomeView: View {
                     await reloadLibreLinkUp()
                     isReloading = false
                 }
-                scrollPosition = libreLinkUpHistory.first?.glucose.date ?? Date.now
+                scrollPosition = libreLinkUpHistory.libreLinkUpGlucose.first?.glucose.date ?? Date.now
             }
         }
         .onAppear() { // fires when switching the Views, e.g. form settings to home view.
@@ -457,18 +458,20 @@ struct PhoneAppHomeView: View {
                 dataString = (data as! Data).string
                 libreLinkUpResponse = dataString + (logbookData as! Data).string
                 // TODO: just merge with newer values
-                libreLinkUpHistory = graphHistory.reversed().dropLast(dropLastValues)
-                if libreLinkUpHistory.count == 0 {
-                    libreLinkUpHistory = MockDataPhone
+                libreLinkUpHistory.libreLinkUpGlucose = graphHistory.reversed().dropLast(dropLastValues)
+                if libreLinkUpHistory.libreLinkUpGlucose.count == 0 {
+//                    libreLinkUpHistory.append(LibreLinkUpHistory.mock)
                 }
                 libreLinkUpLogbookHistory = logbookHistory
                 
                 sensorSettings = sensorSettingsRead
                 
+//                try await LibreLinkUp().getLastGlucoseData()
+                
                 if graphHistory.count > 0 {
                     DispatchQueue.main.async {
                         settings.lastOnlineDate = Date()
-                        let lastMeasurement = libreLinkUpHistory[0]
+                        let lastMeasurement = libreLinkUpHistory.libreLinkUpGlucose[0]
                         lastReadingDate = lastMeasurement.glucose.date
                         minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
 //                        sensor?.lastReadingDate = lastReadingDate
@@ -476,7 +479,7 @@ struct PhoneAppHomeView: View {
                         trendArrow = lastMeasurement.trendArrow?.symbol ?? "---"
                         // TODO: keep the raw values filling the gaps with -1 values
                         history.rawValues = []
-                        history.factoryValues = libreLinkUpHistory.dropFirst().map(\.glucose) // TEST
+                        history.factoryValues = libreLinkUpHistory.libreLinkUpGlucose.dropFirst().map(\.glucose) // TEST
                         var trend = history.factoryTrend
                         if trend.isEmpty || lastMeasurement.id > trend[0].id {
                             trend.insert(lastMeasurement.glucose, at: 0)

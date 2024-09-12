@@ -62,8 +62,8 @@
             filePath = "LibreWrist/Views/PhoneAppHomeView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "466"
-            endingLineNumber = "466"
+            startingLineNumber = "467"
+            endingLineNumber = "467"
             landmarkName = "reloadLibreLinkUp()"
             landmarkType = "7">
          </BreakpointContent>

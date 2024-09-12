@@ -12,6 +12,20 @@
 		7B183E9B2C84C9540018A24F /* PhoneAppInsulinDeliveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B183E9A2C84C9540018A24F /* PhoneAppInsulinDeliveryView.swift */; };
 		7B1A7CA42C79E413006D603C /* LibreLinkUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1A7CA32C79E413006D603C /* LibreLinkUp.swift */; };
 		7B1A7CA62C79E8E2006D603C /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1A7CA52C79E8E2006D603C /* Settings.swift */; };
+		7B299A0B2C90AF8C002A15C8 /* AuthTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A0A2C90AF8C002A15C8 /* AuthTicket.swift */; };
+		7B299A0C2C90AF8C002A15C8 /* AuthTicket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A0A2C90AF8C002A15C8 /* AuthTicket.swift */; };
+		7B299A0E2C90AFC8002A15C8 /* LibreLinkUpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A0D2C90AFC8002A15C8 /* LibreLinkUpError.swift */; };
+		7B299A0F2C90AFC8002A15C8 /* LibreLinkUpError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A0D2C90AFC8002A15C8 /* LibreLinkUpError.swift */; };
+		7B299A112C90AFFC002A15C8 /* Glucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A102C90AFFC002A15C8 /* Glucose.swift */; };
+		7B299A122C90AFFC002A15C8 /* Glucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A102C90AFFC002A15C8 /* Glucose.swift */; };
+		7B299A142C90B06C002A15C8 /* GlucoseMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A132C90B06C002A15C8 /* GlucoseMeasurement.swift */; };
+		7B299A152C90B06C002A15C8 /* GlucoseMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A132C90B06C002A15C8 /* GlucoseMeasurement.swift */; };
+		7B299A172C90B089002A15C8 /* LibreLinkUpGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A162C90B089002A15C8 /* LibreLinkUpGlucose.swift */; };
+		7B299A182C90B089002A15C8 /* LibreLinkUpGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A162C90B089002A15C8 /* LibreLinkUpGlucose.swift */; };
+		7B299A1A2C90B0A1002A15C8 /* LibreLinkUpAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A192C90B0A1002A15C8 /* LibreLinkUpAlarm.swift */; };
+		7B299A1B2C90B0A1002A15C8 /* LibreLinkUpAlarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A192C90B0A1002A15C8 /* LibreLinkUpAlarm.swift */; };
+		7B299A1D2C90DC43002A15C8 /* LibreLinkUpHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A1C2C90DC43002A15C8 /* LibreLinkUpHistory.swift */; };
+		7B299A1E2C90DC43002A15C8 /* LibreLinkUpHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A1C2C90DC43002A15C8 /* LibreLinkUpHistory.swift */; };
 		7B435CCC2C6D46DF006F6E53 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B435CCB2C6D46DF006F6E53 /* Logger.swift */; };
 		7B435CD02C6D5103006F6E53 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B435CCF2C6D5103006F6E53 /* Date.swift */; };
 		7B435CD22C6D51F9006F6E53 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7B435CD12C6D51F9006F6E53 /* Localizable.xcstrings */; };
@@ -116,6 +130,13 @@
 		7B183E9A2C84C9540018A24F /* PhoneAppInsulinDeliveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAppInsulinDeliveryView.swift; sourceTree = "<group>"; };
 		7B1A7CA32C79E413006D603C /* LibreLinkUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreLinkUp.swift; sourceTree = "<group>"; };
 		7B1A7CA52C79E8E2006D603C /* Settings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		7B299A0A2C90AF8C002A15C8 /* AuthTicket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTicket.swift; sourceTree = "<group>"; };
+		7B299A0D2C90AFC8002A15C8 /* LibreLinkUpError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreLinkUpError.swift; sourceTree = "<group>"; };
+		7B299A102C90AFFC002A15C8 /* Glucose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Glucose.swift; sourceTree = "<group>"; };
+		7B299A132C90B06C002A15C8 /* GlucoseMeasurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseMeasurement.swift; sourceTree = "<group>"; };
+		7B299A162C90B089002A15C8 /* LibreLinkUpGlucose.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreLinkUpGlucose.swift; sourceTree = "<group>"; };
+		7B299A192C90B0A1002A15C8 /* LibreLinkUpAlarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreLinkUpAlarm.swift; sourceTree = "<group>"; };
+		7B299A1C2C90DC43002A15C8 /* LibreLinkUpHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreLinkUpHistory.swift; sourceTree = "<group>"; };
 		7B435CCB2C6D46DF006F6E53 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		7B435CCF2C6D5103006F6E53 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		7B435CD12C6D51F9006F6E53 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -220,7 +241,6 @@
 				7BADE01A2C73E4B60074A47F /* Data.swift */,
 				7BADE01C2C73E4E70074A47F /* Int.swift */,
 				7BADE0202C73EB060074A47F /* Double.swift */,
-				7B462BFC2C7FBAC8003FEDC3 /* MeasurementColor.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -228,12 +248,20 @@
 		7B3EA4FE2C6C0B1A0061F239 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				7BADE0112C73E3440074A47F /* SensorType.swift */,
+				7B299A0A2C90AF8C002A15C8 /* AuthTicket.swift */,
+				7B299A102C90AFFC002A15C8 /* Glucose.swift */,
+				7B299A132C90B06C002A15C8 /* GlucoseMeasurement.swift */,
 				7BADE0222C73EB450074A47F /* GlucoseUnit.swift */,
-				7BC51F502C7C8413009542D2 /* TrendArrow.swift */,
 				7BC51FBC2C7D31C3009542D2 /* History.swift */,
 				7BFD83562C84DF6200A9B195 /* InsulinObjects.swift */,
+				7B299A192C90B0A1002A15C8 /* LibreLinkUpAlarm.swift */,
+				7B299A0D2C90AFC8002A15C8 /* LibreLinkUpError.swift */,
+				7B299A162C90B089002A15C8 /* LibreLinkUpGlucose.swift */,
+				7B299A1C2C90DC43002A15C8 /* LibreLinkUpHistory.swift */,
+				7B462BFC2C7FBAC8003FEDC3 /* MeasurementColor.swift */,
+				7BC51F502C7C8413009542D2 /* TrendArrow.swift */,
 				7BCA58682C8A292600C50F11 /* SensorSettings.swift */,
+				7BADE0112C73E3440074A47F /* SensorType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -551,7 +579,10 @@
 				7B435CCC2C6D46DF006F6E53 /* Logger.swift in Sources */,
 				7BFD835E2C84E48E00A9B195 /* ExponentialInsulinModel.swift in Sources */,
 				7B183E972C84B09D0018A24F /* PhoneToWatchConnector.swift in Sources */,
+				7B299A112C90AFFC002A15C8 /* Glucose.swift in Sources */,
 				7BADE01B2C73E4B60074A47F /* Data.swift in Sources */,
+				7B299A0B2C90AF8C002A15C8 /* AuthTicket.swift in Sources */,
+				7B299A172C90B089002A15C8 /* LibreLinkUpGlucose.swift in Sources */,
 				7B435CD42C6D57F5006F6E53 /* String.swift in Sources */,
 				7B1A7CA42C79E413006D603C /* LibreLinkUp.swift in Sources */,
 				7BC51F512C7C8413009542D2 /* TrendArrow.swift in Sources */,
@@ -563,9 +594,13 @@
 				7B9B7A7B2C875453004B30FD /* PhoneAppSettingsView.swift in Sources */,
 				7BA0AE5B2C5AE980004226FE /* PhoneAppHomeView.swift in Sources */,
 				7BA0AE5D2C5AEB89004226FE /* PhoneAppDonateView.swift in Sources */,
+				7B299A0E2C90AFC8002A15C8 /* LibreLinkUpError.swift in Sources */,
 				7B1A7CA62C79E8E2006D603C /* Settings.swift in Sources */,
+				7B299A1D2C90DC43002A15C8 /* LibreLinkUpHistory.swift in Sources */,
+				7B299A142C90B06C002A15C8 /* GlucoseMeasurement.swift in Sources */,
 				7BA0AE2F2C582F63004226FE /* ContentView.swift in Sources */,
 				7BA0AE2D2C582F63004226FE /* LibreWristApp.swift in Sources */,
+				7B299A1A2C90B0A1002A15C8 /* LibreLinkUpAlarm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,7 +636,10 @@
 				7B183E992C84B0AA0018A24F /* WatchToPhoneConnector.swift in Sources */,
 				7BC51F552C7C851A009542D2 /* Settings.swift in Sources */,
 				7BC51F382C7C77B2009542D2 /* LibreWristWatchApp.swift in Sources */,
+				7B299A122C90AFFC002A15C8 /* Glucose.swift in Sources */,
 				7BC51F5B2C7C8589009542D2 /* SensorType.swift in Sources */,
+				7B299A0C2C90AF8C002A15C8 /* AuthTicket.swift in Sources */,
+				7B299A182C90B089002A15C8 /* LibreLinkUpGlucose.swift in Sources */,
 				7BC51F592C7C8564009542D2 /* Data.swift in Sources */,
 				7BC51FBE2C7D31C3009542D2 /* History.swift in Sources */,
 				7B462BFE2C7FC46A003FEDC3 /* MeasurementColor.swift in Sources */,
@@ -613,9 +651,13 @@
 				7BFD835F2C84E48E00A9B195 /* ExponentialInsulinModel.swift in Sources */,
 				7BC51F532C7C84B6009542D2 /* GlucoseUnit.swift in Sources */,
 				7BC51F542C7C84E7009542D2 /* Double.swift in Sources */,
+				7B299A0F2C90AFC8002A15C8 /* LibreLinkUpError.swift in Sources */,
 				7BC51F5A2C7C8573009542D2 /* String.swift in Sources */,
+				7B299A1E2C90DC43002A15C8 /* LibreLinkUpHistory.swift in Sources */,
+				7B299A152C90B06C002A15C8 /* GlucoseMeasurement.swift in Sources */,
 				7BC51F582C7C854F009542D2 /* Date.swift in Sources */,
 				7BC51F4A2C7C80FE009542D2 /* WatchAppNightView.swift in Sources */,
+				7B299A1B2C90B0A1002A15C8 /* LibreLinkUpAlarm.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
