@@ -32,7 +32,7 @@ struct PhoneAppHomeView: View {
     @State private var sensorSettings = SensorSettings(uom: 1, targetLow: 70, targetHigh: 180, alarmLow: 80, alarmHigh: 300)
     @State private var connected = UserDefaults.group.connected
     
-    @State var lastReadingDate: Date = Date.distantPast
+    @State var lastReadingDate: Date = Date(timeIntervalSinceNow: -999 * 60)
     @State var currentGlucose: Int = 0
     @State var trendArrow = "---"
      
@@ -456,18 +456,20 @@ struct PhoneAppHomeView: View {
                 let (data, _, graphHistory, logbookData, logbookHistory, _, sensorSettingsRead) = try await LibreLinkUp().getPatientGraph()
                 dataString = (data as! Data).string
                 libreLinkUpResponse = dataString + (logbookData as! Data).string
-                // TODO: just merge with newer values
-                libreLinkUpHistory = graphHistory.reversed().dropLast(dropLastValues)
-                if libreLinkUpHistory.count == 0 {
-                    libreLinkUpHistory = MockDataPhone
-                }
+              
+//                if libreLinkUpHistory.count == 0 {
+//                    libreLinkUpHistory = MockDataPhone
+//                }
                 libreLinkUpLogbookHistory = logbookHistory
                 
-                sensorSettings = sensorSettingsRead
+                
                 
                 if graphHistory.count > 0 {
                     DispatchQueue.main.async {
                         settings.lastOnlineDate = Date()
+                        sensorSettings = sensorSettingsRead
+                        // TODO: just merge with newer values
+                        libreLinkUpHistory = graphHistory.reversed().dropLast(dropLastValues)
                         let lastMeasurement = libreLinkUpHistory[0]
                         lastReadingDate = lastMeasurement.glucose.date
                         minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
@@ -481,8 +483,11 @@ struct PhoneAppHomeView: View {
                         if trend.isEmpty || lastMeasurement.id > trend[0].id {
                             trend.insert(lastMeasurement.glucose, at: 0)
                         }
-                        // keep only the latest 16 minutes considering the 17-minute latency of the historic values update
-                        trend = trend.filter { lastMeasurement.id - $0.id < 16 }
+                        // keep only the latest 16 minutes considering the 17-minute latency of the historic values update. seems to vary between 21 and 17 minutes.
+                        if libreLinkUpHistory.indices.contains(1) {
+                            let lastGraphItem = libreLinkUpHistory[1].id
+                            trend = trend.filter { $0.id > lastGraphItem }
+                        }
                         history.factoryTrend = trend
                         Logger.general.info("LibreLinkUp: history.factoryTrend: \(history.factoryTrend)")
                         // TODO: merge and update sensor history / trend
@@ -530,7 +535,7 @@ let MockDataPhone = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1000,
                                                          trendRate: 4.0,
                                                          trendArrow: .stable,
                                                          id: 6020,
-                                                         date: Date(timeIntervalSince1970: 746239583),
+                                                         date: Date(timeIntervalSinceNow: -3 * 60 * 60),
                                                          hasError: false),
                                         color: MeasurementColor.green,
                                         trendArrow: TrendArrow(rawValue: 0)),
@@ -540,7 +545,7 @@ let MockDataPhone = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1000,
                                                          trendRate: 4.0,
                                                          trendArrow: .stable,
                                                          id: 6025,
-                                                         date: Date(timeIntervalSince1970: 746260584),
+                                                         date: Date(timeIntervalSinceNow: -2 * 60 * 60),
                                                          hasError: false),
                                          color: MeasurementColor.green,
                                         trendArrow: TrendArrow(rawValue: 0)),
@@ -550,7 +555,7 @@ let MockDataPhone = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1000,
                                                          trendRate: 4.0,
                                                          trendArrow: .stable,
                                                          id: 6030,
-                                                         date: Date(timeIntervalSince1970: 746282663),
+                                                         date: Date(timeIntervalSinceNow: -1 * 60 * 60),
                                                          hasError: false),
                                         color: MeasurementColor.green,
                                         trendArrow: TrendArrow(rawValue: 0))]

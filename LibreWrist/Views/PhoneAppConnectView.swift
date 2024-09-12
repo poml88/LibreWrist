@@ -82,7 +82,7 @@ struct PhoneAppConnectView: View {
                 }
                 .disabled(username.isBlank || password.isBlank)
                 
-                if connected == .connected {
+                if connected == .connected || connected == .newlyConnected{
                     Text("Try pressing \"Connect\" again to resend credentials to watch.")
                     Text("**Not for treatment decisions.**\\\n\\\nThe information presented in this app and its extensions must not be used for treatment or dosing decisions. Consult the glucose-monitoring system and/or a healthcare professional.".attributed)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
