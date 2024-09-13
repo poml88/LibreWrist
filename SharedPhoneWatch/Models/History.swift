@@ -40,6 +40,8 @@ extension History {
         history.factoryTrend = factoryTrend
 #warning("make some useful mock data")
         history.factoryTrend = [Glucose(200, id: 6031, date: Date(timeIntervalSince1970: 746275463)), Glucose(190, id: 6032, date: Date(timeIntervalSince1970: 746279063)), Glucose(180, id: 6033, date: Date(timeIntervalSince1970: 746282663))]
+        history.factoryTrend = [Glucose(200, id: 6031, date: Date(timeIntervalSinceNow: (-1 * 60 * 60) - (3 * 60))), Glucose(190, id: 6032, date: Date(timeIntervalSinceNow: -1 * 60 * 60 - 2 * 60)), Glucose(180, id: 6033, date: Date(timeIntervalSinceNow: -1 * 60 * 60 - 1 * 60))]
+
 
         let storedValues = [231, 252, 253, 254, 245, 196, 177, 128, 149, 150, 101, 122, 133, 144, 155, 166, 177, 178, 149, 140, 141, 142, 143, 144, 155, 166, 177, 178, 169, 150, 141, 132].enumerated().map { Glucose($0.1, id: $0.0, date: Date() - Double($0.1) * 15 * 60, source: "SourceApp com.example.sourceapp") }
         history.storedValues = storedValues

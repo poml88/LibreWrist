@@ -27,7 +27,7 @@ struct WatchAppHomeView: View {
     @State private var sensorSettings = SensorSettings(uom: 1, targetLow: 70, targetHigh: 180, alarmLow: 80, alarmHigh: 300)
     @State private var connected = UserDefaults.group.connected
     
-    @State var lastReadingDate: Date = Date.init(timeIntervalSinceReferenceDate: 746479063)
+    @State var lastReadingDate: Date = Date(timeIntervalSinceNow: -999 * 60)
     @State var currentGlucose: Int = 0
     @State var trendArrow = "---"
     
@@ -389,18 +389,20 @@ struct WatchAppHomeView: View {
                 let (data, _, graphHistory, logbookData, logbookHistory, _, sensorSettingsRead) = try await LibreLinkUp().getPatientGraph()
                 dataString = (data as! Data).string
                 libreLinkUpResponse = dataString + (logbookData as! Data).string
-                // TODO: just merge with newer values
-                libreLinkUpHistory = graphHistory.reversed().dropLast(dropLastValues) //For watch show only 6 hours
-                if libreLinkUpHistory.count == 0 {
-                    libreLinkUpHistory = MockDataWatch
-                }
+                
+//                                if libreLinkUpHistory.count == 0 {
+//                    libreLinkUpHistory = MockDataWatch
+//                }
                 libreLinkUpLogbookHistory = logbookHistory
                 
-                sensorSettings = sensorSettingsRead
+                
                 
                 if graphHistory.count > 0 {
                     DispatchQueue.main.async {
                         settings.lastOnlineDate = Date()
+                        sensorSettings = sensorSettingsRead
+                        // TODO: just merge with newer values
+                        libreLinkUpHistory = graphHistory.reversed().dropLast(dropLastValues) //For watch show only 6 hours
                         let lastMeasurement = libreLinkUpHistory[0]
                         lastReadingDate = lastMeasurement.glucose.date
                         minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
@@ -415,7 +417,10 @@ struct WatchAppHomeView: View {
                             trend.insert(lastMeasurement.glucose, at: 0)
                         }
                         // keep only the latest 16 minutes considering the 17-minute latency of the historic values update
-                        trend = trend.filter { lastMeasurement.id - $0.id < 16 }
+                        if libreLinkUpHistory.indices.contains(1) {
+                            let lastGraphItem = libreLinkUpHistory[1].id
+                            trend = trend.filter { $0.id > lastGraphItem }
+                        }
                         history.factoryTrend = trend
                         Logger.general.info("LibreLinkUp: history.factoryTrend: \(history.factoryTrend)")
                         // TODO: merge and update sensor history / trend
@@ -446,7 +451,7 @@ let MockDataWatch = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1000,
                                                          trendRate: 4.0,
                                                          trendArrow: .stable,
                                                          id: 6020,
-                                                         date: Date(timeIntervalSince1970: 746239583),
+                                                         date: Date(timeIntervalSinceNow: -3 * 60 * 60),
                                                          hasError: false),
                                         color: MeasurementColor.green,
                                         trendArrow: TrendArrow(rawValue: 0)),
@@ -456,7 +461,7 @@ let MockDataWatch = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1000,
                                                          trendRate: 4.0,
                                                          trendArrow: .stable,
                                                          id: 6025,
-                                                         date: Date(timeIntervalSince1970: 746260584),
+                                                         date: Date(timeIntervalSinceNow: -2 * 60 * 60),
                                                          hasError: false),
                                         color: MeasurementColor.green,
                                         trendArrow: TrendArrow(rawValue: 0)),
@@ -466,7 +471,7 @@ let MockDataWatch = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1000,
                                                          trendRate: 4.0,
                                                          trendArrow: .stable,
                                                          id: 6030,
-                                                         date: Date(timeIntervalSince1970: 746282663),
+                                                         date: Date(timeIntervalSinceNow: -1 * 60 * 60),
                                                          hasError: false),
                                         color: MeasurementColor.green,
                                         trendArrow: TrendArrow(rawValue: 0))]
