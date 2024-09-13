@@ -18,6 +18,7 @@ For example there are no widgets or complications yet. Chart is not scrollable, 
 - To use the insulin calculation, tap on the IOB label on the home screen. I have added only Novorapid for the moment, but more insulins can be added on request.
   - The app is using the exponetial model from LoopKit. The model takes three paramters: actionDuration, peakActivityTime, and delay. For Novorapid I have set 270, 120, and 15 minutes.
 - As I have not yet added the widgets / complications, the most convenient way to start the app is by creating a "shortcut" and put that as a widget on the lock screen. In the details of the shortcut one can select "Show on Apple Watch". Then the shortcut is available as a widget on the watch as well.
+- I have set on the watch the "back to watch" time for this app to one hour. Like this, it is 1 hour in the foreground and gets a reasonable number of updates.
 
 ### ToDo ###
 A lot....
