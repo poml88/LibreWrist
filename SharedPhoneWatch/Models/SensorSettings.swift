@@ -15,7 +15,7 @@ import Foundation
     let alarmLow: Int
     let alarmHigh: Int
     
-    init(uom: Int, targetLow: Int, targetHigh: Int, alarmLow: Int, alarmHigh: Int) {
+    init(uom: Int = 1, targetLow: Int = 70, targetHigh: Int = 180, alarmLow: Int = 80, alarmHigh: Int = 300) {
         self.uom = uom
         self.targetLow = targetLow
         self.targetHigh = targetHigh

@@ -33,6 +33,12 @@ class LibreLinkUp  {
     
     var unit: GlucoseUnit = .mgdl
     
+    var libreLinkUpResponse: String = "[...]"
+    var sensorSettings: SensorSettings = SensorSettings()
+    
+    
+    
+    
     let headers = [
         "User-Agent": "Mozilla/5.0",
         "Content-Type": "application/json",
@@ -54,6 +60,82 @@ class LibreLinkUp  {
     ////        print ("\(settings)")
     //    }
     
+    func reloadLibreLinkUp() async {
+        
+        var dataString = ""
+        var retries = 0
+        let dropLastValues = 70
+        
+        
+    loop: repeat {
+        do {
+            let token = settings.libreLinkUpToken
+            if settings.libreLinkUpUserId.isEmpty ||
+                settings.libreLinkUpToken.isEmpty ||
+                settings.libreLinkUpTokenExpirationDate < Date() ||
+                retries == 1 {
+                do {
+                    try await login()
+                } catch {
+                    libreLinkUpResponse = error.localizedDescription.capitalized
+                }
+            }
+            if !(settings.libreLinkUpUserId.isEmpty ||
+                 settings.libreLinkUpToken.isEmpty) {
+                let (data, _, graphHistory, logbookData, logbookHistory, _, sensorSettingsRead) = try await getPatientGraph()
+                dataString = (data as! Data).string
+                libreLinkUpResponse = dataString + (logbookData as! Data).string
+              
+//                if libreLinkUpHistory.count == 0 {
+//                    libreLinkUpHistory = MockDataPhone
+//                }
+//                libreLinkUpLogbookHistory = logbookHistory
+                
+                
+                
+//                try await LibreLinkUp().getLastGlucoseData()
+                
+                if graphHistory.count > 0 {
+                    DispatchQueue.main.async { [self] in
+                        settings.lastOnlineDate = Date()
+                        sensorSettings = sensorSettingsRead
+                        // TODO: just merge with newer values
+                        LibreLinkUpHistory.mock.libreLinkUpGlucose = graphHistory.reversed().dropLast(dropLastValues)
+                        let lastMeasurement = LibreLinkUpHistory.mock.libreLinkUpGlucose[0]
+                        LibreLinkUpHistory.mock.lastReadingDate = lastMeasurement.glucose.date
+//                        minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
+//                        sensor?.lastReadingDate = lastReadingDate
+//                        currentGlucose = lastMeasurement.glucose.value
+//                        trendArrow = lastMeasurement.trendArrow?.symbol ?? "---"
+                        // TODO: keep the raw values filling the gaps with -1 values
+//                        history.rawValues = []
+//                        history.factoryValues = libreLinkUpHistory.libreLinkUpGlucose.dropFirst().map(\.glucose) // TEST
+                        var trend = LibreLinkUpHistory.mock.libreLinkUpMinuteGlucose
+                        if trend.isEmpty || lastMeasurement.id > trend[0].id {
+                            trend.insert(lastMeasurement, at: 0)
+                        }
+                        // keep only the latest 16 minutes considering the 17-minute latency of the historic values update. seems to vary between 21 and 17 minutes.
+                        if LibreLinkUpHistory.mock.libreLinkUpGlucose.indices.contains(1) {
+                            let lastGraphItem = LibreLinkUpHistory.mock.libreLinkUpGlucose[1].id
+                            trend = trend.filter { $0.id > lastGraphItem }
+                        }
+                        LibreLinkUpHistory.mock.libreLinkUpMinuteGlucose = trend
+                        Logger.general.info("LibreLinkUp: libreLinkUpHistory.libreLinkUpMinuteGlucose: \(LibreLinkUpHistory.mock.libreLinkUpMinuteGlucose)")
+                        // TODO: merge and update sensor history / trend
+                        //                            app.main.didParseSensor(app.sensor)
+                    }
+                }
+                if dataString != "{\"message\":\"MissingCachedUser\"}\n" {
+                    break loop
+                }
+                retries += 1
+            }
+        } catch {
+            libreLinkUpResponse = error.localizedDescription.capitalized
+        }
+    } while retries == 1
+        
+    }
     
     @discardableResult
     func login() async throws -> (Any, URLResponse) {

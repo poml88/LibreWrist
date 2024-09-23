@@ -10,11 +10,11 @@ import SwiftUI
  
 struct WatchAppNightView: View {
     
-    @Environment(History.self) var history: History
+    @Environment(\.libreLinkUpHistory) var libreLinkUpHistory
     
     
     var body: some View {
-        if history.factoryTrend.count > 0 {
+        if libreLinkUpHistory.libreLinkUpGlucose.count > 0 {
             VStack {
     //                if minutesSinceLastReading >= 3 {
     //                    Text("---")
@@ -22,7 +22,7 @@ struct WatchAppNightView: View {
     //                    .minimumScaleFactor(0.1)
     //                    .padding()
     //                } else {
-                Text("\(history.factoryTrend[0].value)")
+                Text("\(libreLinkUpHistory.libreLinkUpGlucose[0].glucose.value)")
                     .font(.system(size: 100)) //, weight: .bold
     //                .foregroundStyle(libreLinkUpHistory[0].color.color)
                         .minimumScaleFactor(0.9)
@@ -34,7 +34,7 @@ struct WatchAppNightView: View {
     //                        Text("---")
     //                            .font(.title)
     //                    } else {
-                    Text("\(history.factoryTrend[0].trendArrow.symbol)")
+                    Text("\(libreLinkUpHistory.libreLinkUpGlucose[0].trendArrow?.symbol ?? "--")")
                         .font(.system(size: 100)) //, weight: .bold
         //                .foregroundStyle(libreLinkUpHistory[0].color.color)
                             .minimumScaleFactor(0.7)
@@ -62,5 +62,5 @@ struct WatchAppNightView: View {
 
 #Preview {
     WatchAppNightView()
-        .environment(History.test)
+//        .environment(History.test)
 }

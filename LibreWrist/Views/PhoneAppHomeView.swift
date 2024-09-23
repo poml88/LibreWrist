@@ -16,26 +16,27 @@ struct PhoneAppHomeView: View {
     
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.colorScheme) var colorScheme
-    @Environment(History.self) var history: History
-    @Environment(LibreLinkUpHistory.self) var libreLinkUpHistory: LibreLinkUpHistory
+//    @Environment(History.self) var history: History
+    @Environment(\.libreLinkUpHistory) var libreLinkUpHistory
     
     
     @State private var selectedlibreLinkHistoryPoint: LibreLinkUpGlucose?
     @State private var minutesSinceLastReading: Int = 999
     @State private var libreLinkUpResponse: String = "[...]"
 //    @State private var libreLinkUpHistory = LibreLinkUpHistory.mock
-    @State private var libreLinkUpLogbookHistory: [LibreLinkUpGlucose] = []
+//    @State private var libreLinkUpLogbookHistory: [LibreLinkUpGlucose] = []
     @State private var isReloading: Bool = false
     @State private var isShowingDisclaimer = false
     @State private var isShowingInsulinDeliverySheet = false
     @State private var currentIOB: Double = 0.0
     @State private var scrollPosition: Date = Date.now
-    @State private var sensorSettings = SensorSettings(uom: 1, targetLow: 70, targetHigh: 180, alarmLow: 80, alarmHigh: 300)
+    @State private var sensorSettings = SensorSettings()
     @State private var connected = UserDefaults.group.connected
     
-    @State var lastReadingDate: Date = Date(timeIntervalSinceNow: -999 * 60)
+//    @State var lastReadingDate: Date = Date(timeIntervalSinceNow: -999 * 60)
     @State var currentGlucose: Int = 0
     @State var trendArrow = "---"
+    private var libreLinkUp = LibreLinkUp()
      
     private let timer = Timer.publish(every: 60, tolerance: 1, on: .main, in: .common).autoconnect()
     
@@ -224,9 +225,9 @@ struct PhoneAppHomeView: View {
                     }
                     
                     #warning ("breaks preview")
-                    ForEach(history.factoryTrend) { item in
-                        PointMark(x: .value("Time", item.date),
-                                  y: .value("Glucose", item.value)
+                    ForEach(libreLinkUpHistory.libreLinkUpMinuteGlucose) { item in
+                        PointMark(x: .value("Time", item.glucose.date),
+                                  y: .value("Glucose", item.glucose.value)
                         )
                         .foregroundStyle(Color.yellow)
                         .symbolSize(20)
@@ -326,11 +327,11 @@ struct PhoneAppHomeView: View {
             UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
             
             connected = UserDefaults.group.connected
-            minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
+            minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.mock.lastReadingDate) / 60)
             if minutesSinceLastReading >= 1 && connected == .connected {
                 Task {
                     isReloading = true
-                    await reloadLibreLinkUp()
+                    await libreLinkUp.reloadLibreLinkUp()
                     isReloading = false
                 }
                 scrollPosition = libreLinkUpHistory.libreLinkUpGlucose.first?.glucose.date ?? Date.now
@@ -355,12 +356,12 @@ struct PhoneAppHomeView: View {
             currentIOB = sumIOB
             UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
             
-            minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
+            minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.mock.lastReadingDate) / 60)
             connected = UserDefaults.group.connected
             if minutesSinceLastReading >= 1 && connected == .newlyConnected {
                 Task {
                     isReloading = true
-                    await reloadLibreLinkUp()
+                    await libreLinkUp.reloadLibreLinkUp()
                     isReloading = false
                     connected = .connected
                     UserDefaults.group.connected = .connected
@@ -386,11 +387,11 @@ struct PhoneAppHomeView: View {
                 
                 
                 connected = UserDefaults.group.connected
-                minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
+                minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.mock.lastReadingDate) / 60)
                 if minutesSinceLastReading >= 1 && connected == .connected {
                     Task {
                         isReloading = true
-                        await reloadLibreLinkUp()
+                        await libreLinkUp.reloadLibreLinkUp()
                         isReloading = false
                     }
                 }
@@ -432,88 +433,15 @@ struct PhoneAppHomeView: View {
     }
     
     
-    func reloadLibreLinkUp() async {
-        
-        var dataString = ""
-        var retries = 0
-        let dropLastValues = 70
-        
-        
-    loop: repeat {
-        do {
-            let token = settings.libreLinkUpToken
-            if settings.libreLinkUpUserId.isEmpty ||
-                settings.libreLinkUpToken.isEmpty ||
-                settings.libreLinkUpTokenExpirationDate < Date() ||
-                retries == 1 {
-                do {
-                    try await LibreLinkUp().login()
-                } catch {
-                    libreLinkUpResponse = error.localizedDescription.capitalized
-                }
-            }
-            if !(settings.libreLinkUpUserId.isEmpty ||
-                 settings.libreLinkUpToken.isEmpty) {
-                let (data, _, graphHistory, logbookData, logbookHistory, _, sensorSettingsRead) = try await LibreLinkUp().getPatientGraph()
-                dataString = (data as! Data).string
-                libreLinkUpResponse = dataString + (logbookData as! Data).string
-              
-//                if libreLinkUpHistory.count == 0 {
-//                    libreLinkUpHistory = MockDataPhone
-//                }
-                libreLinkUpLogbookHistory = logbookHistory
-                
-                
-                
-//                try await LibreLinkUp().getLastGlucoseData()
-                
-                if graphHistory.count > 0 {
-                    DispatchQueue.main.async {
-                        settings.lastOnlineDate = Date()
-                        sensorSettings = sensorSettingsRead
-                        // TODO: just merge with newer values
-                        libreLinkUpHistory = graphHistory.reversed().dropLast(dropLastValues)
-                        let lastMeasurement = libreLinkUpHistory[0]
-                        lastReadingDate = lastMeasurement.glucose.date
-                        minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-//                        sensor?.lastReadingDate = lastReadingDate
-                        currentGlucose = lastMeasurement.glucose.value
-                        trendArrow = lastMeasurement.trendArrow?.symbol ?? "---"
-                        // TODO: keep the raw values filling the gaps with -1 values
-                        history.rawValues = []
-                        history.factoryValues = libreLinkUpHistory.libreLinkUpGlucose.dropFirst().map(\.glucose) // TEST
-                        var trend = history.factoryTrend
-                        if trend.isEmpty || lastMeasurement.id > trend[0].id {
-                            trend.insert(lastMeasurement.glucose, at: 0)
-                        }
-                        // keep only the latest 16 minutes considering the 17-minute latency of the historic values update. seems to vary between 21 and 17 minutes.
-                        if libreLinkUpHistory.indices.contains(1) {
-                            let lastGraphItem = libreLinkUpHistory[1].id
-                            trend = trend.filter { $0.id > lastGraphItem }
-                        }
-                        history.factoryTrend = trend
-                        Logger.general.info("LibreLinkUp: history.factoryTrend: \(history.factoryTrend)")
-                        // TODO: merge and update sensor history / trend
-                        //                            app.main.didParseSensor(app.sensor)
-                    }
-                }
-                if dataString != "{\"message\":\"MissingCachedUser\"}\n" {
-                    break loop
-                }
-                retries += 1
-            }
-        } catch {
-            libreLinkUpResponse = error.localizedDescription.capitalized
-        }
-    } while retries == 1
-        
-    }
+    
 }
 
 
 #Preview {
     PhoneAppHomeView()
-        .environment(History.test)
+    
+//        .environment(History.test)
+        .environment(LibreLinkUpHistory.mock)
 }
 
 

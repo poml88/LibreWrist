@@ -15,12 +15,12 @@ struct LibreWristWatch_Watch_AppApp: App {
         print("init")
     }
     
-    @State private var history = History()
+    @State private var libreLinkUpHistory = LibreLinkUpHistory.mock
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(history)
+                .environment(\.libreLinkUpHistory, libreLinkUpHistory)
         }
     }
 }
