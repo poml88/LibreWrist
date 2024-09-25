@@ -13,9 +13,6 @@
     "%lld" : {
 
     },
-    "🐶 PayPal.Me" : {
-
-    },
     "Accept" : {
 
     },
@@ -52,7 +49,7 @@
     "Glucose" : {
 
     },
-    "If you like this app...\n🙂\n Please Donate! 💪🤝💰" : {
+    "If you like this app, buy the developer quality coffee beans!\n🤝☕️" : {
 
     },
     "Insulin units" : {
@@ -98,6 +95,9 @@
 
     },
     "Settings" : {
+
+    },
+    "Something went wrong..." : {
 
     },
     "Submit" : {
