@@ -67,12 +67,14 @@ enum LibreLinkUpError: LocalizedError {
     case noConnection
     case notAuthenticated
     case jsonDecoding
+    case touNotAccepted
 
     var errorDescription: String? {
         switch self {
-        case .noConnection:     "no connection"
-        case .notAuthenticated: "not authenticated"
-        case .jsonDecoding:     "JSON decoding"
+        case .noConnection:     "No connection."
+        case .notAuthenticated: "Not authenticated. Check credentials."
+        case .jsonDecoding:     "JSON decoding error."
+        case .touNotAccepted:   "Terms of Use were updated. Open LibreLinkUp App, log in, and accept Terms of Use."
         }
     }
 }
@@ -205,9 +207,9 @@ class LibreLinkUp  {
                 do {
                     if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                        let status = json["status"] as? Int {
-
+                        
                         let data = json["data"] as? [String: Any]
-
+                        
                         if status == 2 || status == 429 || status == 911 {
                             // {"status":2,"error":{"message":"notAuthenticated"}}
                             // {"status":429,"data":{"code":60,"data":{"failures":3,"interval":60,"lockout":300},"message":"locked"}}
@@ -219,7 +221,7 @@ class LibreLinkUp  {
                                        let interval = data["interval"] as? Int,
                                        let lockout = data["lockout"] as? Int {
                                         Logger.general.info("LibreLinkUp: login failures: \(failures), interval: \(interval) s, lockout: \(lockout) s")
-                                        #warning ("warn the user to wait 5 minutes before reattempting")
+#warning ("warn the user to wait 5 minutes before reattempting")
                                         // TODO: warn the user to wait 5 minutes before reattempting
                                     }
                                 }
@@ -231,7 +233,23 @@ class LibreLinkUp  {
                         // TODO: status 4 requires accepting new Terms of Use: api.libreview.io/auth/continue/tou
                         if status == 4 {
                             Logger.general.info("LibreLinkUp: Terms of Use have been updated and must be accepted by running LibreLink (tip: log out and re-login)")
-                            throw LibreLinkUpError.notAuthenticated
+                            if let data,
+                               let user = data["user"] as? [String: Any],
+                               let country = user["country"] as? String,
+                               let authTicketDict = data["authTicket"] as? [String: Any],
+                               let authTicketData = try? JSONSerialization.data(withJSONObject: authTicketDict),
+                               let authTicket = try? JSONDecoder().decode(AuthTicket.self, from: authTicketData) {
+                                let authTicketString = "\(authTicket)"
+                                Logger.general.info("LibreLinkUp: ToU: authTicket: \(authTicketString), expires on \(Date(timeIntervalSince1970: Double(authTicket.expires)))")
+                                //call accepttou
+                                //loginResponse = try await tou(apiRegion: apiRegion, authToken: authToken)
+                            }
+                            throw LibreLinkUpError.touNotAccepted
+                            
+//                        LibreLinkUp: response data: {"status":4,"data":{"step":{"type":"tou","componentName":"AcceptDocument","props":{"reaccept":true,"titleKey":"Common.termsOfUse","type":"tou"}},"user":{"accountType":"pat","country":"DE","uiLanguage":"de-DE"},"authTicket":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJjMTFhMmNlLTY1MmYtMTFlZi1hOGY5LWU2NTlhODBiNTU2OSIsImZpcnN0TmFtZSI6IkxpYnJlICIsImxhc3ROYW1lIjoiV3Jpc3QiLCJjb3VudHJ5IjoiREUiLCJyZWdpb24iOiJkZSIsInJvbGUiOiJwYXRpZW50IiwiZW1haWwiOiJsaWJyZXdpZGdldEBjbWRsaW5lLm5ldCIsImMiOjEsInMiOiJsbHUuaW9zIiwiZXhwIjoxNzI3MzQyNTE4fQ._-kekmE1JEmpmdUUhpKTyqg15xwGXLSo3vh9wbTLVn8","expires":1727342518,"duration":3600000}}}, status: 200
+//                        LibreLinkUp: POST success
+//                        LibreLinkUp: Terms of Use have been updated and must be accepted by running LibreLink (tip: log out and re-login)
+//                        LibreLinkUp: error: not authenticated
                         }
 
                         // {"status":0,"data":{"redirect":true,"region":"fr"}}
@@ -339,6 +357,9 @@ class LibreLinkUp  {
         } catch LibreLinkUpError.notAuthenticated {
             Logger.general.info("LibreLinkUp: error: \(LibreLinkUpError.notAuthenticated.localizedDescription)")
             throw LibreLinkUpError.notAuthenticated
+        } catch LibreLinkUpError.touNotAccepted {
+            Logger.general.info("LibreLinkUp: error: \(LibreLinkUpError.touNotAccepted.localizedDescription)")
+            throw LibreLinkUpError.touNotAccepted
         } catch {
             Logger.general.info("LibreLinkUp: server error: \(error.localizedDescription)")
             throw LibreLinkUpError.noConnection
