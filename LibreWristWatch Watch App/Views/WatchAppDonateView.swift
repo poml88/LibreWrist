@@ -12,10 +12,10 @@ import StoreKit
 struct WatchAppDonateView: View {
     
     private let productIDs = [
-        "librewrist_4_99",
-        "librewrist_9_99",
-        "librewrist_24_99",
-        "librewrist_49_99"
+        "librewrist_4_99_a",
+        "librewrist_9_99_a",
+        "librewrist_24_99_a",
+        "librewrist_49_99_a"
     ]
     
     var body: some View {
@@ -72,7 +72,7 @@ struct CustomProductStyle: ProductViewStyle {
         }
     }
 }
-
+    
 #Preview {
     WatchAppDonateView()
 }

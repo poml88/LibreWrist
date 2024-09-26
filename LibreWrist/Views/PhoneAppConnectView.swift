@@ -103,7 +103,7 @@ struct PhoneAppConnectView: View {
 //            Button("Accept", role: .cancel, action: {settings.hasSeenDisclaimer = true})
         }
     message: {
-            Text("Connection failed. Check credentials.")
+            Text(libreLinkUpResponse)
         }
         .overlay
         {
@@ -148,7 +148,7 @@ struct PhoneAppConnectView: View {
             } catch {
                 print("catch")
                 isShowingConnectionFailed = true
-                libreLinkUpResponse = error.localizedDescription.capitalized
+                libreLinkUpResponse = error.localizedDescription
                 UserDefaults.group.connected = .disconnected
             }
         }
