@@ -63,7 +63,7 @@ extension LibreLinkUpHistory {
                                                                     color: MeasurementColor.green,
                                                                     trendArrow: TrendArrow(rawValue: 0))]
         
-        libreLinkUpHistory.libreLinkUpGlucose = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1100,
+        libreLinkUpHistory.libreLinkUpMinuteGlucose = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1100,
                                                                                      rawTemperature: 4,
                                                                                      temperatureAdjustment: 4,
                                                                                      trendRate: 4.0,
