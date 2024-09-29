@@ -37,5 +37,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .environment(LibreLinkUpHistory.mock)
+//        .environment(LibreLinkUpHistory.mock)
 }

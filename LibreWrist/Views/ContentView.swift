@@ -57,5 +57,6 @@ struct ContentView: View {
 #Preview {
     ContentView()
 //        .environment(History.test)
-        .environment(LibreLinkUpHistory.mock)
+        .environment(LibreLinkUpHistory.shared)
+        .environment(SensorSettingsSingleton.shared)
 }

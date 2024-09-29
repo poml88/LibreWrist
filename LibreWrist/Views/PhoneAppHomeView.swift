@@ -18,6 +18,7 @@ struct PhoneAppHomeView: View {
     @Environment(\.colorScheme) var colorScheme
 //    @Environment(History.self) var history: History
     @Environment(\.libreLinkUpHistory) var libreLinkUpHistory
+    @Environment(\.sensorSettingsSingleton) var sensorSettingsSingleton
     
     
     @State private var selectedlibreLinkHistoryPoint: LibreLinkUpGlucose?
@@ -30,12 +31,12 @@ struct PhoneAppHomeView: View {
     @State private var isShowingInsulinDeliverySheet = false
     @State private var currentIOB: Double = 0.0
     @State private var scrollPosition: Date = Date.now
-    @State private var sensorSettings = SensorSettings()
+//    @State private var sensorSettings = SensorSettings()
     @State private var connected = UserDefaults.group.connected
     
 //    @State var lastReadingDate: Date = Date(timeIntervalSinceNow: -999 * 60)
-    @State var currentGlucose: Int = 0
-    @State var trendArrow = "---"
+//    @State var currentGlucose: Int = 0
+//    @State var trendArrow = "---"
     private var libreLinkUp = LibreLinkUp()
      
     private let timer = Timer.publish(every: 60, tolerance: 1, on: .main, in: .common).autoconnect()
@@ -47,14 +48,14 @@ struct PhoneAppHomeView: View {
             if colorScheme == .dark {
                 HStack {
                     
-                    Text("\(currentGlucose)")
+                    Text("\(libreLinkUpHistory.currentGlucose)")
                         .font(.system(size: 128)) //, weight: .bold)
                         .foregroundStyle(libreLinkUpHistory.libreLinkUpGlucose[0].color.color)
                         .minimumScaleFactor(0.1)
                         .padding()
                    
                     VStack {
-                        Text("\(trendArrow)")
+                        Text("\(libreLinkUpHistory.currentTrendArrow)")
                             .font(.system(size: 50, weight: .bold))
                             .foregroundStyle(libreLinkUpHistory.libreLinkUpGlucose[0].color.color)
                       
@@ -86,12 +87,12 @@ struct PhoneAppHomeView: View {
                 }
             } else {
                 HStack {
-                    Text("\(currentGlucose)")
+                    Text("\(libreLinkUpHistory.currentGlucose)")
                         .font(.system(size: 128)) //, weight: .bold)
                         .minimumScaleFactor(0.1)
                         .padding()
                     VStack {
-                        Text("\(trendArrow)")
+                        Text("\(libreLinkUpHistory.currentTrendArrow)")
                             .font(.system(size: 50, weight: .bold))
                         
 //                        Text("IOB: \(currentIOB, specifier: "%.2f")U")
@@ -137,14 +138,14 @@ struct PhoneAppHomeView: View {
                 
                 //Configuration
                 // 0 = mmoll  1 = mgdl  0.0555
-                var chartYScaleMin: Double { sensorSettings.uom == 0 ? 2.75 : 50 }
-                var chartYScaleMax: Double { sensorSettings.uom == 0 ? 14 : 250 }
-                var yAxisSteps: Double { sensorSettings.uom == 0 ? 3 : 50 }
+                var chartYScaleMin: Double { sensorSettingsSingleton.sensorSettings.uom == 0 ? 2.75 : 50 }
+                var chartYScaleMax: Double { sensorSettingsSingleton.sensorSettings.uom == 0 ? 14 : 250 }
+                var yAxisSteps: Double { sensorSettingsSingleton.sensorSettings.uom == 0 ? 3 : 50 }
                 
                 
-                let chartRectangleYStart = sensorSettings.targetLow
-                let chartRectangleYEnd = sensorSettings.targetHigh
-                let chartRuleAlarmLL = sensorSettings.alarmLow
+                let chartRectangleYStart = sensorSettingsSingleton.sensorSettings.targetLow
+                let chartRectangleYEnd = sensorSettingsSingleton.sensorSettings.targetHigh
+                let chartRuleAlarmLL = sensorSettingsSingleton.sensorSettings.alarmLow
                 // Setting to 6 hours below by deleting half of the values.
                 
                 Chart {
@@ -327,11 +328,12 @@ struct PhoneAppHomeView: View {
             UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
             
             connected = UserDefaults.group.connected
-            minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.mock.lastReadingDate) / 60)
+            minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
             if minutesSinceLastReading >= 1 && connected == .connected {
                 Task {
                     isReloading = true
                     await libreLinkUp.reloadLibreLinkUp()
+                    minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
                     isReloading = false
                 }
                 scrollPosition = libreLinkUpHistory.libreLinkUpGlucose.first?.glucose.date ?? Date.now
@@ -356,7 +358,7 @@ struct PhoneAppHomeView: View {
             currentIOB = sumIOB
             UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
             
-            minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.mock.lastReadingDate) / 60)
+            minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
             connected = UserDefaults.group.connected
             if minutesSinceLastReading >= 1 && connected == .newlyConnected {
                 Task {
@@ -365,6 +367,7 @@ struct PhoneAppHomeView: View {
                     isReloading = false
                     connected = .connected
                     UserDefaults.group.connected = .connected
+                    minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
                 }
             }
         }
@@ -387,11 +390,12 @@ struct PhoneAppHomeView: View {
                 
                 
                 connected = UserDefaults.group.connected
-                minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.mock.lastReadingDate) / 60)
+                minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
                 if minutesSinceLastReading >= 1 && connected == .connected {
                     Task {
                         isReloading = true
                         await libreLinkUp.reloadLibreLinkUp()
+                        minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
                         isReloading = false
                     }
                 }
@@ -441,7 +445,7 @@ struct PhoneAppHomeView: View {
     PhoneAppHomeView()
     
 //        .environment(History.test)
-        .environment(LibreLinkUpHistory.mock)
+//        .environment(LibreLinkUpHistory.mock)
 }
 
 

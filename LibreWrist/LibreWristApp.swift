@@ -18,13 +18,15 @@ struct LibreWristApp: App {
     }
     
 //    @State private var history = History()
-    @State private var libreLinkUpHistory = LibreLinkUpHistory.mock
+    @State private var libreLinkUpHistory = LibreLinkUpHistory.shared
+    @State private var sensorSettingsSingleton = SensorSettingsSingleton.shared
     
     var body: some Scene {
         WindowGroup {
             ContentView()
 //                .environment(history)
                 .environment(\.libreLinkUpHistory, libreLinkUpHistory)
+                .environment(\.sensorSettingsSingleton, sensorSettingsSingleton)
         }
     }
 }

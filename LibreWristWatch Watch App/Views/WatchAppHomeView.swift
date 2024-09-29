@@ -15,6 +15,7 @@ struct WatchAppHomeView: View {
     
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.libreLinkUpHistory) var libreLinkUpHistory
+    @Environment(\.sensorSettingsSingleton) var sensorSettingsSingleton
     
 //    @State private var libreLinkUpHistory: [LibreLinkUpGlucose] = MockDataWatch
     //    @State private var selectedlibreLinkHistoryPoint: LibreLinkUpGlucose?
@@ -24,12 +25,12 @@ struct WatchAppHomeView: View {
     @State private var isReloading: Bool = false
     @State private var isShowingDisclaimer = false
     @State private var currentIOB: Double = 0.0
-    @State private var sensorSettings = SensorSettings()
+//    @State private var sensorSettings = SensorSettings()
     @State private var connected = UserDefaults.group.connected
     
-    @State var lastReadingDate: Date = Date(timeIntervalSinceNow: -999 * 60)
-    @State var currentGlucose: Int = 0
-    @State var trendArrow = "---"
+//    @State var lastReadingDate: Date = Date(timeIntervalSinceNow: -999 * 60)
+//    @State var currentGlucose: Int = 0
+//    @State var trendArrow = "---"
     private var libreLinkUp = LibreLinkUp()
     
     private let timer = Timer.publish(every: 60, tolerance: 1, on: .main, in: .common).autoconnect()
@@ -44,7 +45,7 @@ struct WatchAppHomeView: View {
 //                    .minimumScaleFactor(0.1)
 //                    .padding()
 //                } else {
-                    Text("\(currentGlucose)")
+                Text("\(libreLinkUpHistory.currentGlucose)")
                     .font(.system(size: 60)) //, weight: .bold
                     .foregroundStyle(libreLinkUpHistory.libreLinkUpGlucose[0].color.color)
                         .minimumScaleFactor(0.1)
@@ -56,7 +57,7 @@ struct WatchAppHomeView: View {
                     //                        Text("---")
                     //                            .font(.title)
                     //                    } else {
-                    Text("\(trendArrow)")
+                    Text("\(libreLinkUpHistory.currentTrendArrow)")
                         .font(.title)
                         .foregroundStyle(libreLinkUpHistory.libreLinkUpGlucose[0].color.color)
                     
@@ -82,14 +83,14 @@ struct WatchAppHomeView: View {
                 
                 //Configuration
                 // 0 = mmoll  1 = mgdl  0.0555
-                var chartYScaleMin: Double { sensorSettings.uom == 0 ? 2.75 : 50 }
-                var chartYScaleMax: Double { sensorSettings.uom == 0 ? 12.5 : 225 }
-                var yAxisSteps: Double { sensorSettings.uom == 0 ? 3 : 50 }
+                var chartYScaleMin: Double { sensorSettingsSingleton.sensorSettings.uom == 0 ? 2.75 : 50 }
+                var chartYScaleMax: Double { sensorSettingsSingleton.sensorSettings.uom == 0 ? 12.5 : 225 }
+                var yAxisSteps: Double { sensorSettingsSingleton.sensorSettings.uom == 0 ? 3 : 50 }
                 
                 
-                let chartRectangleYStart = sensorSettings.targetLow
-                let chartRectangleYEnd = sensorSettings.targetHigh
-                let chartRuleAlarmLL = sensorSettings.alarmLow
+                let chartRectangleYStart = sensorSettingsSingleton.sensorSettings.targetLow
+                let chartRectangleYEnd = sensorSettingsSingleton.sensorSettings.targetHigh
+                let chartRuleAlarmLL = sensorSettingsSingleton.sensorSettings.alarmLow
                 // Setting to 6 hours below by deleting half of the values.
                 
                 
@@ -257,11 +258,12 @@ struct WatchAppHomeView: View {
             UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
             
             connected = UserDefaults.group.connected
-            minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
+            minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
             if minutesSinceLastReading >= 1 && connected == .connected {
                 Task {
                     isReloading = true
                     await libreLinkUp.reloadLibreLinkUp()
+                    minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
                     isReloading = false
                 }
             }
@@ -288,12 +290,13 @@ struct WatchAppHomeView: View {
             
             
             
-            minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
+            minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
             connected = UserDefaults.group.connected
             if minutesSinceLastReading >= 1 && connected == .newlyConnected {
                 Task {
                     isReloading = true
                     await libreLinkUp.reloadLibreLinkUp()
+                    minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
                     isReloading = false
                     connected = .connected
                     UserDefaults.group.connected = .connected
@@ -319,11 +322,12 @@ struct WatchAppHomeView: View {
                 
                 
                 connected = UserDefaults.group.connected
-                minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
+                minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
                 if minutesSinceLastReading >= 1 && connected == .connected {
                     Task {
                         isReloading = true
                         await libreLinkUp.reloadLibreLinkUp()
+                        minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
                         isReloading = false
                     }
                 }

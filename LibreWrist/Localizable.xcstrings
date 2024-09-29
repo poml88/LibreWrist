@@ -34,6 +34,9 @@
     "Credentials" : {
 
     },
+    "Debug Info" : {
+
+    },
     "Dismiss" : {
 
     },
@@ -65,6 +68,9 @@
 
     },
     "No data received since %lld min.\n\nCheck network and bluetooth connections." : {
+
+    },
+    "Open issue on GitHub" : {
 
     },
     "Password" : {
@@ -121,6 +127,16 @@
     },
     "Username (email adress)" : {
 
+    },
+    "V%@.%@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "V%1$@.%2$@"
+          }
+        }
+      }
     },
     "Warning" : {
 

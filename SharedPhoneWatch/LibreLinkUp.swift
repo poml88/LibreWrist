@@ -34,7 +34,7 @@ class LibreLinkUp  {
     var unit: GlucoseUnit = .mgdl
     
     var libreLinkUpResponse: String = "[...]"
-    var sensorSettings: SensorSettings = SensorSettings()
+//    var sensorSettings: SensorSettings = SensorSettings()
     
     
     
@@ -43,7 +43,7 @@ class LibreLinkUp  {
         "User-Agent": "Mozilla/5.0",
         "Content-Type": "application/json",
         "product": "llu.ios",
-        "version": "4.11.0",
+        "version": "4.12.0",
         "Accept-Encoding": "gzip, deflate, br",
         "Connection": "keep-alive",
         "Pragma": "no-cache",
@@ -64,7 +64,7 @@ class LibreLinkUp  {
         
         var dataString = ""
         var retries = 0
-        let dropLastValues = 70
+        let dropLastValues = 70 //reduce graph from 12 to 6 hours
         
         
     loop: repeat {
@@ -98,29 +98,30 @@ class LibreLinkUp  {
                 if graphHistory.count > 0 {
                     DispatchQueue.main.async { [self] in
                         settings.lastOnlineDate = Date()
-                        sensorSettings = sensorSettingsRead
+                        SensorSettingsSingleton.shared.sensorSettings = sensorSettingsRead
                         // TODO: just merge with newer values
-                        LibreLinkUpHistory.mock.libreLinkUpGlucose = graphHistory.reversed().dropLast(dropLastValues)
-                        let lastMeasurement = LibreLinkUpHistory.mock.libreLinkUpGlucose[0]
-                        LibreLinkUpHistory.mock.lastReadingDate = lastMeasurement.glucose.date
+                        LibreLinkUpHistory.shared.libreLinkUpGlucose = graphHistory.reversed().dropLast(dropLastValues)
+                        let lastMeasurement = LibreLinkUpHistory.shared.libreLinkUpGlucose[0]
+                        LibreLinkUpHistory.shared.lastReadingDate = lastMeasurement.glucose.date
 //                        minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
 //                        sensor?.lastReadingDate = lastReadingDate
-//                        currentGlucose = lastMeasurement.glucose.value
-//                        trendArrow = lastMeasurement.trendArrow?.symbol ?? "---"
+                        LibreLinkUpHistory.shared.currentGlucose = lastMeasurement.glucose.value
+                        LibreLinkUpHistory.shared.currentTrendArrow = lastMeasurement.trendArrow?.symbol ?? "---"
                         // TODO: keep the raw values filling the gaps with -1 values
 //                        history.rawValues = []
 //                        history.factoryValues = libreLinkUpHistory.libreLinkUpGlucose.dropFirst().map(\.glucose) // TEST
-                        var trend = LibreLinkUpHistory.mock.libreLinkUpMinuteGlucose
+                        var trend = LibreLinkUpHistory.shared.libreLinkUpMinuteGlucose
                         if trend.isEmpty || lastMeasurement.id > trend[0].id {
                             trend.insert(lastMeasurement, at: 0)
                         }
                         // keep only the latest 16 minutes considering the 17-minute latency of the historic values update. seems to vary between 21 and 17 minutes.
-                        if LibreLinkUpHistory.mock.libreLinkUpGlucose.indices.contains(1) {
-                            let lastGraphItem = LibreLinkUpHistory.mock.libreLinkUpGlucose[1].id
+                        if LibreLinkUpHistory.shared.libreLinkUpGlucose.indices.contains(1) {
+                            let lastGraphItem = LibreLinkUpHistory.shared.libreLinkUpGlucose[1].id
                             trend = trend.filter { $0.id > lastGraphItem }
+                            trend = trend.filter { $0.id - lastGraphItem < 60 }
                         }
-                        LibreLinkUpHistory.mock.libreLinkUpMinuteGlucose = trend
-                        Logger.general.info("LibreLinkUp: libreLinkUpHistory.libreLinkUpMinuteGlucose: \(LibreLinkUpHistory.mock.libreLinkUpMinuteGlucose)")
+                        LibreLinkUpHistory.shared.libreLinkUpMinuteGlucose = trend
+                        Logger.general.info("LibreLinkUp: libreLinkUpHistory.libreLinkUpMinuteGlucose: \(LibreLinkUpHistory.shared.libreLinkUpMinuteGlucose)")
                         // TODO: merge and update sensor history / trend
                         //                            app.main.didParseSensor(app.sensor)
                     }
