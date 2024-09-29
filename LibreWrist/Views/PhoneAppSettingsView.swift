@@ -20,11 +20,25 @@ struct PhoneAppSettingsView: View {
                         print("yes")
                         UIApplication.shared.isIdleTimerDisabled.toggle()
                     }
-            }
-            
-            
-        header: {
+            } header: {
             Text("Settings")
+        }
+            
+            Section {
+                let versionNumber: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+                let buildNumber: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
+                Text("V\(versionNumber).\(buildNumber)")
+                
+                Link(destination: URL(string: "https://github.com/poml88/LibreWrist/issues")!) {
+                    Text("Open issue on GitHub")
+                        .frame(width: 200, height: 50)
+                        .foregroundColor(.primary)
+                        .background(.primary)
+                        .cornerRadius(10)
+                }
+               
+            } header: {
+            Text("Debug Info")
         }
             
         }
