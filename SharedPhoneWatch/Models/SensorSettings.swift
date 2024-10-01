@@ -34,6 +34,7 @@ struct SensorSettings {
         //nothing at the moment
         return instance
     }()
+    
     private init(){}
 }
     
