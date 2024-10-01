@@ -111,6 +111,10 @@ class LibreLinkUp  {
 //                        history.rawValues = []
 //                        history.factoryValues = libreLinkUpHistory.libreLinkUpGlucose.dropFirst().map(\.glucose) // TEST
                         var trend = LibreLinkUpHistory.shared.libreLinkUpMinuteGlucose
+//                        Logger.general.info("LibreLinkUp: trend: \(trend)")
+//                        let a: String = "\(lastMeasurement)"
+//                        Logger.general.info("LibreLinkUp: lastMeasurement: \(a)")
+
                         if trend.isEmpty || lastMeasurement.id > trend[0].id {
                             trend.insert(lastMeasurement, at: 0)
                         }
