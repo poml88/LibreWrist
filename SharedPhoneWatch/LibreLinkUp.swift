@@ -142,6 +142,8 @@ class LibreLinkUp  {
         
     }
     
+    
+    
     @discardableResult
     func login() async throws -> (Any, URLResponse) {
         var request = URLRequest(url: URL(string: "\(siteURL)/\(loginEndpoint)")!)
@@ -153,7 +155,7 @@ class LibreLinkUp  {
             "email": UserDefaults.group.username,
             "password": SecureDefaults.sgroup.string(forKey: "llu.password")
             // with password there was a tricky error: since this library is used by watch and phone I got an error "Type 'SecureDefaults' has no member 'sgroup'"
-            // I had to add the SecureDefaults extensino to the watch app as well. the watch app called it and it did not know about sgroup. It did work for the phone app though.
+            // I had to add the SecureDefaults extension to the watch app as well. the watch app called it and it did not know about sgroup. It did work for the phone app though.
         ]
         request.httpMethod = "POST"
         for (header, value) in headers {
@@ -197,8 +199,12 @@ class LibreLinkUp  {
                                     // TODO: warn the user to wait 5 minutes before reattempting
                                 }
                             }
-                            
                         }
+                    }
+                    
+                    // TODO: status 4 requires accepting new Terms of Use: api.libreview.io/auth/continue/tou
+                    if status == 4 {
+                        Logger.general.info("LibreLinkUp: Terms of Use have been updated and must be accepted by running LibreLink (tip: log out and re-login)")
                         if let data,
                            let user = data["user"] as? [String: Any],
                            let country = user["country"] as? String,
@@ -212,16 +218,10 @@ class LibreLinkUp  {
                         }
                         throw LibreLinkUpError.touNotAccepted
                         
-//                        LibreLinkUp: response data: {"status":4,"data":{"step":{"type":"tou","componentName":"AcceptDocument","props":{"reaccept":true,"titleKey":"Common.termsOfUse","type":"tou"}},"user":{"accountType":"pat","country":"DE","uiLanguage":"de-DE"},"authTicket":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJjMTFhMmNlLTY1MmYtMTFlZi1hOGY5LWU2NTlhODBiNTU2OSIsImZpcnN0TmFtZSI6IkxpYnJlICIsImxhc3ROYW1lIjoiV3Jpc3QiLCJjb3VudHJ5IjoiREUiLCJyZWdpb24iOiJkZSIsInJvbGUiOiJwYXRpZW50IiwiZW1haWwiOiJsaWJyZXdpZGdldEBjbWRsaW5lLm5ldCIsImMiOjEsInMiOiJsbHUuaW9zIiwiZXhwIjoxNzI3MzQyNTE4fQ._-kekmE1JEmpmdUUhpKTyqg15xwGXLSo3vh9wbTLVn8","expires":1727342518,"duration":3600000}}}, status: 200
-//                        LibreLinkUp: POST success
-//                        LibreLinkUp: Terms of Use have been updated and must be accepted by running LibreLink (tip: log out and re-login)
-//                        LibreLinkUp: error: not authenticated
-                    }
-                    
-                    // TODO: status 4 requires accepting new Terms of Use: api.libreview.io/auth/continue/tou
-                    if status == 4 {
-                        Logger.general.info("LibreLinkUp: Terms of Use have been updated and must be accepted by running LibreLink (tip: log out and re-login)")
-                        throw LibreLinkUpError.notAuthenticated
+                        //                        LibreLinkUp: response data: {"status":4,"data":{"step":{"type":"tou","componentName":"AcceptDocument","props":{"reaccept":true,"titleKey":"Common.termsOfUse","type":"tou"}},"user":{"accountType":"pat","country":"DE","uiLanguage":"de-DE"},"authTicket":{"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjJjMTFhMmNlLTY1MmYtMTFlZi1hOGY5LWU2NTlhODBiNTU2OSIsImZpcnN0TmFtZSI6IkxpYnJlICIsImxhc3ROYW1lIjoiV3Jpc3QiLCJjb3VudHJ5IjoiREUiLCJyZWdpb24iOiJkZSIsInJvbGUiOiJwYXRpZW50IiwiZW1haWwiOiJsaWJyZXdpZGdldEBjbWRsaW5lLm5ldCIsImMiOjEsInMiOiJsbHUuaW9zIiwiZXhwIjoxNzI3MzQyNTE4fQ._-kekmE1JEmpmdUUhpKTyqg15xwGXLSo3vh9wbTLVn8","expires":1727342518,"duration":3600000}}}, status: 200
+                        //                        LibreLinkUp: POST success
+                        //                        LibreLinkUp: Terms of Use have been updated and must be accepted by running LibreLink (tip: log out and re-login)
+                        //                        LibreLinkUp: error: not authenticated
                     }
                     
                     // {"status":0,"data":{"redirect":true,"region":"fr"}}
@@ -329,6 +329,9 @@ class LibreLinkUp  {
         } catch LibreLinkUpError.notAuthenticated {
             Logger.general.info("LibreLinkUp: error: \(LibreLinkUpError.notAuthenticated.localizedDescription)")
             throw LibreLinkUpError.notAuthenticated
+        } catch LibreLinkUpError.touNotAccepted {
+            Logger.general.info("LibreLinkUp: error: \(LibreLinkUpError.touNotAccepted.localizedDescription)")
+            throw LibreLinkUpError.touNotAccepted
         } catch {
             Logger.general.info("LibreLinkUp: server error: \(error.localizedDescription)")
             throw LibreLinkUpError.noConnection
