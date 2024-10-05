@@ -26,8 +26,8 @@ A lot....
 - Widgets, complications, ...
 - I have plenty of more ideas...
 
-### Feedback... ###
-... is welcome, use the "Issues" functionality of Github.
+### Support and Feedback ###
+For support please open an issue, start a discussion or email librewidget [at] cmdline [dot] net. Feedback is very welcome, please use the same methods as for support.
 
 ### Donations... ###
 ...are always very welcome! [paypal.me/lovemyhusky](paypal.me/lovemyhusky)
