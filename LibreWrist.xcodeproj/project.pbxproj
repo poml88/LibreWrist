@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B022C9B2CADDBE800CA64B4 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B022C9A2CADDBE800CA64B4 /* WidgetKit.framework */; };
+		7B022C9D2CADDBE800CA64B4 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B022C9C2CADDBE800CA64B4 /* SwiftUI.framework */; };
+		7B022CA02CADDBE800CA64B4 /* LibreWristWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B022C9F2CADDBE800CA64B4 /* LibreWristWidgetBundle.swift */; };
+		7B022CA22CADDBE800CA64B4 /* LibreWristWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B022CA12CADDBE800CA64B4 /* LibreWristWidget.swift */; };
+		7B022CA42CADDBEA00CA64B4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B022CA32CADDBEA00CA64B4 /* Assets.xcassets */; };
+		7B022CA82CADDBEA00CA64B4 /* LibreWristWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7B022C992CADDBE800CA64B4 /* LibreWristWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		7B183E972C84B09D0018A24F /* PhoneToWatchConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B183E962C84B09D0018A24F /* PhoneToWatchConnector.swift */; };
 		7B183E992C84B0AA0018A24F /* WatchToPhoneConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B183E982C84B0AA0018A24F /* WatchToPhoneConnector.swift */; };
 		7B183E9B2C84C9540018A24F /* PhoneAppInsulinDeliveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B183E9A2C84C9540018A24F /* PhoneAppInsulinDeliveryView.swift */; };
@@ -53,6 +59,10 @@
 		7BB762FE2C8262E600C43600 /* WatchAppActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB762FD2C8262E600C43600 /* WatchAppActionView.swift */; };
 		7BB763002C82642900C43600 /* WatchAppDonateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB762FF2C82642900C43600 /* WatchAppDonateView.swift */; };
 		7BB763032C8348BE00C43600 /* SecureDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBD27892C7155BE001A71E7 /* SecureDefaults.swift */; };
+		7BB98DF92CB12786000A354D /* GlucoseMeasurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A132C90B06C002A15C8 /* GlucoseMeasurement.swift */; };
+		7BB98DFA2CB14A73000A354D /* InsulinObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFD83562C84DF6200A9B195 /* InsulinObjects.swift */; };
+		7BB98DFB2CB14AB8000A354D /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE01A2C73E4B60074A47F /* Data.swift */; };
+		7BB98DFC2CB14AD0000A354D /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B435CCF2C6D5103006F6E53 /* Date.swift */; };
 		7BBD27882C7154F4001A71E7 /* SecureDefaults in Frameworks */ = {isa = PBXBuildFile; productRef = 7BBD27872C7154F4001A71E7 /* SecureDefaults */; };
 		7BBD278A2C7155BE001A71E7 /* SecureDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBD27892C7155BE001A71E7 /* SecureDefaults.swift */; };
 		7BC51F382C7C77B2009542D2 /* LibreWristWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC51F372C7C77B2009542D2 /* LibreWristWatchApp.swift */; };
@@ -80,6 +90,15 @@
 		7BC51FBE2C7D31C3009542D2 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC51FBC2C7D31C3009542D2 /* History.swift */; };
 		7BCA58692C8A292600C50F11 /* SensorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA58682C8A292600C50F11 /* SensorSettings.swift */; };
 		7BCA586A2C8A292600C50F11 /* SensorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BCA58682C8A292600C50F11 /* SensorSettings.swift */; };
+		7BDB81292CB0893700F4A60F /* LibreLinkUpGlucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A162C90B089002A15C8 /* LibreLinkUpGlucose.swift */; };
+		7BDB812B2CB0897B00F4A60F /* Glucose.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B299A102C90AFFC002A15C8 /* Glucose.swift */; };
+		7BDB812C2CB089B100F4A60F /* MeasurementColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B462BFC2C7FBAC8003FEDC3 /* MeasurementColor.swift */; };
+		7BDB812D2CB089B400F4A60F /* TrendArrow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC51F502C7C8413009542D2 /* TrendArrow.swift */; };
+		7BDB812E2CB098D700F4A60F /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B1A7CA52C79E8E2006D603C /* Settings.swift */; };
+		7BDB81322CB09AF800F4A60F /* LLUHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB81312CB09AF800F4A60F /* LLUHeaders.swift */; };
+		7BDB81332CB09AF800F4A60F /* LLUHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB81312CB09AF800F4A60F /* LLUHeaders.swift */; };
+		7BDB81342CB09AF800F4A60F /* LLUHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BDB81312CB09AF800F4A60F /* LLUHeaders.swift */; };
+		7BDB81352CB09BCF00F4A60F /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B435CD32C6D57F5006F6E53 /* String.swift */; };
 		7BFD83572C84DF6200A9B195 /* InsulinObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFD83562C84DF6200A9B195 /* InsulinObjects.swift */; };
 		7BFD83582C84DF6200A9B195 /* InsulinObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFD83562C84DF6200A9B195 /* InsulinObjects.swift */; };
 		7BFD835B2C84E48800A9B195 /* InsulinModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFD835A2C84E48800A9B195 /* InsulinModel.swift */; };
@@ -89,6 +108,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		7B022CA62CADDBEA00CA64B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7BA0AE212C582F63004226FE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7B022C982CADDBE800CA64B4;
+			remoteInfo = LibreWristWidgetExtension;
+		};
 		7BA0AE3A2C582F64004226FE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 7BA0AE212C582F63004226FE /* Project object */;
@@ -113,6 +139,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		7B022CA92CADDBEA00CA64B4 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				7B022CA82CADDBEA00CA64B4 /* LibreWristWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7BC51F462C7C77B3009542D2 /* Embed Watch Content */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -127,6 +164,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7B022C992CADDBE800CA64B4 /* LibreWristWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LibreWristWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B022C9A2CADDBE800CA64B4 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		7B022C9C2CADDBE800CA64B4 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		7B022C9F2CADDBE800CA64B4 /* LibreWristWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreWristWidgetBundle.swift; sourceTree = "<group>"; };
+		7B022CA12CADDBE800CA64B4 /* LibreWristWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreWristWidget.swift; sourceTree = "<group>"; };
+		7B022CA32CADDBEA00CA64B4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7B022CA52CADDBEA00CA64B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7B183E962C84B09D0018A24F /* PhoneToWatchConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhoneToWatchConnector.swift; sourceTree = "<group>"; };
 		7B183E982C84B0AA0018A24F /* WatchToPhoneConnector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchToPhoneConnector.swift; sourceTree = "<group>"; };
 		7B183E9A2C84C9540018A24F /* PhoneAppInsulinDeliveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAppInsulinDeliveryView.swift; sourceTree = "<group>"; };
@@ -167,6 +211,7 @@
 		7BADE0222C73EB450074A47F /* GlucoseUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlucoseUnit.swift; sourceTree = "<group>"; };
 		7BB762FD2C8262E600C43600 /* WatchAppActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAppActionView.swift; sourceTree = "<group>"; };
 		7BB762FF2C82642900C43600 /* WatchAppDonateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAppDonateView.swift; sourceTree = "<group>"; };
+		7BB98DFD2CB14CE2000A354D /* LibreWristWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LibreWristWidgetExtension.entitlements; sourceTree = "<group>"; };
 		7BBD27892C7155BE001A71E7 /* SecureDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureDefaults.swift; sourceTree = "<group>"; };
 		7BC51F352C7C77B2009542D2 /* LibreWristWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LibreWristWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BC51F372C7C77B2009542D2 /* LibreWristWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibreWristWatchApp.swift; sourceTree = "<group>"; };
@@ -183,12 +228,22 @@
 		7BC51FBA2C7D04DE009542D2 /* WatchAppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchAppSettingsView.swift; sourceTree = "<group>"; };
 		7BC51FBC2C7D31C3009542D2 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		7BCA58682C8A292600C50F11 /* SensorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorSettings.swift; sourceTree = "<group>"; };
+		7BDB81312CB09AF800F4A60F /* LLUHeaders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LLUHeaders.swift; sourceTree = "<group>"; };
 		7BFD83562C84DF6200A9B195 /* InsulinObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsulinObjects.swift; sourceTree = "<group>"; };
 		7BFD835A2C84E48800A9B195 /* InsulinModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InsulinModel.swift; sourceTree = "<group>"; };
 		7BFD835D2C84E48E00A9B195 /* ExponentialInsulinModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExponentialInsulinModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7B022C962CADDBE800CA64B4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B022C9D2CADDBE800CA64B4 /* SwiftUI.framework in Frameworks */,
+				7B022C9B2CADDBE800CA64B4 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7BA0AE262C582F63004226FE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -222,6 +277,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7B022C9E2CADDBE800CA64B4 /* LibreWristWidget */ = {
+			isa = PBXGroup;
+			children = (
+				7BB98DFD2CB14CE2000A354D /* LibreWristWidgetExtension.entitlements */,
+				7B022C9F2CADDBE800CA64B4 /* LibreWristWidgetBundle.swift */,
+				7B022CA12CADDBE800CA64B4 /* LibreWristWidget.swift */,
+				7B022CA32CADDBEA00CA64B4 /* Assets.xcassets */,
+				7B022CA52CADDBEA00CA64B4 /* Info.plist */,
+			);
+			path = LibreWristWidget;
+			sourceTree = "<group>";
+		};
 		7B183E952C84AE540018A24F /* SharedPhoneWatch */ = {
 			isa = PBXGroup;
 			children = (
@@ -265,6 +332,7 @@
 				7BC51F502C7C8413009542D2 /* TrendArrow.swift */,
 				7BCA58682C8A292600C50F11 /* SensorSettings.swift */,
 				7BADE0112C73E3440074A47F /* SensorType.swift */,
+				7BDB81312CB09AF800F4A60F /* LLUHeaders.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -279,6 +347,7 @@
 				7BA0AE3C2C582F64004226FE /* LibreWristTests */,
 				7BA0AE462C582F64004226FE /* LibreWristUITests */,
 				7BC51F362C7C77B2009542D2 /* LibreWristWatch Watch App */,
+				7B022C9E2CADDBE800CA64B4 /* LibreWristWidget */,
 				7BA0AE2A2C582F63004226FE /* Products */,
 				7BC51F4C2C7C82B7009542D2 /* Frameworks */,
 			);
@@ -291,6 +360,7 @@
 				7BA0AE392C582F64004226FE /* LibreWristTests.xctest */,
 				7BA0AE432C582F64004226FE /* LibreWristUITests.xctest */,
 				7BC51F352C7C77B2009542D2 /* LibreWristWatch Watch App.app */,
+				7B022C992CADDBE800CA64B4 /* LibreWristWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -360,6 +430,8 @@
 		7BC51F4C2C7C82B7009542D2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7B022C9A2CADDBE800CA64B4 /* WidgetKit.framework */,
+				7B022C9C2CADDBE800CA64B4 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -402,6 +474,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		7B022C982CADDBE800CA64B4 /* LibreWristWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7B022CAC2CADDBEA00CA64B4 /* Build configuration list for PBXNativeTarget "LibreWristWidgetExtension" */;
+			buildPhases = (
+				7B022C952CADDBE800CA64B4 /* Sources */,
+				7B022C962CADDBE800CA64B4 /* Frameworks */,
+				7B022C972CADDBE800CA64B4 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LibreWristWidgetExtension;
+			productName = LibreWristWidgetExtension;
+			productReference = 7B022C992CADDBE800CA64B4 /* LibreWristWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		7BA0AE282C582F63004226FE /* LibreWrist */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7BA0AE4D2C582F64004226FE /* Build configuration list for PBXNativeTarget "LibreWrist" */;
@@ -410,11 +499,13 @@
 				7BA0AE262C582F63004226FE /* Frameworks */,
 				7BA0AE272C582F63004226FE /* Resources */,
 				7BC51F462C7C77B3009542D2 /* Embed Watch Content */,
+				7B022CA92CADDBEA00CA64B4 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				7BC51F412C7C77B3009542D2 /* PBXTargetDependency */,
+				7B022CA72CADDBEA00CA64B4 /* PBXTargetDependency */,
 			);
 			name = LibreWrist;
 			packageProductDependencies = (
@@ -490,6 +581,9 @@
 				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
+					7B022C982CADDBE800CA64B4 = {
+						CreatedOnToolsVersion = 15.4;
+					};
 					7BA0AE282C582F63004226FE = {
 						CreatedOnToolsVersion = 15.4;
 					};
@@ -527,11 +621,20 @@
 				7BA0AE382C582F64004226FE /* LibreWristTests */,
 				7BA0AE422C582F64004226FE /* LibreWristUITests */,
 				7BC51F342C7C77B2009542D2 /* LibreWristWatch Watch App */,
+				7B022C982CADDBE800CA64B4 /* LibreWristWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		7B022C972CADDBE800CA64B4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B022CA42CADDBEA00CA64B4 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7BA0AE272C582F63004226FE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -570,6 +673,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		7B022C952CADDBE800CA64B4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B022CA22CADDBE800CA64B4 /* LibreWristWidget.swift in Sources */,
+				7BDB812E2CB098D700F4A60F /* Settings.swift in Sources */,
+				7BDB812C2CB089B100F4A60F /* MeasurementColor.swift in Sources */,
+				7BDB81352CB09BCF00F4A60F /* String.swift in Sources */,
+				7BDB81292CB0893700F4A60F /* LibreLinkUpGlucose.swift in Sources */,
+				7BDB81342CB09AF800F4A60F /* LLUHeaders.swift in Sources */,
+				7BDB812B2CB0897B00F4A60F /* Glucose.swift in Sources */,
+				7BB98DFB2CB14AB8000A354D /* Data.swift in Sources */,
+				7BB98DF92CB12786000A354D /* GlucoseMeasurement.swift in Sources */,
+				7BDB812D2CB089B400F4A60F /* TrendArrow.swift in Sources */,
+				7B022CA02CADDBE800CA64B4 /* LibreWristWidgetBundle.swift in Sources */,
+				7BB98DFC2CB14AD0000A354D /* Date.swift in Sources */,
+				7BB98DFA2CB14A73000A354D /* InsulinObjects.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7BA0AE252C582F63004226FE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -594,6 +717,7 @@
 				7BC51F512C7C8413009542D2 /* TrendArrow.swift in Sources */,
 				7B435CD02C6D5103006F6E53 /* Date.swift in Sources */,
 				7BADE0212C73EB060074A47F /* Double.swift in Sources */,
+				7BDB81322CB09AF800F4A60F /* LLUHeaders.swift in Sources */,
 				7BBD278A2C7155BE001A71E7 /* SecureDefaults.swift in Sources */,
 				7BC51FBD2C7D31C3009542D2 /* History.swift in Sources */,
 				7BADE0232C73EB450074A47F /* GlucoseUnit.swift in Sources */,
@@ -651,6 +775,7 @@
 				7B462BFE2C7FC46A003FEDC3 /* MeasurementColor.swift in Sources */,
 				7BB762FE2C8262E600C43600 /* WatchAppActionView.swift in Sources */,
 				7BC51F572C7C853B009542D2 /* Logger.swift in Sources */,
+				7BDB81332CB09AF800F4A60F /* LLUHeaders.swift in Sources */,
 				7BCA586A2C8A292600C50F11 /* SensorSettings.swift in Sources */,
 				7BFD835C2C84E48800A9B195 /* InsulinModel.swift in Sources */,
 				7BC51F522C7C8413009542D2 /* TrendArrow.swift in Sources */,
@@ -670,6 +795,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		7B022CA72CADDBEA00CA64B4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7B022C982CADDBE800CA64B4 /* LibreWristWidgetExtension */;
+			targetProxy = 7B022CA62CADDBEA00CA64B4 /* PBXContainerItemProxy */;
+		};
 		7BA0AE3B2C582F64004226FE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 7BA0AE282C582F63004226FE /* LibreWrist */;
@@ -688,6 +818,64 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		7B022CAA2CADDBEA00CA64B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BC51F612C7C9CD1009542D2 /* LibreWristConfig.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = LibreWristWidget/LibreWristWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = 49Z678ZK52;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LibreWristWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LibreWristWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				PRODUCT_BUNDLE_IDENTIFIER = de.poeml.philipp.LibreWrist.LibreWristWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7B022CAB2CADDBEA00CA64B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7BC51F612C7C9CD1009542D2 /* LibreWristConfig.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = LibreWristWidget/LibreWristWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				DEVELOPMENT_TEAM = 49Z678ZK52;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = LibreWristWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = LibreWristWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				PRODUCT_BUNDLE_IDENTIFIER = de.poeml.philipp.LibreWrist.LibreWristWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		7BA0AE4B2C582F64004226FE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1026,6 +1214,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		7B022CAC2CADDBEA00CA64B4 /* Build configuration list for PBXNativeTarget "LibreWristWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B022CAA2CADDBEA00CA64B4 /* Debug */,
+				7B022CAB2CADDBEA00CA64B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		7BA0AE242C582F63004226FE /* Build configuration list for PBXProject "LibreWrist" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

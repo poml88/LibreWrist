@@ -36,19 +36,10 @@ class LibreLinkUp  {
     var libreLinkUpResponse: String = "[...]"
 //    var sensorSettings: SensorSettings = SensorSettings()
     
+    let headers = LLUHeaders().headers
     
     
-    
-    let headers = [
-        "User-Agent": "Mozilla/5.0",
-        "Content-Type": "application/json",
-        "product": "llu.ios",
-        "version": "4.12.0",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Connection": "keep-alive",
-        "Pragma": "no-cache",
-        "Cache-Control": "no-cache",
-    ]
+   
     
     
     

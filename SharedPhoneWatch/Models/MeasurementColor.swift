@@ -13,6 +13,7 @@ enum MeasurementColor: Int, Codable {
     case yellow = 2
     case orange = 3
     case red    = 4
+    case gray   = 5
 }
 
 
@@ -23,6 +24,7 @@ extension MeasurementColor {
         case .yellow: .yellow
         case .orange: .orange
         case .red:    .red
+        case .gray:   .gray
         }
     }
 }

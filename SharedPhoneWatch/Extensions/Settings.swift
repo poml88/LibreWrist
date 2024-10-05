@@ -217,23 +217,23 @@ class Settings {
         didSet { UserDefaults.group.set(self.libreLinkUpPassword, forKey: "libreLinkUpPassword") }
     }
 
-    var libreLinkUpUserId: String = UserDefaults.group.string(forKey: "libreLinkUpUserId")!  {
+    var libreLinkUpUserId: String = UserDefaults.group.string(forKey: "libreLinkUpUserId") ?? ""  {
         didSet { UserDefaults.group.set(self.libreLinkUpUserId, forKey: "libreLinkUpUserId") }
     }
 
-    var libreLinkUpPatientId: String = UserDefaults.group.string(forKey: "libreLinkUpPatientId")! {
+    var libreLinkUpPatientId: String = UserDefaults.group.string(forKey: "libreLinkUpPatientId") ?? "" {
         didSet { UserDefaults.group.set(self.libreLinkUpPatientId, forKey: "libreLinkUpPatientId") }
     }
 
-    var libreLinkUpCountry: String = UserDefaults.group.string(forKey: "libreLinkUpCountry")!  {
+    var libreLinkUpCountry: String = UserDefaults.group.string(forKey: "libreLinkUpCountry") ?? ""  {
         didSet { UserDefaults.group.set(self.libreLinkUpCountry, forKey: "libreLinkUpCountry") }
     }
 
-    var libreLinkUpRegion: String = UserDefaults.group.string(forKey: "libreLinkUpRegion")!  {
+    var libreLinkUpRegion: String = UserDefaults.group.string(forKey: "libreLinkUpRegion") ?? "eu"  {
         didSet { UserDefaults.group.set(self.libreLinkUpRegion, forKey: "libreLinkUpRegion") }
     }
 
-    var libreLinkUpToken: String = UserDefaults.group.string(forKey: "libreLinkUpToken")!  {
+    var libreLinkUpToken: String = UserDefaults.group.string(forKey: "libreLinkUpToken") ?? ""  {
         didSet { UserDefaults.group.set(self.libreLinkUpToken, forKey: "libreLinkUpToken") }
     }
 

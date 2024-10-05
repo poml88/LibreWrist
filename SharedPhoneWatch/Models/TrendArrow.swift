@@ -39,7 +39,7 @@ enum TrendArrow: Int, CustomStringConvertible, CaseIterable, Codable {
         case .stable:         "→"
         case .rising:         "↗︎"
         case .risingQuickly:  "↑"
-        default:              "---"
+        default:              "-"
         }
     }
 }
