@@ -13,6 +13,7 @@ For example there are no widgets or complications yet. Chart is not scrollable, 
 ***Installation:*** Make sure that the watchOS app is installed, ideally before starting the iOS app. Depending on your configuration, the watchOS app is either installed automatically, or has to be installed via the "watch" app on the phone.
 - The app needs iOS 17.5 and watchOS 10.5
 - TestFlight: https://testflight.apple.com/join/HwgkwcGz
+- AppStore: https://apps.apple.com/us/app/librewrist/id6670172928
 - Settings are made in the iOS app and are then transferred to the watchOS app. This only works if the watchOS app is installed on the watch.
 - To connect to your LibreLinkUp follower account, enter your credentials on the connect tab. If the watchOS app is installed, the credentials are transferred to the watch app. It is possible to re-transfer the credentials by pressing the "connect" button again.
 - It can take up to a minute for the data to be fetched and displayed.
