@@ -205,12 +205,12 @@ struct LibreWristWidget: Widget {
     let kind: String = "LibreWristWidget"
 
     var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            
+        StaticConfiguration(
+            kind: kind,
+            provider: Provider()
+        ) { entry in
             LibreWristWidgetEntryView(entry: entry)
-            
         }
-        
         .supportedFamilies([.accessoryCircular, .systemSmall])
         .configurationDisplayName("Glucose Widget")
         .description("This widget displays the latest blood glucose value.")

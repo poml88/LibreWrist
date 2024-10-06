@@ -329,7 +329,7 @@ struct PhoneAppHomeView: View {
             
             connected = UserDefaults.group.connected
             minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
-            if minutesSinceLastReading >= 1 && connected == .connected {
+            if minutesSinceLastReading >= 1 && (connected == .connected || connected == .newlyConnected) {
                 Task {
                     isReloading = true
                     await libreLinkUp.reloadLibreLinkUp()
@@ -391,7 +391,7 @@ struct PhoneAppHomeView: View {
                 
                 connected = UserDefaults.group.connected
                 minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
-                if minutesSinceLastReading >= 1 && connected == .connected {
+                if minutesSinceLastReading >= 1 && (connected == .connected || connected == .newlyConnected) {
                     Task {
                         isReloading = true
                         await libreLinkUp.reloadLibreLinkUp()
