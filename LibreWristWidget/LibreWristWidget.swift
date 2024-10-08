@@ -222,7 +222,7 @@ struct LibreWristWidget: Widget {
     
  
 
-#Preview(as: .systemSmall) {
+#Preview("systSma", as: .systemSmall) {
     LibreWristWidget()
 } timeline: {
 //    SimpleEntry(date: .now, emoji: "😀")
@@ -230,7 +230,7 @@ struct LibreWristWidget: Widget {
     GlucoseMeasurementEntry.sampleEntry
 }
 
-#Preview(as: .accessoryCircular) {
+#Preview("accessCirc", as: .accessoryCircular) {
     LibreWristWidget()
 } timeline: {
 //    SimpleEntry(date: .now, emoji: "😀")
