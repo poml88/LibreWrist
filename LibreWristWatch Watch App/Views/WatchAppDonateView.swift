@@ -48,6 +48,17 @@ struct WatchAppDonateView: View {
                 
             }
             .padding(.top, -20)
+            Text("Debug info:")
+                .padding(.top, 40)
+            let versionNumber: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+            let buildNumber: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
+            Text("V\(versionNumber).\(buildNumber)")
+            
+            let systemVersion = WKInterfaceDevice.current().systemVersion
+            let systemName = WKInterfaceDevice.current().systemName
+            let model = WKInterfaceDevice.current().model
+            let name = WKInterfaceDevice.current().name
+            Text("\(systemName) \(systemVersion) on \(name)")
         }
     }
 }

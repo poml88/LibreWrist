@@ -29,6 +29,13 @@ struct PhoneAppSettingsView: View {
                 let buildNumber: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
                 Text("V\(versionNumber).\(buildNumber)")
                 
+                let systemVersion = UIDevice.current.systemVersion
+                let systemName = UIDevice.current.systemName
+                let model = UIDevice.current.model
+                let name = UIDevice.current.name
+                Text("\(systemName) \(systemVersion) on \(name)")
+
+                
                 Link(destination: URL(string: "https://github.com/poml88/LibreWrist/issues")!) {
                     Text("Open issue on GitHub")
                         .frame(width: 200, height: 50)

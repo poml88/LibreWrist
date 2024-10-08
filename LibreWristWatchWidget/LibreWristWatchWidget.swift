@@ -1,8 +1,8 @@
 //
-//  LibreWristWidget.swift
-//  LibreWristWidget
+//  LibreWristWatchWidget.swift
+//  LibreWristWatchWidget
 //
-//  Created by Peter Müller on 02.10.24.
+//  Created by Peter Müller on 08.10.24.
 //
 
 import WidgetKit
@@ -13,12 +13,12 @@ struct Provider: TimelineProvider {
     func placeholder(in context: Context) -> GlucoseMeasurementEntry {
         return GlucoseMeasurementEntry.sampleEntry
     }
-    
+
     func getSnapshot(in context: Context, completion: @escaping (GlucoseMeasurementEntry) -> ()) {
         let entry = GlucoseMeasurementEntry.sampleEntry
         completion(entry)
     }
-    
+
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
         var entries: [GlucoseMeasurementEntry] = []
         
@@ -53,8 +53,6 @@ struct Provider: TimelineProvider {
 }
 
 
-
-
 struct LibreWristWidgetEntryView : View {
     var entry: Provider.Entry
 
@@ -73,46 +71,26 @@ struct LibreWristWidgetEntryView : View {
     @ViewBuilder
     var body: some View {
         switch family {
-        case .systemSmall:
-            ZStack {
-                entry.glucoseMeasurement.measurementColor.color
-                VStack(alignment: .center, spacing: -10) {
-                    Text(verbatim: entry.glucoseMeasurement.trendArrow?.symbol ?? "-")
-                            .font(.system(size: 48, weight: .heavy, design: .monospaced))
-                            .foregroundColor(.black)
-                    Text(verbatim: glucose)
-                            .font(.system(size: 52, weight: .heavy))
-                            .foregroundColor(.black)
-                    Text(Date(), style: .offset)
-                    //Text(verbatim: " ")
-                            .font(.system(size: 20, weight: .heavy))
-                            .foregroundColor(.black)
-                            //.colorInvert()
-                            .multilineTextAlignment(.center)
-                            .monospacedDigit()
-                            .padding(4)
-                            //.frame(width: 10)
-                }
-            }
-            .containerBackground(for: .widget) {
-                Color.clear
-            }
+
         case .accessoryCircular:
-            ZStack(alignment: .center) {
-                if #available(iOSApplicationExtension 17.0, *) {
-                    // TODO
-                } else {
-                    Color(.white)
-                }
-             AccessoryWidgetBackground()
+//            ZStack(alignment: .center) {
+//                if #available(iOSApplicationExtension 17.0, *) {
+//                    // TODO
+//                } else {
+//                    Color(.white)
+//                }
+//             AccessoryWidgetBackground()
              VStack(alignment: .center, spacing: -6) {
                     Text(verbatim: entry.glucoseMeasurement.trendArrow?.symbol ?? "-")
                             .font(.system(size: 20, weight: .heavy, design: .monospaced))
+                            .foregroundColor(entry.glucoseMeasurement.measurementColor.color)
                             //.colorInvert()
-                            //.widgetAccentable()
+                            .widgetAccentable()
                     Text(verbatim: glucose)
                             .font(.system(size: 20, weight: .heavy))
+                            .foregroundColor(entry.glucoseMeasurement.measurementColor.color)
                             //.colorInvert()
+                            .widgetAccentable()
                     Text(Date(), style: .timer)
                     //Text(verbatim: " ")
                             .font(.system(size: 10, weight: .heavy))
@@ -120,25 +98,27 @@ struct LibreWristWidgetEntryView : View {
                             .multilineTextAlignment(.center)
                             .monospacedDigit()
                             .padding(4)
+                            
+                            
                 }
-            }
-            .containerBackground(for: .widget) {
-                EmptyView()
-            }
+//            }
+//            .containerBackground(for: .widget) {
+//                background()
+//            }
+             .containerBackground(.background, for: .widget)
         default:
             VStack(alignment: .center) {
                 Text("default")
             }
-            .containerBackground(for: .widget) {
-                Color.clear
-            }
+            .containerBackground(.background, for: .widget)
         }
     }
 }
 
-struct LibreWristWidget: Widget {
-    let kind: String = "LibreWristWidget"
-
+@main
+struct LibreWristWatchWidget: Widget {
+    let kind: String = "LibreWristWatchWidget"
+    
     var body: some WidgetConfiguration {
         StaticConfiguration(
             kind: kind,
@@ -146,29 +126,17 @@ struct LibreWristWidget: Widget {
         ) { entry in
             LibreWristWidgetEntryView(entry: entry)
         }
-        .supportedFamilies([.accessoryCircular, .systemSmall])
+        .supportedFamilies([.accessoryCircular])
         .configurationDisplayName("Glucose Widget")
         .description("This widget displays the latest blood glucose value.")
-        .contentMarginsDisabled()
+//        .contentMarginsDisabled()
     }
-}
-    
 
-    
- 
-
-#Preview("systSma", as: .systemSmall) {
-    LibreWristWidget()
-} timeline: {
-//    SimpleEntry(date: .now, emoji: "😀")
-//    SimpleEntry(date: .now, emoji: "🤩")
-    GlucoseMeasurementEntry.sampleEntry
+   
 }
 
 #Preview("accessCirc", as: .accessoryCircular) {
-    LibreWristWidget()
+    LibreWristWatchWidget()
 } timeline: {
-//    SimpleEntry(date: .now, emoji: "😀")
-//    SimpleEntry(date: .now, emoji: "🤩")
     GlucoseMeasurementEntry.sampleEntry
 }

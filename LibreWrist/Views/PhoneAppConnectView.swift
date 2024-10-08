@@ -57,7 +57,7 @@ struct PhoneAppConnectView: View {
             
             
             Form {
-                Section(header: Text("Credentials"), footer: Text("Enter the credentials for your [LibreLinkUp follower account](https://www.librelinkup.com/) and press the Connect button.".attributed)) {
+                Section(header: Text("Credentials"), footer: Text("Enter the credentials for your [LibreLinkUp follower account](https://www.librelinkup.com/) and press the Connect button. Credentials will be sent automatically to watch app if it is installed.".attributed)) {
                     TextField(text: $username, prompt: Text("Username (email adress)")) {
                         Text("Username")
                     }.textContentType(.emailAddress)
@@ -83,7 +83,11 @@ struct PhoneAppConnectView: View {
                 .disabled(username.isBlank || password.isBlank)
                 
                 if connected == .connected || connected == .newlyConnected{
-                    Text("Try pressing \"Connect\" again to resend credentials to watch.")
+                    if watchConnector.session.activationState == .activated && !watchConnector.session.isWatchAppInstalled {
+                        Text("Watch app not installed / detected. Credentials will not be transferred to watch.")
+                    } else {
+                        Text("Try pressing \"Connect\" again to resend credentials to watch.")
+                    }
                     Text("**Not for treatment decisions.**\\\n\\\nThe information presented in this app and its extensions must not be used for treatment or dosing decisions. Consult the glucose-monitoring system and/or a healthcare professional.".attributed)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .font(.system(size: 16))

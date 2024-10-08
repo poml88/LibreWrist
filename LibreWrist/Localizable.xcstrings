@@ -10,6 +10,16 @@
     "%@" : {
 
     },
+    "%@ %@ on %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$@ %2$@ on %3$@"
+          }
+        }
+      }
+    },
     "%lld" : {
 
     },
@@ -139,6 +149,9 @@
       }
     },
     "Warning" : {
+
+    },
+    "Watch app not installed / detected. Credentials will not be transferred to watch." : {
 
     }
   },
