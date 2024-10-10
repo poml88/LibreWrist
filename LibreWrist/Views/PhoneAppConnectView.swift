@@ -82,12 +82,14 @@ struct PhoneAppConnectView: View {
                 }
                 .disabled(username.isBlank || password.isBlank)
                 
-                if connected == .connected || connected == .newlyConnected{
-                    if watchConnector.session.activationState == .activated && !watchConnector.session.isWatchAppInstalled {
-                        Text("Watch app not installed / detected. Credentials will not be transferred to watch.")
-                    } else {
-                        Text("Try pressing \"Connect\" again to resend credentials to watch.")
-                    }
+                if watchConnector.session.activationState == .activated && !watchConnector.session.isWatchAppInstalled {
+                    Text("**Watch app not installed / detected**\nCredentials will not be transferred to watch. Install watch app and press \"Connect\" again to resend credentials to watch.")
+                        .font(.system(size: 16))
+                } else {
+                    Text("Press \"Connect\" again to resend credentials to watch.")
+                        .font(.system(size: 16))
+                }
+                if connected == .connected || connected == .newlyConnected {
                     Text("**Not for treatment decisions.**\\\n\\\nThe information presented in this app and its extensions must not be used for treatment or dosing decisions. Consult the glucose-monitoring system and/or a healthcare professional.".attributed)
                         .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         .font(.system(size: 16))

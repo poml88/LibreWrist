@@ -80,9 +80,12 @@ struct LibreWristWidgetEntryView : View {
                     Text(verbatim: entry.glucoseMeasurement.trendArrow?.symbol ?? "-")
                             .font(.system(size: 48, weight: .heavy, design: .monospaced))
                             .foregroundColor(.black)
-                    Text(verbatim: glucose)
+                    Button(intent: ReloadWidgetIntent()) {
+                        Text(verbatim: glucose)
                             .font(.system(size: 52, weight: .heavy))
                             .foregroundColor(.black)
+                    }
+                    .buttonStyle(PlainButtonStyle())
                     Text(Date(), style: .offset)
                     //Text(verbatim: " ")
                             .font(.system(size: 20, weight: .heavy))
@@ -110,9 +113,12 @@ struct LibreWristWidgetEntryView : View {
                             .font(.system(size: 20, weight: .heavy, design: .monospaced))
                             //.colorInvert()
                             //.widgetAccentable()
-                    Text(verbatim: glucose)
-                            .font(.system(size: 20, weight: .heavy))
-                            //.colorInvert()
+                 Button(intent: ReloadWidgetIntent()) {
+                     Text(verbatim: glucose)
+                         .font(.system(size: 20, weight: .heavy))
+                     //.colorInvert()
+                 }
+                 .buttonStyle(PlainButtonStyle())
                     Text(Date(), style: .timer)
                     //Text(verbatim: " ")
                             .font(.system(size: 10, weight: .heavy))

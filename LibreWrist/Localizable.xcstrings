@@ -4,6 +4,9 @@
     "!! Not for treatment decisions !!\n\nUse at your own risk!\n\nThe information presented in this app and its extensions must not be used for treatment or dosing decisions. Consult the glucose-monitoring system and/or a healthcare professional." : {
 
     },
+    "**Watch app not installed / detected**\nCredentials will not be transferred to watch. Install watch app and press \"Connect\" again to resend credentials to watch." : {
+
+    },
     "%.1f" : {
 
     },
@@ -89,6 +92,9 @@
     "Please enter a date" : {
 
     },
+    "Press \"Connect\" again to resend credentials to watch." : {
+
+    },
     "Rect End Height" : {
 
     },
@@ -99,6 +105,12 @@
 
     },
     "Rect Start Width" : {
+
+    },
+    "Reload widget" : {
+
+    },
+    "Reload widget." : {
 
     },
     "Reset" : {
@@ -129,9 +141,6 @@
         }
       }
     },
-    "Try pressing \"Connect\" again to resend credentials to watch." : {
-
-    },
     "Username" : {
 
     },
@@ -149,9 +158,6 @@
       }
     },
     "Warning" : {
-
-    },
-    "Watch app not installed / detected. Credentials will not be transferred to watch." : {
 
     }
   },

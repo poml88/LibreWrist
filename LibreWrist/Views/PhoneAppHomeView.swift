@@ -426,7 +426,10 @@ struct PhoneAppHomeView: View {
                     .opacity(0.5)
                 }
                 .ignoresSafeArea()
+                .allowsHitTesting(false) // passes taps/clicks through to the bottom layer
+                // in this case the IOB button
             }
+                
         }
     }
     

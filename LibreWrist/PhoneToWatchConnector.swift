@@ -53,11 +53,11 @@ class PhoneToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
     
     func sendMessagetoWatch(_ message: [String : Any], replyHandler: (([String : Any]) -> Void)? = nil) {
         guard WCSession.isSupported() else {
-            Logger.connectivity.error("No paired device")
+            Logger.connectivity.error("Device does not support WatchConnectivity")
             return
         }
         guard session.activationState == .activated else {
-            Logger.connectivity.error("Device not activated")
+            Logger.connectivity.error("WCSession not activated")
             return
         }
         if session.isReachable {
@@ -70,7 +70,7 @@ class PhoneToWatchConnector: NSObject, WCSessionDelegate, ObservableObject {
                 WCSession.default.transferUserInfo(message)
             })
         } else {
-            Logger.connectivity.warning("Session not reachable")
+            Logger.connectivity.warning("Session not reachable / counterpart app not available for live messaging")
 //            try? WCSession.default.updateApplicationContext(message)
             WCSession.default.transferUserInfo(message)
             

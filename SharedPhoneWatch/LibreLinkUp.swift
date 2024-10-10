@@ -139,7 +139,7 @@ class LibreLinkUp  {
     func login() async throws -> (Any, URLResponse) {
         var request = URLRequest(url: URL(string: "\(siteURL)/\(loginEndpoint)")!)
         
-        let appGroupID = UserDefaults.stringValue(forKey: "APP_GROUP_ID")
+//        let appGroupID = UserDefaults.stringValue(forKey: "APP_GROUP_ID")
         let credentials = [
             //            "email": settings.libreLinkUpEmail,
             //            "password": settings.libreLinkUpPassword
@@ -191,6 +191,7 @@ class LibreLinkUp  {
                                 }
                             }
                         }
+                        throw LibreLinkUpError.notAuthenticated
                     }
                     
                     // TODO: status 4 requires accepting new Terms of Use: api.libreview.io/auth/continue/tou
