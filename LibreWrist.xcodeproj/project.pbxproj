@@ -74,6 +74,7 @@
 		7BA0AE572C5834F6004226FE /* PhoneAppConnectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0AE562C5834F6004226FE /* PhoneAppConnectView.swift */; };
 		7BA0AE5B2C5AE980004226FE /* PhoneAppHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0AE5A2C5AE980004226FE /* PhoneAppHomeView.swift */; };
 		7BA0AE5D2C5AEB89004226FE /* PhoneAppDonateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA0AE5C2C5AEB89004226FE /* PhoneAppDonateView.swift */; };
+		7BA567992CBA974D003244EE /* MailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA567962CBA9584003244EE /* MailView.swift */; };
 		7BADE0122C73E3440074A47F /* SensorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE0112C73E3440074A47F /* SensorType.swift */; };
 		7BADE01B2C73E4B60074A47F /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE01A2C73E4B60074A47F /* Data.swift */; };
 		7BADE01D2C73E4E70074A47F /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BADE01C2C73E4E70074A47F /* Int.swift */; };
@@ -252,6 +253,7 @@
 		7BA0AE562C5834F6004226FE /* PhoneAppConnectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAppConnectView.swift; sourceTree = "<group>"; };
 		7BA0AE5A2C5AE980004226FE /* PhoneAppHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAppHomeView.swift; sourceTree = "<group>"; };
 		7BA0AE5C2C5AEB89004226FE /* PhoneAppDonateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAppDonateView.swift; sourceTree = "<group>"; };
+		7BA567962CBA9584003244EE /* MailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailView.swift; sourceTree = "<group>"; };
 		7BADE0112C73E3440074A47F /* SensorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SensorType.swift; sourceTree = "<group>"; };
 		7BADE01A2C73E4B60074A47F /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		7BADE01C2C73E4E70074A47F /* Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
@@ -402,6 +404,7 @@
 				7BADE0112C73E3440074A47F /* SensorType.swift */,
 				7BDB81312CB09AF800F4A60F /* LLUHeaders.swift */,
 				7B2E7EBC2CB59DEB00A3473B /* GlucoseMeasurementEntry.swift */,
+				7BA567962CBA9584003244EE /* MailView.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -839,6 +842,7 @@
 				7BFD83572C84DF6200A9B195 /* InsulinObjects.swift in Sources */,
 				7B462BFD2C7FBAC8003FEDC3 /* MeasurementColor.swift in Sources */,
 				7BADE01D2C73E4E70074A47F /* Int.swift in Sources */,
+				7BA567992CBA974D003244EE /* MailView.swift in Sources */,
 				7B183E9B2C84C9540018A24F /* PhoneAppInsulinDeliveryView.swift in Sources */,
 				7B435CCC2C6D46DF006F6E53 /* Logger.swift in Sources */,
 				7BFD835E2C84E48E00A9B195 /* ExponentialInsulinModel.swift in Sources */,

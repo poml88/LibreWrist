@@ -6,10 +6,13 @@
 //
 
 import SwiftUI
+import MessageUI
 
 struct PhoneAppSettingsView: View {
     
     @State private var isScreenAlwaysOn = false
+    @State private var showingMailView = false
+    @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
     
     var body: some View {
         Form {
@@ -39,9 +42,22 @@ struct PhoneAppSettingsView: View {
                 Link(destination: URL(string: "https://github.com/poml88/LibreWrist/issues")!) {
                     Text("Open issue on GitHub")
                         .frame(width: 200, height: 50)
-                        .foregroundColor(.primary)
-                        .background(.primary)
+                        .foregroundColor(.accentColor)
+                        .background(Color(.systemGray5))
                         .cornerRadius(10)
+                }
+                
+                Button {
+                    showingMailView.toggle()
+                } label: {
+                 Text("Send Email to Support")
+                        .frame(width: 177, height: 35)
+                }
+                .buttonStyle(.bordered)
+                
+                .disabled(!MailView.canSendMail())
+                .sheet(isPresented: $showingMailView) {
+                    MailView(result: $mailResult)
                 }
                
             } header: {
@@ -58,3 +74,6 @@ struct PhoneAppSettingsView: View {
 
 
 
+
+    
+  

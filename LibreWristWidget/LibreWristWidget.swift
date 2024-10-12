@@ -70,6 +70,14 @@ struct LibreWristWidgetEntryView : View {
         }
     }
     
+    var currentIOB: String {
+        if entry.currentIOB == -1 {
+            return "-.-u"
+        } else {
+            return "\(String(format: "%.1f", entry.currentIOB))u"
+        }
+    }
+    
     @ViewBuilder
     var body: some View {
         switch family {
@@ -92,27 +100,35 @@ struct LibreWristWidgetEntryView : View {
                     Text(verbatim: glucose)
                         .font(.system(size: 52, weight: .heavy))
                         .foregroundColor(.black)
-                    Text(Date(), style: .offset)
-                    //Text(verbatim: " ")
-                        .font(.system(size: 20, weight: .heavy))
+                    HStack (spacing: 15){
+                        Text(currentIOB)
+                            .font(.system(size: 20, weight: .heavy))
                             .foregroundColor(.black)
-                            //.colorInvert()
-                            .multilineTextAlignment(.center)
+                        Text(Date(), style: .timer)
+                        //Text(verbatim: " ")
+                            .font(.system(size: 20, weight: .heavy))
+                            .foregroundColor(.black)
+                            .frame(width: 50)
+                        //.colorInvert()
+                        //                                .multilineTextAlignment(.center)
                             .monospacedDigit()
-                            .padding(4)
-                            //.frame(width: 10)
+                        //.frame(width: 10)
+                    }
+                    .padding(.top, 4)
+
+                    
                 }
             }
             .containerBackground(for: .widget) {
-                Color.clear
+                background()
             }
         case .accessoryCircular:
             ZStack {
-//                if #available(iOSApplicationExtension 17.0, *) {
-//                    // TODO
-//                } else {
-//                    Color(.white)
-//                }
+                //                if #available(iOSApplicationExtension 17.0, *) {
+                //                    // TODO
+                //                } else {
+                //                    Color(.white)
+                //                }
                 AccessoryWidgetBackground()
                 VStack(alignment: .center, spacing: -6) {
                     Button(intent: ReloadWidgetIntent()) {
@@ -146,9 +162,10 @@ struct LibreWristWidgetEntryView : View {
 //                    Color(.white)
 //                }
                 AccessoryWidgetBackground()
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
                 HStack {
                     VStack (alignment: .center, spacing: 6){
-                        Text("\(entry.currentIOB, specifier: "%.2f")u")
+                        Text(currentIOB)
                             .font(.system(size: 15, weight: .heavy))
                         
                         Text(Date(), style: .timer)

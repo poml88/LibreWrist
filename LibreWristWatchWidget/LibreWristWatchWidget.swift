@@ -68,19 +68,27 @@ struct LibreWristWidgetEntryView : View {
         }
     }
     
+    var currentIOB: String {
+        if entry.currentIOB == -1 {
+            return "-.-u"
+        } else {
+            return "\(String(format: "%.1f", entry.currentIOB))u"
+        }
+    }
+    
     @ViewBuilder
     var body: some View {
         switch family {
 
         case .accessoryCircular:
-            ZStack {
-//            ZStack(alignment: .center) {
-//                if #available(iOSApplicationExtension 17.0, *) {
-//                    // TODO
-//                } else {
-//                    Color(.white)
-//                }
-             AccessoryWidgetBackground()
+//            ZStack {
+////            ZStack(alignment: .center) {
+////                if #available(iOSApplicationExtension 17.0, *) {
+////                    // TODO
+////                } else {
+////                    Color(.white)
+////                }
+//             AccessoryWidgetBackground()
                 
              VStack(alignment: .center, spacing: -6) {
                     Text(verbatim: entry.glucoseMeasurement.trendArrow?.symbol ?? "-")
@@ -103,23 +111,23 @@ struct LibreWristWidgetEntryView : View {
                             
                             
                 }
-            }
+//            }
 //            .containerBackground(for: .widget) {
 //                background()
 //            }
              .containerBackground(.background, for: .widget)
             
         case .accessoryRectangular:
-            ZStack {
-//                if #available(iOSApplicationExtension 17.0, *) {
-//                    // TODO
-//                } else {
-//                    Color(.white)
-//                }
-                AccessoryWidgetBackground()
+//            ZStack {
+////                if #available(iOSApplicationExtension 17.0, *) {
+////                    // TODO
+////                } else {
+////                    Color(.white)
+////                }
+//                AccessoryWidgetBackground()
                 HStack (spacing: 20){
                     VStack (alignment: .center, spacing: 6){
-                        Text("\(entry.currentIOB, specifier: "%.2f")u")
+                        Text(currentIOB)
                             .font(.system(size: 18, weight: .heavy))
                         
                         Text(Date(), style: .timer)
@@ -149,14 +157,14 @@ struct LibreWristWidgetEntryView : View {
                     }
                     
                 }
-            }
+//            }
             .containerBackground(for: .widget) {
                 EmptyView()
             }
             
         case .accessoryCorner:
-            ZStack{
-                AccessoryWidgetBackground()
+//            ZStack{
+//                AccessoryWidgetBackground()
                 
                 Text("\(glucose) \(entry.glucoseMeasurement.trendArrow?.symbol ?? "-")")
                     .foregroundColor(entry.glucoseMeasurement.measurementColor.color)
@@ -171,7 +179,7 @@ struct LibreWristWidgetEntryView : View {
                             .monospacedDigit()
                         
                     }
-            }
+//            }
              .containerBackground(.background, for: .widget)
             
         case .accessoryInline:
