@@ -17,26 +17,30 @@ For example there are no widgets or complications yet. Chart is not scrollable, 
 ***Installation:*** Make sure that the watchOS app is installed, ideally before starting the iOS app. Depending on your configuration, the watchOS app is either installed automatically, or has to be installed via the "watch" app on the phone.
 - The app needs iOS 17.5 and watchOS 10.5
 - TestFlight: https://testflight.apple.com/join/HwgkwcGz
-- AppStore: https://apps.apple.com/us/app/librewrist/id6670172928
+- AppStore: https://apps.apple.com/app/librewrist/id6670172928
 - Settings are made in the iOS app and are then transferred to the watchOS app. This only works if the watchOS app is installed on the watch.
-- To connect to your LibreLinkUp follower account, enter your credentials on the connect tab. If the watchOS app is installed, the credentials are transferred to the watch app. It is possible to re-transfer the credentials by pressing the "connect" button again.
+- To create a LibreLinkUp follower account install the [LibreLinkUp App](https://apps.apple.com/us/app/librelinkup/id1234323923) on the phone and follow the instructions. The LibreLinkUp app can then be closed or uninstalled, but maybe needed later to accept new Terms of Use or just check that the account / connection works.
+- To connect to your LibreLinkUp follower account, enter your credentials in LibreWrist on the connect tab. If the watchOS app is installed, the credentials are transferred to the watch app. It is possible to re-transfer the credentials by pressing the "connect" button again.
 - It can take up to a minute for the data to be fetched and displayed.
-- To use the insulin calculation, tap on the IOB label on the home screen. I have added only Novorapid for the moment, but more insulins can be added on request. Please let me know.
+- To use the insulin calculation, tap on the IOB label on the home screen. I have added only Novorapid for the moment, but more insulins can be added on request. *Please let me know.*
   - The app is using the exponetial model from LoopKit. The model takes three paramters: actionDuration, peakActivityTime, and delay. For Novorapid I have set 270, 120, and 15 minutes.
 - I have set on the watch the "back to watch" time for this app to one hour. Like this, it is 1 hour in the foreground and gets a reasonable number of updates.
+- The easiest way to start the phone or watch app is by placing a widget / complication on your homescree, lockscreen, watchface, or whereever and tap it.
 
 ### Features ###
 * blood glucose graph on phone and watch
+* interactive chart on phone to display individual values on tap
 * phone screen always on mode
 * insulin on board calculation (IOB)
 * iOS widgets and lock screen widgets
-* watchOS widget
+* watchOS widgets / complications
 
 ### ToDo ###
-A lot....
+- Widget with BG graph
+- More insulin types
 
 ### Support and Feedback ###
-For support please open an issue, start a discussion or email librewrist [at] cmdline [dot] net. Feedback is very welcome, please use the same methods as for support.
+For support please open an issue, start a discussion or email librewrist [ a t ] cmdline [ d o t ] net. Feedback is very welcome, please use the same methods as for support.
 
 ### Donations... ###
 ...are always very welcome! [paypal.me/lovemyhusky](paypal.me/lovemyhusky)
