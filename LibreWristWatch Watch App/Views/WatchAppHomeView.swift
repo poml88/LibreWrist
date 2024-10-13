@@ -16,6 +16,7 @@ struct WatchAppHomeView: View {
     @Environment(\.scenePhase) var scenePhase
     @Environment(\.libreLinkUpHistory) var libreLinkUpHistory
     @Environment(\.sensorSettingsSingleton) var sensorSettingsSingleton
+    @Environment(\.currentIOBSingleton) var currentIOBSingleton
     
 //    @State private var libreLinkUpHistory: [LibreLinkUpGlucose] = MockDataWatch
     //    @State private var selectedlibreLinkHistoryPoint: LibreLinkUpGlucose?
@@ -24,7 +25,7 @@ struct WatchAppHomeView: View {
     @State private var minutesSinceLastReading: Int = 999
     @State private var isReloading: Bool = false
     @State private var isShowingDisclaimer = false
-    @State private var currentIOB: Double = 0.0
+//    @State private var currentIOB: Double = 0.0
 //    @State private var sensorSettings = SensorSettings()
     @State private var connected = UserDefaults.group.connected
     
@@ -61,8 +62,8 @@ struct WatchAppHomeView: View {
                         .font(.title)
                         .foregroundStyle(libreLinkUpHistory.libreLinkUpGlucose[0].color.color)
                     
-                    if currentIOB > 0 {
-                        Text("\(currentIOB, specifier: "%.2f")U")
+                    if currentIOBSingleton.currentIOB > 0 {
+                        Text("\(currentIOBSingleton.currentIOB, specifier: "%.2f")u")
                             .font(.body)
                     }
                     //                    }
@@ -244,18 +245,7 @@ struct WatchAppHomeView: View {
         .onReceive(timer) { time in
             print("Timer")
             
-            var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
-            var sumIOB: Double = 0
-            for item in insulinDeliveryHistory {
-                if Date().timeIntervalSince1970 - item.timeStamp > 12 * 60 * 60 {
-                    insulinDeliveryHistory.removeAll(where: {$0.id == item.id})
-                } else {
-                    let IOB =   updateIOB(timeStamp: item.timeStamp) * item.insulinUnits
-                    sumIOB = sumIOB + IOB
-                }
-            }
-            currentIOB = sumIOB
-            UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
+            CurrentIOBSingleton.shared.currentIOB = CurrentIOBSingleton.shared.getCurrentIOB()
             
             connected = UserDefaults.group.connected
             minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
@@ -275,18 +265,7 @@ struct WatchAppHomeView: View {
             }
             
             
-            var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
-            var sumIOB: Double = 0
-            for item in insulinDeliveryHistory {
-                if Date().timeIntervalSince1970 - item.timeStamp > 12 * 60 * 60 {
-                    insulinDeliveryHistory.removeAll(where: {$0.id == item.id})
-                } else {
-                    let IOB =   updateIOB(timeStamp: item.timeStamp) * item.insulinUnits
-                    sumIOB = sumIOB + IOB
-                }
-            }
-            currentIOB = sumIOB
-            UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
+            CurrentIOBSingleton.shared.currentIOB = CurrentIOBSingleton.shared.getCurrentIOB()
             
             
             
@@ -307,18 +286,7 @@ struct WatchAppHomeView: View {
                 print("Active")
                 
                 
-                var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
-                var sumIOB: Double = 0
-                for item in insulinDeliveryHistory {
-                    if Date().timeIntervalSince1970 - item.timeStamp > 12 * 60 * 60 {
-                        insulinDeliveryHistory.removeAll(where: {$0.id == item.id})
-                    } else {
-                        let IOB =   updateIOB(timeStamp: item.timeStamp) * item.insulinUnits
-                        sumIOB = sumIOB + IOB
-                    }
-                }
-                currentIOB = sumIOB
-                UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
+                CurrentIOBSingleton.shared.currentIOB = CurrentIOBSingleton.shared.getCurrentIOB()
                 
                 
                 connected = UserDefaults.group.connected

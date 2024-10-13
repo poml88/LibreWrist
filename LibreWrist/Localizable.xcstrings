@@ -26,6 +26,16 @@
     "%lld" : {
 
     },
+    "%lld %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld %2$@"
+          }
+        }
+      }
+    },
     "Accept" : {
 
     },
@@ -68,7 +78,7 @@
     "Insulin units" : {
 
     },
-    "IOB: %.2fU" : {
+    "IOB: %.2fu" : {
 
     },
     "Keep phone screen always on" : {

@@ -7,26 +7,17 @@
 
 import WidgetKit
 
-struct GlucoseMeasurementEntry: TimelineEntry {
+struct GlucoseMeasurementIOBEntry: TimelineEntry {
     let date: Date
     let glucoseMeasurement: GlucoseMeasurement
-    let currentIOB: Double
+    var currentIOB: Double
     
-    static let sampleEntry = GlucoseMeasurementEntry(date: Date(), glucoseMeasurement: GlucoseMeasurement(factoryTimestamp: "", timestamp: "", type: 0, alarmType: 3, valueInMgPerDl: 105, trendArrow: .stable, trendMessage: "", measurementColor: .green, glucoseUnits: 1, value: 105, isHigh: false, isLow: false), currentIOB: 0.1)
+    static let sampleEntry = GlucoseMeasurementIOBEntry(date: Date(), glucoseMeasurement: GlucoseMeasurement(factoryTimestamp: "", timestamp: "", type: 0, alarmType: 3, valueInMgPerDl: 105, trendArrow: .stable, trendMessage: "", measurementColor: .green, glucoseUnits: 1, value: 105, isHigh: false, isLow: false), currentIOB: 0.1)
     
-    static let invalidEntry = GlucoseMeasurementEntry(date: Date(), glucoseMeasurement: GlucoseMeasurement(factoryTimestamp: "", timestamp: "", type: 0, alarmType: 3, valueInMgPerDl: 0, trendArrow: .unknown, trendMessage: "", measurementColor: .gray, glucoseUnits: 1, value: 0, isHigh: false, isLow: false), currentIOB: -1)
+    static let invalidEntry = GlucoseMeasurementIOBEntry(date: Date(), glucoseMeasurement: GlucoseMeasurement(factoryTimestamp: "", timestamp: "", type: 0, alarmType: 3, valueInMgPerDl: 0, trendArrow: .unknown, trendMessage: "", measurementColor: .gray, glucoseUnits: 1, value: 0, isHigh: false, isLow: false), currentIOB: -1)
     
-    static func getLastGlucoseMeasurement(completion: @escaping (GlucoseMeasurementEntry?, Any?) -> ()) {
+    static func getLastGlucoseMeasurement(completion: @escaping (GlucoseMeasurementIOBEntry?, Any?) -> ()) {
         
-        var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
-        var sumIOB: Double = 0
-        for item in insulinDeliveryHistory {
-            
-                let IOB =   updateIOB(timeStamp: item.timeStamp) * item.insulinUnits
-                sumIOB = sumIOB + IOB
-            
-        }
-        let currentIOB = sumIOB
         
         
         if !(settings.libreLinkUpUserId.isEmpty ||
@@ -58,7 +49,8 @@ struct GlucoseMeasurementEntry: TimelineEntry {
                                    let measurementData = try? JSONSerialization.data(withJSONObject: lastGlucoseMeasurement),
                                    let measurement = try? JSONDecoder().decode(GlucoseMeasurement.self, from: measurementData) {
                                     let date = dateFormatter.date(from: measurement.timestamp)!
-                                    let glucoseMeasurementEntry = GlucoseMeasurementEntry(date: date, glucoseMeasurement: measurement, currentIOB: currentIOB)
+                                    let currentIOB = CurrentIOBSingleton.shared.getCurrentIOB()
+                                    let glucoseMeasurementEntry = GlucoseMeasurementIOBEntry(date: date, glucoseMeasurement: measurement, currentIOB: currentIOB)
                                     let lifeCount = 0 // Int(round(date.timeIntervalSince(activationDate) / 60))
 //                                    let lastGlucose = LibreLinkUpGlucose(glucose: Glucose(measurement.valueInMgPerDl, id: lifeCount, date: date, source: "LibreLinkUp"), color: measurement.measurementColor, trendArrow: measurement.trendArrow)
 //

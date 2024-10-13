@@ -11,12 +11,13 @@ import SwiftUI
 struct WatchAppNightView: View {
     
     @Environment(\.libreLinkUpHistory) var libreLinkUpHistory
+    @Environment(\.currentIOBSingleton) var currentIOBSingleton
     
     @State private var currentIOB: Double = 0.0
-    
+        
     var body: some View {
         if libreLinkUpHistory.libreLinkUpGlucose.count > 0 {
-            VStack {
+            VStack (spacing: -15) {
     //                if minutesSinceLastReading >= 3 {
     //                    Text("---")
     //                    .font(.system(size: 60)) //, weight: .bold
@@ -30,7 +31,7 @@ struct WatchAppNightView: View {
     //                    .padding()
     //                }
                     
-                VStack (spacing: -10){
+//                VStack (spacing: -10){
     //                    if minutesSinceLastReading >= 3 {
     //                        Text("---")
     //                            .font(.title)
@@ -41,9 +42,13 @@ struct WatchAppNightView: View {
                             .minimumScaleFactor(0.7)
     //                        .foregroundStyle(libreLinkUpHistory[0].color.color)
                     
-    //                Text("\(currentIOB, specifier: "%.2f")U")
-    //                    .font(.body)
-                    
+                    Text("\(currentIOBSingleton.currentIOB, specifier: "%.2f")u")
+                        .font(.largeTitle)
+                        .padding(.bottom, 20)
+                
+//                Text(Date(), style: .timer)
+//                    .padding(.top, 20)
+                
     //                    }
                     //                    Text("\(lastReadingDate.toLocalTime())")
                     //                        .font(.system(size: 30, weight: .bold))
@@ -53,8 +58,8 @@ struct WatchAppNightView: View {
     //                    } else {
     //                        Text("\(minutesSinceLastReading) min ago")
     //                    }
-                }
-                .padding()
+//                }
+//                .padding()
             }
             .overlay {
                 if Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60) >= 3 {

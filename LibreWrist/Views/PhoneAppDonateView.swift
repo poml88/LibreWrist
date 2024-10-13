@@ -55,7 +55,7 @@ struct CustomProductStyle: ProductViewStyle {
                 .frame(maxWidth: .infinity)
             }
             
-            .buttonStyle(.borderedProminent)
+            .buttonStyle(.bordered)
             
             
         default:

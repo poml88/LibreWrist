@@ -19,6 +19,8 @@ struct PhoneAppHomeView: View {
 //    @Environment(History.self) var history: History
     @Environment(\.libreLinkUpHistory) var libreLinkUpHistory
     @Environment(\.sensorSettingsSingleton) var sensorSettingsSingleton
+    @Environment(\.currentIOBSingleton) var currentIOBSingleton
+    
     
     
     @State private var selectedlibreLinkHistoryPoint: LibreLinkUpGlucose?
@@ -29,7 +31,7 @@ struct PhoneAppHomeView: View {
     @State private var isReloading: Bool = false
     @State private var isShowingDisclaimer = false
     @State private var isShowingInsulinDeliverySheet = false
-    @State private var currentIOB: Double = 0.0
+//    @State private var currentIOB: Double = 0.0
     @State private var scrollPosition: Date = Date.now
 //    @State private var sensorSettings = SensorSettings()
     @State private var connected = UserDefaults.group.connected
@@ -38,6 +40,7 @@ struct PhoneAppHomeView: View {
 //    @State var currentGlucose: Int = 0
 //    @State var trendArrow = "---"
     private var libreLinkUp = LibreLinkUp()
+    
      
     private let timer = Timer.publish(every: 60, tolerance: 1, on: .main, in: .common).autoconnect()
     
@@ -64,7 +67,7 @@ struct PhoneAppHomeView: View {
                         Button {
                             isShowingInsulinDeliverySheet.toggle()
                         } label: {
-                            Text("IOB: \(currentIOB, specifier: "%.2f")U")
+                            Text("IOB: \(currentIOBSingleton.currentIOB, specifier: "%.2f")u")
                                 .font(.title2)
                                 .foregroundStyle(Color.primary)
                         }
@@ -101,7 +104,7 @@ struct PhoneAppHomeView: View {
                         Button {
                             isShowingInsulinDeliverySheet.toggle()
                         } label: {
-                            Text("IOB: \(currentIOB, specifier: "%.2f")U")
+                            Text("IOB: \(currentIOBSingleton.currentIOB, specifier: "%.2f")u")
                                 .font(.title2)
                                 .foregroundStyle(Color.primary)
                         }
@@ -147,6 +150,7 @@ struct PhoneAppHomeView: View {
                 let chartRectangleYEnd = sensorSettingsSingleton.sensorSettings.targetHigh
                 let chartRuleAlarmLL = sensorSettingsSingleton.sensorSettings.alarmLow
                 // Setting to 6 hours below by deleting half of the values.
+                let unitString = sensorSettingsSingleton.sensorSettings.uom == 0 ? "mmol/L" : "mg/dL"
                 
                 Chart {
                     //                    RuleMark(y: .value("Minimum High", 300))
@@ -206,23 +210,23 @@ struct PhoneAppHomeView: View {
 //                        .symbolSize(100)
                         
                         
-//                        if let selectedlibreLinkHistoryPoint,selectedlibreLinkHistoryPoint.id == item.id {
-//                            RuleMark(x: .value("Time", selectedlibreLinkHistoryPoint.glucose.date))
-//                                .annotation(position: .top) {
-//                                    VStack(alignment: .leading, spacing: 6){
-//                                        Text("\(selectedlibreLinkHistoryPoint.glucose.date.toLocalTime())")
-//                                        
-//                                        Text("\(selectedlibreLinkHistoryPoint.glucose.value) mg/dL")
-//                                            .font(.title3.bold())
-//                                    }
-//                                    .padding(.horizontal,10)
-//                                    .padding(.vertical,4)
-//                                    .background{
-//                                        RoundedRectangle(cornerRadius: 4, style: .continuous)
-//                                            .fill(.background.shadow(.drop(radius: 2)))
-//                                    }
-//                                }
-//                        }
+                        if let selectedlibreLinkHistoryPoint,selectedlibreLinkHistoryPoint.id == item.id {
+                            RuleMark(x: .value("Time", selectedlibreLinkHistoryPoint.glucose.date))
+                                .annotation(position: .top) {
+                                    VStack(alignment: .leading, spacing: 6){
+                                        Text("\(selectedlibreLinkHistoryPoint.glucose.date.toLocalTime())")
+                                        
+                                        Text("\(selectedlibreLinkHistoryPoint.glucose.value) \(unitString)")
+                                            .font(.title3.bold())
+                                    }
+                                    .padding(.horizontal,10)
+                                    .padding(.vertical,4)
+                                    .background{
+                                        RoundedRectangle(cornerRadius: 4, style: .continuous)
+                                            .fill(.background.shadow(.drop(radius: 2)))
+                                    }
+                                }
+                        }
                     }
                     
                     #warning ("breaks preview")
@@ -269,27 +273,27 @@ struct PhoneAppHomeView: View {
                         
                     }
                 }
-//                .chartOverlay { overlayProxy in
-//                    GeometryReader { geometryProxy in
-//                        Rectangle().fill(.clear).contentShape(Rectangle())
-//                            .gesture(DragGesture()
-//                                .onChanged { value in
-//                                    let currentX = value.location
-//                                    if let currentDate: Date = overlayProxy.value(atX: currentX.x) {
-//                                        //                                        let selectedlibreLinkHistoryPoint = libreLinkUpHistory[currentDate.toRounded(on: 1, .minute)]
-//                                        if let currentItem = libreLinkUpHistory.first(where: { item in
-//                                            item.glucose.date.toRounded(on: 1, .minute) == currentDate.toRounded(on: 1, .minute)
-//                                        }){
-//                                            self.selectedlibreLinkHistoryPoint = currentItem
-//                                        }                                     }
-//                                }
-//                                     
-//                                .onEnded { value in
-//                                    self.selectedlibreLinkHistoryPoint = nil
-//                                }
-//                            )
-//                    }
-//                }
+                .chartOverlay { overlayProxy in
+                    GeometryReader { geometryProxy in
+                        Rectangle().fill(.clear).contentShape(Rectangle())
+                            .gesture(DragGesture()
+                                .onChanged { value in
+                                    let currentX = value.location
+                                    if let currentDate: Date = overlayProxy.value(atX: currentX.x) {
+                                        //                                        let selectedlibreLinkHistoryPoint = libreLinkUpHistory[currentDate.toRounded(on: 1, .minute)]
+                                        if let currentItem = libreLinkUpHistory.libreLinkUpGlucose.first(where: { item in
+                                            item.glucose.date.toRounded(on: 1, .minute) == currentDate.toRounded(on: 1, .minute)
+                                        }){
+                                            self.selectedlibreLinkHistoryPoint = currentItem
+                                        }                                     }
+                                }
+                                     
+                                .onEnded { value in
+                                    self.selectedlibreLinkHistoryPoint = nil
+                                }
+                            )
+                    }
+                }
                 .padding()
                 
             }
@@ -314,18 +318,8 @@ struct PhoneAppHomeView: View {
         .onReceive(timer) { time in
             print("Timer")
             
-            var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
-            var sumIOB: Double = 0
-            for item in insulinDeliveryHistory {
-                if Date().timeIntervalSince1970 - item.timeStamp > 12 * 60 * 60 {
-                    insulinDeliveryHistory.removeAll(where: {$0.id == item.id})
-                } else {
-                    let IOB =   updateIOB(timeStamp: item.timeStamp) * item.insulinUnits
-                    sumIOB = sumIOB + IOB
-                }
-            }
-            currentIOB = sumIOB
-            UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
+            
+            CurrentIOBSingleton.shared.currentIOB = CurrentIOBSingleton.shared.getCurrentIOB()
             
             connected = UserDefaults.group.connected
             minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
@@ -345,18 +339,7 @@ struct PhoneAppHomeView: View {
                 isShowingDisclaimer = true
             }
             
-            var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
-            var sumIOB: Double = 0
-            for item in insulinDeliveryHistory {
-                if Date().timeIntervalSince1970 - item.timeStamp > 12 * 60 * 60 {
-                    insulinDeliveryHistory.removeAll(where: {$0.id == item.id})
-                } else {
-                    let IOB =   updateIOB(timeStamp: item.timeStamp) * item.insulinUnits
-                    sumIOB = sumIOB + IOB
-                }
-            }
-            currentIOB = sumIOB
-            UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
+            CurrentIOBSingleton.shared.currentIOB = CurrentIOBSingleton.shared.getCurrentIOB()
             
             minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
             connected = UserDefaults.group.connected
@@ -375,19 +358,7 @@ struct PhoneAppHomeView: View {
             if newPhase == .active {
                 print("Active")
                 
-                var insulinDeliveryHistory: [InsulinDelivery] = UserDefaults.group.insulinDeliveryHistory ?? []
-                var sumIOB: Double = 0
-                for item in insulinDeliveryHistory {
-                    if Date().timeIntervalSince1970 - item.timeStamp > 12 * 60 * 60 {
-                        insulinDeliveryHistory.removeAll(where: {$0.id == item.id})
-                    } else {
-                        let IOB =   updateIOB(timeStamp: item.timeStamp) * item.insulinUnits
-                        sumIOB = sumIOB + IOB
-                    }
-                }
-                currentIOB = sumIOB
-                UserDefaults.group.insulinDeliveryHistory = insulinDeliveryHistory
-                
+                CurrentIOBSingleton.shared.currentIOB = CurrentIOBSingleton.shared.getCurrentIOB()
                 
                 connected = UserDefaults.group.connected
                 minutesSinceLastReading = Int(Date().timeIntervalSince(LibreLinkUpHistory.shared.lastReadingDate) / 60)
@@ -429,18 +400,8 @@ struct PhoneAppHomeView: View {
                 .allowsHitTesting(false) // passes taps/clicks through to the bottom layer
                 // in this case the IOB button
             }
-                
         }
     }
-    
-    func updateIOB(timeStamp time: Double) -> Double {
-        let model = ExponentialInsulinModel(actionDuration: 270 * 60, peakActivityTime: 120 * 60, delay: 15 * 60)
-        let result = model.percentEffectRemaining(at: Date().timeIntervalSince1970 - time)
-        return result
-    }
-    
-    
-    
 }
 
 
@@ -456,7 +417,7 @@ struct PhoneAppHomeView: View {
 
 
 
-
+// This is not needed at the moment
 struct MockData {
     
     static let libreLinkUpHistory = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1200, rawTemperature: 4, temperatureAdjustment: 4, trendRate: 4.0, trendArrow: .stable, id: 4, date: Date(timeIntervalSince1970: 746277263), hasError: false),

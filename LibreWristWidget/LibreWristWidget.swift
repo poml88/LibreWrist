@@ -9,52 +9,6 @@ import WidgetKit
 import SwiftUI
 
 
-struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> GlucoseMeasurementEntry {
-        return GlucoseMeasurementEntry.sampleEntry
-    }
-    
-    func getSnapshot(in context: Context, completion: @escaping (GlucoseMeasurementEntry) -> ()) {
-        let entry = GlucoseMeasurementEntry.sampleEntry
-        completion(entry)
-    }
-    
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [GlucoseMeasurementEntry] = []
-        
-        
-        GlucoseMeasurementEntry.getLastGlucoseMeasurement { glucoseMeasurementEntry, error in
-            if let gme = glucoseMeasurementEntry {
-                guard Int(Date().timeIntervalSince(glucoseMeasurementEntry?.date ?? Date.distantPast) / 60) <= 3 else {
-                    let entry = GlucoseMeasurementEntry.invalidEntry
-                    entries.append(entry)
-                    
-                    let reloadDate = Calendar.current.date(byAdding: .minute, value: 5, to: Date())!
-                    let timeline = Timeline(entries: entries, policy: .after(reloadDate))
-                    return completion(timeline)
-                    
-                }
-                let entry = gme
-                entries.append(entry)
-                
-                let reloadDate = Calendar.current.date(byAdding: .minute, value: 5, to: Date())!
-                let timeline = Timeline(entries: entries, policy: .after(reloadDate))
-                completion(timeline)
-            } else {
-                let entry = GlucoseMeasurementEntry.invalidEntry
-                entries.append(entry)
-                
-                let reloadDate = Calendar.current.date(byAdding: .minute, value: 5, to: Date())!
-                let timeline = Timeline(entries: entries, policy: .after(reloadDate))
-                completion(timeline)
-            }
-        }
-    }
-}
-
-
-
-
 struct LibreWristWidgetEntryView : View {
     var entry: Provider.Entry
 
@@ -236,7 +190,7 @@ struct LibreWristWidget: Widget {
 } timeline: {
 //    SimpleEntry(date: .now, emoji: "😀")
 //    SimpleEntry(date: .now, emoji: "🤩")
-    GlucoseMeasurementEntry.sampleEntry
+    GlucoseMeasurementIOBEntry.sampleEntry
 }
 
 #Preview("accessCirc", as: .accessoryCircular) {
@@ -244,7 +198,7 @@ struct LibreWristWidget: Widget {
 } timeline: {
 //    SimpleEntry(date: .now, emoji: "😀")
 //    SimpleEntry(date: .now, emoji: "🤩")
-    GlucoseMeasurementEntry.sampleEntry
+    GlucoseMeasurementIOBEntry.sampleEntry
 }
 
 #Preview("accessRect", as: .accessoryRectangular) {
@@ -252,5 +206,5 @@ struct LibreWristWidget: Widget {
 } timeline: {
 //    SimpleEntry(date: .now, emoji: "😀")
 //    SimpleEntry(date: .now, emoji: "🤩")
-    GlucoseMeasurementEntry.sampleEntry
+    GlucoseMeasurementIOBEntry.sampleEntry
 }
