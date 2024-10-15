@@ -136,8 +136,8 @@ struct PhoneAppHomeView: View {
             
             
             if libreLinkUpHistory.libreLinkUpGlucose.count > 0 {
-                let rectXStart: Date = libreLinkUpHistory.libreLinkUpGlucose.last?.glucose.date ?? Date.distantPast
-                let rectXStop: Date = libreLinkUpHistory.libreLinkUpGlucose.first?.glucose.date ?? Date.distantFuture
+                let rectXStart: Date = libreLinkUpHistory.libreLinkUpGlucose.last?.glucose.date ?? Date(timeIntervalSinceNow: -6 * 60 * 60)
+                let rectXStop: Date = libreLinkUpHistory.libreLinkUpGlucose.first?.glucose.date ?? Date(timeIntervalSinceNow: -1 * 60)
                 
                 //Configuration
                 // 0 = mmoll  1 = mgdl  0.0555

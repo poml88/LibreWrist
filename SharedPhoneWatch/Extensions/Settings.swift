@@ -100,7 +100,7 @@ extension UserDefaults {
             set(newValue, forKey: Keys.keyLockTime.rawValue)
         }
         get {
-            object(forKey: Keys.keyLockTime.rawValue) as? Date ?? Date.distantPast
+            object(forKey: Keys.keyLockTime.rawValue) as? Date ?? Date(timeIntervalSinceNow: -12 * 60 * 60)
         }
     }
     
@@ -172,11 +172,11 @@ class Settings {
         "libreLinkUpCountry": "",
         "libreLinkUpRegion": "eu",
         "libreLinkUpToken": "",
-        "libreLinkUpTokenExpirationDate": Date.distantPast,
+        "libreLinkUpTokenExpirationDate": Date(timeIntervalSinceNow: -1 * 60 * 60 * 24),
         "libreLinkUpFollowing": true,
         "libreLinkUpScrapingLogbook": false,
 
-        "lastOnlineDate": Date.distantPast,
+        "lastOnlineDate": Date(timeIntervalSinceNow: -1 * 60 * 60 * 24),
 //
 
     ]

@@ -13,7 +13,7 @@ struct WatchAppNightView: View {
     @Environment(\.libreLinkUpHistory) var libreLinkUpHistory
     @Environment(\.currentIOBSingleton) var currentIOBSingleton
     
-    @State private var currentIOB: Double = 0.0
+//    @State private var currentIOB: Double = 0.0
         
     var body: some View {
         if libreLinkUpHistory.libreLinkUpGlucose.count > 0 {

@@ -34,12 +34,12 @@ class LibreLinkUp  {
     var unit: GlucoseUnit = .mgdl
     
     var libreLinkUpResponse: String = "[...]"
-//    var sensorSettings: SensorSettings = SensorSettings()
+    //    var sensorSettings: SensorSettings = SensorSettings()
     
     let headers = LLUHeaders().headers
     
     
-   
+    
     
     
     
@@ -76,15 +76,15 @@ class LibreLinkUp  {
                 let (data, _, graphHistory, logbookData, logbookHistory, _, sensorSettingsRead) = try await getPatientGraph()
                 dataString = (data as! Data).string
                 libreLinkUpResponse = dataString + (logbookData as! Data).string
-              
-//                if libreLinkUpHistory.count == 0 {
-//                    libreLinkUpHistory = MockDataPhone
-//                }
-//                libreLinkUpLogbookHistory = logbookHistory
+                
+                //                if libreLinkUpHistory.count == 0 {
+                //                    libreLinkUpHistory = MockDataPhone
+                //                }
+                //                libreLinkUpLogbookHistory = logbookHistory
                 
                 
                 
-//                try await LibreLinkUp().getLastGlucoseData()
+                //                try await LibreLinkUp().getLastGlucoseData()
                 
                 if graphHistory.count > 0 {
                     DispatchQueue.main.async { [self] in
@@ -94,18 +94,18 @@ class LibreLinkUp  {
                         LibreLinkUpHistory.shared.libreLinkUpGlucose = graphHistory.reversed().dropLast(dropLastValues)
                         let lastMeasurement = LibreLinkUpHistory.shared.libreLinkUpGlucose[0]
                         LibreLinkUpHistory.shared.lastReadingDate = lastMeasurement.glucose.date
-//                        minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
-//                        sensor?.lastReadingDate = lastReadingDate
+                        //                        minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
+                        //                        sensor?.lastReadingDate = lastReadingDate
                         LibreLinkUpHistory.shared.currentGlucose = lastMeasurement.glucose.value
                         LibreLinkUpHistory.shared.currentTrendArrow = lastMeasurement.trendArrow?.symbol ?? "---"
                         // TODO: keep the raw values filling the gaps with -1 values
-//                        history.rawValues = []
-//                        history.factoryValues = libreLinkUpHistory.libreLinkUpGlucose.dropFirst().map(\.glucose) // TEST
+                        //                        history.rawValues = []
+                        //                        history.factoryValues = libreLinkUpHistory.libreLinkUpGlucose.dropFirst().map(\.glucose) // TEST
                         var trend = LibreLinkUpHistory.shared.libreLinkUpMinuteGlucose
-//                        Logger.general.info("LibreLinkUp: trend: \(trend)")
-//                        let a: String = "\(lastMeasurement)"
-//                        Logger.general.info("LibreLinkUp: lastMeasurement: \(a)")
-
+                        //                        Logger.general.info("LibreLinkUp: trend: \(trend)")
+                        //                        let a: String = "\(lastMeasurement)"
+                        //                        Logger.general.info("LibreLinkUp: lastMeasurement: \(a)")
+                        
                         if trend.isEmpty || lastMeasurement.id > trend[0].id {
                             trend.insert(lastMeasurement, at: 0)
                         }
@@ -139,7 +139,7 @@ class LibreLinkUp  {
     func login() async throws -> (Any, URLResponse) {
         var request = URLRequest(url: URL(string: "\(siteURL)/\(loginEndpoint)")!)
         
-//        let appGroupID = UserDefaults.stringValue(forKey: "APP_GROUP_ID")
+        //        let appGroupID = UserDefaults.stringValue(forKey: "APP_GROUP_ID")
         let credentials = [
             //            "email": settings.libreLinkUpEmail,
             //            "password": settings.libreLinkUpPassword
@@ -223,7 +223,7 @@ class LibreLinkUp  {
                         DispatchQueue.main.async { [self] in
                             settings.libreLinkUpRegion = region
                         }
-                        Logger.general.info("LibreLinkUp: redirecting to \(self.regionalSiteURL)/\(self.loginEndpoint) ")
+                        Logger.general.info("LibreLinkUp: redirecting to \(self.regionalSiteURL)/\(self.loginEndpoint) ") // The very first time this will be "eu" instead of the "region" because UserDefaults has not been set.
                         request.url = URL(string: "\(regionalSiteURL)/\(loginEndpoint)")!
                         continue loop
                     }
@@ -361,7 +361,8 @@ class LibreLinkUp  {
                 if let json = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                    let data = json["data"] as? [String: Any],
                    let connection = data["connection"] as? [String: Any],
-                   let patientDevice = connection["patientDevice"] as? [String: Any]{
+                   let patientDevice = connection["patientDevice"] as? [String: Any]
+                {
                     Logger.general.info("LibreLinkUp: connection data: \(connection)")
                     unit = connection["uom"] as? Int ?? 1 == 1 ? .mgdl : .mmoll
                     let unitString = "\(unit)"
@@ -379,7 +380,9 @@ class LibreLinkUp  {
                     var deviceSerials: [String: String] = [:]
                     var deviceActivationTimes: [String: Int] = [:]
                     var deviceTypes: [String: SensorType] = [:]
-                    if let activeSensors = data["activeSensors"] as? [[String: Any]] {
+                    
+                    if let activeSensors = data["activeSensors"] as? [[String: Any]]
+                    {
                         Logger.general.info("LibreLinkUp: active sensors: \(activeSensors)")
                         for (i, activeSensor) in activeSensors.enumerated() {
                             if let sensor = activeSensor["sensor"] as? [String: Any],
@@ -419,13 +422,39 @@ class LibreLinkUp  {
                             }
                         }
                     }
-                    if let device = connection["patientDevice"] as? [String: Any],
-                       let deviceId = device["did"] as? String,
-                       let alarms = device["alarms"] as? Bool,
-                       let serial = deviceSerials[deviceId] {
-                        let sensorType = deviceTypes[deviceId]!
-                        let activationTime = deviceActivationTimes[deviceId]!
+                    
+                    let sensorTypes: [String: SensorType] = deviceTypes
+                    if let patientDevice = connection["patientDevice"] as? [String: Any],
+                       let patientSensor = connection["sensor"] as? [String: Any],
+                       let deviceId = patientDevice["did"] as? String,
+                       let dtid = patientDevice["dtid"] as? Int,
+                       let alarms = patientDevice["alarms"] as? Bool,
+                       var sn = patientSensor["sn"] as? String,
+                       let a = patientSensor["a"] as? Int,
+                       let pt = patientSensor["pt"] as? Int
+                    {
+                        // FIXME: pruduct type should be 0: .libre1, 3: .libre2, 4: .libre3 but happening a Libre 1 with `pt` = 3...
+                        var sensorType = sensorTypes[deviceId] ?? (
+                            dtid == 40068 ? .libre3 :
+                                dtid == 40067 ? .libre2 :
+                                dtid == 40066 ? .libre1 : .unknown
+                        )
+                        // FIXME:
+                        // according to bundle.js, if `alarms` is true 40066 is also a .libre2
+                        // but happening a Libre 1 with `alarms` = true...
+                        if sensorType == .libre1 && alarms == true { sensorType = .libre2 }
+                        if sn.count == 10 {
+                            switch sensorType {
+                            case .libre1: sn = "0" + sn
+                            case .libre2: sn = "3" + sn
+                            case .libre3: sn = String(sn.dropLast()) // trim final 0
+                            default: break
+                            }
+                        }
+                        let serial = deviceSerials[deviceId] ?? sn
+                        let activationTime = deviceActivationTimes[deviceId] ?? a
                         let activationDate = Date(timeIntervalSince1970: Double(activationTime))
+                        
                         //                        DispatchQueue.main.async { [self] in
                         //                            if app.sensor == nil {
                         //                                app.sensor = sensorType == .libre3 ? Libre3(main: self.main) : sensorType == .libre2 ? Libre2(main: self.main) : Sensor(main: self.main)
@@ -454,11 +483,12 @@ class LibreLinkUp  {
                         //                                main.status("\(sensor.type)  +  LLU")
                         //                            }
                         //                        }
-                        let sensorTypeString = "\(sensorType)"
-                        Logger.general.info("LibreLinkUp: sensor serial: \(serial), activation date: \(activationDate) (timestamp = \(activationTime)), device id: \(deviceId), sensor type: \(sensorTypeString), alarms: \(alarms)")
+                        Logger.general.info("LibreLinkUp: sensor serial: \(serial), activation date: \(activationDate) (timestamp = \(activationTime)), device id: \(deviceId),  product type: \(pt), sensor type: \(sensorType), alarms: \(alarms)")
+                        
                         if let lastGlucoseMeasurement = connection["glucoseMeasurement"] as? [String: Any],
                            let measurementData = try? JSONSerialization.data(withJSONObject: lastGlucoseMeasurement),
-                           let measurement = try? JSONDecoder().decode(GlucoseMeasurement.self, from: measurementData) {
+                           let measurement = try? JSONDecoder().decode(GlucoseMeasurement.self, from: measurementData)
+                        {
                             let date = dateFormatter.date(from: measurement.timestamp)!
                             let lifeCount = Int(round(date.timeIntervalSince(activationDate) / 60))
                             let lastGlucose = LibreLinkUpGlucose(glucose: Glucose(measurement.valueInMgPerDl, id: lifeCount, date: date, source: "LibreLinkUp"), color: measurement.measurementColor, trendArrow: measurement.trendArrow)
@@ -473,7 +503,9 @@ class LibreLinkUp  {
                             //                            }
                             // TODO: scrape historic data only when the 17-minute delay has passed
                             var i = 0
-                            if let graphData = data["graphData"] as? [[String: Any]] {
+                            
+                            if let graphData = data["graphData"] as? [[String: Any]]
+                            {
                                 for glucoseMeasurement in graphData {
                                     if let measurementData = try? JSONSerialization.data(withJSONObject: glucoseMeasurement),
                                        let measurement = try? JSONDecoder().decode(GlucoseMeasurement.self, from: measurementData) {
@@ -488,6 +520,7 @@ class LibreLinkUp  {
                                     }
                                 }
                             }
+                            
                             history.append(lastGlucose)
                             Logger.general.info("LibreLinkUp: graph values: \(history.map { ($0.glucose.id, $0.glucose.value, $0.glucose.date.shortDateTime, $0.color) })")
                             
