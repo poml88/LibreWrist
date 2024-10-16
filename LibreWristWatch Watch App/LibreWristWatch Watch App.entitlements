@@ -3,8 +3,5 @@
 <plist version="1.0">
 <dict>
 	<key>com.apple.security.application-groups</key>
-	<array>
-		<string>group.group.com.49Z678ZK52.LibreWrist</string>
-	</array>
 </dict>
 </plist>
