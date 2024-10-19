@@ -17,6 +17,38 @@ import SwiftUI
     var lastReadingDate: Date = Date(timeIntervalSinceNow: -999 * 60)
     var currentGlucose: Int = 0
     var currentTrendArrow: String = "---"
+    
+    let libreLinkUpGlucoseDefaultEntries = [LibreLinkUpGlucose(glucose: Glucose(rawValue: 1000,
+                                                                                rawTemperature: 4,
+                                                                                temperatureAdjustment: 4,
+                                                                                trendRate: 4.0,
+                                                                                trendArrow: .stable,
+                                                                                id: 6020,
+                                                                                date: Date(timeIntervalSinceNow: -3 * 60 * 60),
+                                                                                hasError: false),
+                                                               color: MeasurementColor.green,
+                                                               trendArrow: TrendArrow(rawValue: 0)),
+                                            LibreLinkUpGlucose(glucose: Glucose(rawValue: 1500,
+                                                                                rawTemperature: 4,
+                                                                                temperatureAdjustment: 4,
+                                                                                trendRate: 4.0,
+                                                                                trendArrow: .stable,
+                                                                                id: 6025,
+                                                                                date: Date(timeIntervalSinceNow: -2 * 60 * 60),
+                                                                                hasError: false),
+                                                               color: MeasurementColor.green,
+                                                               trendArrow: TrendArrow(rawValue: 0)),
+                                            LibreLinkUpGlucose(glucose: Glucose(rawValue: 800,
+                                                                                rawTemperature: 4,
+                                                                                temperatureAdjustment: 4,
+                                                                                trendRate: 4.0,
+                                                                                trendArrow: .stable,
+                                                                                id: 6030,
+                                                                                date: Date(timeIntervalSinceNow: -1 * 60 * 60),
+                                                                                hasError: false),
+                                                               color: MeasurementColor.green,
+                                                               trendArrow: TrendArrow(rawValue: 0))]
+    
     private init() {}
 }
 

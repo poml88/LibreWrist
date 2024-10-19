@@ -55,7 +55,6 @@ class LibreLinkUp  {
         
         var dataString = ""
         var retries = 0
-        let dropLastValues = 70 //reduce graph from 12 to 6 hours
         
         
     loop: repeat {
@@ -91,7 +90,9 @@ class LibreLinkUp  {
                         settings.lastOnlineDate = Date()
                         SensorSettingsSingleton.shared.sensorSettings = sensorSettingsRead
                         // TODO: just merge with newer values
-                        LibreLinkUpHistory.shared.libreLinkUpGlucose = graphHistory.reversed().dropLast(dropLastValues)
+                        
+                            LibreLinkUpHistory.shared.libreLinkUpGlucose = graphHistory.reversed().dropLast(graphHistory.count / 2) // deviding by two reduces graph to 6 hours.
+//                            LibreLinkUpHistory.shared.libreLinkUpGlucose = graphHistory.reversed()
                         let lastMeasurement = LibreLinkUpHistory.shared.libreLinkUpGlucose[0]
                         LibreLinkUpHistory.shared.lastReadingDate = lastMeasurement.glucose.date
                         //                        minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
@@ -394,7 +395,8 @@ class LibreLinkUp  {
                                var sn = sensor["sn"] as? String,
                                let a = sensor["a"] as? Int,
                                // pruduct type should be 0: .libre1, 3: .libre2, 4: .libre3 but happening a Libre 1 with `pt` = 3...
-                               let pt = sensor["pt"] as? Int {
+                               let pt = sensor["pt"] as? Int 
+                            {
                                 var sensorType: SensorType =
                                 dtid == 40068 ? .libre3 :
                                 dtid == 40067 ? .libre2 :
