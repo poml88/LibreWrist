@@ -72,7 +72,7 @@ class LibreLinkUp  {
             }
             if !(settings.libreLinkUpUserId.isEmpty ||
                  settings.libreLinkUpToken.isEmpty) {
-                let (data, _, graphHistory, logbookData, logbookHistory, _, sensorSettingsRead) = try await getPatientGraph()
+                let (data, _, graphHistory, logbookData, logbookHistory, _, sensorSettingsRead, sensorType) = try await getPatientGraph()
                 dataString = (data as! Data).string
                 libreLinkUpResponse = dataString + (logbookData as! Data).string
                 
@@ -89,10 +89,13 @@ class LibreLinkUp  {
                     DispatchQueue.main.async { [self] in
                         settings.lastOnlineDate = Date()
                         SensorSettingsSingleton.shared.sensorSettings = sensorSettingsRead
+                        SensorSettingsSingleton.shared.sensorType = sensorType
                         // TODO: just merge with newer values
-                        
+                        if graphHistory.count > 1 {                                                                                 // make sure that [0] exists, must be 2 to drop 1.
                             LibreLinkUpHistory.shared.libreLinkUpGlucose = graphHistory.reversed().dropLast(graphHistory.count / 2) // deviding by two reduces graph to 6 hours.
-//                            LibreLinkUpHistory.shared.libreLinkUpGlucose = graphHistory.reversed()
+                        } else {
+                            LibreLinkUpHistory.shared.libreLinkUpGlucose = graphHistory                                             // is only 1 value
+                        }
                         let lastMeasurement = LibreLinkUpHistory.shared.libreLinkUpGlucose[0]
                         LibreLinkUpHistory.shared.lastReadingDate = lastMeasurement.glucose.date
                         //                        minutesSinceLastReading = Int(Date().timeIntervalSince(lastReadingDate) / 60)
@@ -333,7 +336,7 @@ class LibreLinkUp  {
     
     
     /// - Returns: (data, response, history, logbookData, logbookHistory, logbookAlarms)
-    func getPatientGraph() async throws -> (Any, URLResponse, [LibreLinkUpGlucose], Any, [LibreLinkUpGlucose], [LibreLinkUpAlarm], SensorSettings) {
+    func getPatientGraph() async throws -> (Any, URLResponse, [LibreLinkUpGlucose], Any, [LibreLinkUpGlucose], [LibreLinkUpAlarm], SensorSettings, SensorType) {
         var request = URLRequest(url: URL(string: "\(regionalSiteURL)/\(connectionsEndpoint)/\(settings.libreLinkUpPatientId)/graph")!)
         var authenticatedHeaders = headers
         authenticatedHeaders["Authorization"] = "Bearer \(settings.libreLinkUpToken)"
@@ -348,6 +351,7 @@ class LibreLinkUp  {
         var logbookHistory: [LibreLinkUpGlucose] = []
         var logbookAlarms: [LibreLinkUpAlarm] = []
         var sensorSettingsRead: SensorSettings = SensorSettings(uom: 1, targetLow: 70, targetHigh: 180, alarmLow: 80, alarmHigh: 300)
+        var sensorType: SensorType = .unknown
         
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
@@ -397,10 +401,11 @@ class LibreLinkUp  {
                                // pruduct type should be 0: .libre1, 3: .libre2, 4: .libre3 but happening a Libre 1 with `pt` = 3...
                                let pt = sensor["pt"] as? Int 
                             {
-                                var sensorType: SensorType =
+                                 sensorType =
                                 dtid == 40068 ? .libre3 :
                                 dtid == 40067 ? .libre2 :
                                 dtid == 40066 ? .libre1 : .unknown
+                                
                                 // FIXME:
                                 // according to bundle.js, if `alarms` is true 40066 is also a .libre2
                                 // but happening a Libre 1 with `alarms` = true...
@@ -436,7 +441,7 @@ class LibreLinkUp  {
                        let pt = patientSensor["pt"] as? Int
                     {
                         // FIXME: pruduct type should be 0: .libre1, 3: .libre2, 4: .libre3 but happening a Libre 1 with `pt` = 3...
-                        var sensorType = sensorTypes[deviceId] ?? (
+                        sensorType = sensorTypes[deviceId] ?? (
                             dtid == 40068 ? .libre3 :
                                 dtid == 40067 ? .libre2 :
                                 dtid == 40066 ? .libre1 : .unknown
@@ -617,7 +622,7 @@ class LibreLinkUp  {
                         }
                     }
                 }
-                return (data, response, history, logbookData, logbookHistory, logbookAlarms, sensorSettingsRead)
+                return (data, response, history, logbookData, logbookHistory, logbookAlarms, sensorSettingsRead, sensorType)
             } catch {
                 Logger.general.info("LibreLinkUp: error while decoding response: \(error.localizedDescription)")
                 throw LibreLinkUpError.jsonDecoding

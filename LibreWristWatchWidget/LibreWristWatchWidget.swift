@@ -27,6 +27,8 @@ struct LibreWristWidgetEntryView : View {
     var currentIOB: String {
         if entry.currentIOB == -1 {
             return "-.-u"
+//        } else if entry.currentIOB == 0 {
+//            return ""
         } else {
             return "\(String(format: "%.1f", entry.currentIOB))u"
         }
@@ -83,9 +85,10 @@ struct LibreWristWidgetEntryView : View {
 //                AccessoryWidgetBackground()
                 HStack (spacing: 20){
                     VStack (alignment: .center, spacing: 6){
-                        Text(currentIOB)
-                            .font(.system(size: 18, weight: .heavy))
-                        
+                        if entry.currentIOB > 0 {
+                            Text(currentIOB)
+                                .font(.system(size: 18, weight: .heavy))
+                        }
                         Text(Date(), style: .timer)
                         //Text(verbatim: " ")
                             .font(.system(size: 14, weight: .heavy))

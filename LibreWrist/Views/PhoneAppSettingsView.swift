@@ -37,6 +37,8 @@ struct PhoneAppSettingsView: View {
                 let model = UIDevice.current.model
                 let name = UIDevice.current.name
                 Text("\(systemName) \(systemVersion) on \(name)")
+                
+                Text("Sensor: \(SensorSettingsSingleton.shared.sensorType)")
 
                 
                 Link(destination: URL(string: "https://github.com/poml88/LibreWrist/issues")!) {

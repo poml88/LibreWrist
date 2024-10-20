@@ -28,6 +28,7 @@ struct SensorSettings {
 @Observable class SensorSettingsSingleton {
     
     var sensorSettings: SensorSettings = SensorSettings()
+    var sensorType: SensorType = .unknown
     
     static let shared: SensorSettingsSingleton = {
         let instance = SensorSettingsSingleton()

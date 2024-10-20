@@ -43,12 +43,14 @@ struct MailView: UIViewControllerRepresentable {
         let systemName = UIDevice.current.systemName
         let model = UIDevice.current.model
         let name = UIDevice.current.name
+        
+        let sensorType = SensorSettingsSingleton.shared.sensorType
 
         let vc = MFMailComposeViewController()
         vc.mailComposeDelegate = context.coordinator
         vc.setToRecipients(["librewrist@cmdline.net"])
         vc.setSubject("Support LibreWrist")
-        vc.setMessageBody("Hello,\n\n\n\n\n\nKind regards\n\n\n\n Debug info:\nApp Version: \(versionNumber) Build: \(buildNumber)\nDevice Info: \(systemName) \(systemVersion) on \(name)", isHTML: false)
+        vc.setMessageBody("Hello,\n\n\n\n\n\nKind regards\n\n\n\n Debug info:\nApp Version: \(versionNumber) Build: \(buildNumber)\nDevice Info: \(systemName) \(systemVersion) on \(name)\nSensor: \(sensorType)", isHTML: false)
         return vc
     }
     
